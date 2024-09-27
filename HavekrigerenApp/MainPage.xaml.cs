@@ -1,24 +1,40 @@
-﻿namespace HavekrigerenApp
+﻿namespace HavekrigerenApp;
+
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+
+    public MainPage()
     {
-        int count = 0;
+        InitializeComponent();
+    }
 
-        public MainPage()
+    private void OnTextChanged(object sender, EventArgs e)
+    {
+        if (!string.IsNullOrEmpty(UsernameEntry.Text) && !string.IsNullOrEmpty(PasswordEntry.Text))
         {
-            InitializeComponent();
+            LoginButton.IsEnabled = true;
         }
-
-        private void OnCounterClicked(object sender, EventArgs e)
+        else
         {
-            count++;
+            LoginButton.IsEnabled = false;
+        }
+    }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+    private void OnLoginClicked(object sender, EventArgs e)
+    {
+        string username = UsernameEntry.Text;
+        string password = PasswordEntry.Text;
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        User user = new User();
+        bool isLoginSuccessful = user.Login(username, password);
+
+        if (isLoginSuccessful)
+        {
+            DisplayAlert("Login", "Login successful!", "OK");
+        }
+        else
+        {
+            DisplayAlert("Login", "Incorrect username or password", "OK");
         }
     }
 

@@ -21,7 +21,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>HavekrigerenApp</ApplicationTitle>
+		<ApplicationTitle>Havekrigeren</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.havekrigerenapp</ApplicationId>
