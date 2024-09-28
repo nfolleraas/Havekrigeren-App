@@ -15,20 +15,27 @@ public class User
 
     static User()
     {
-        users[0] = new User { Username = "Patrick", Password = "password"};
-        users[1] = new User { Username = "Martin", Password = "password1234" };
+        users[0] = new User { Username = "1", Password = "1234"};
+        users[1] = new User { Username = "2", Password = "1234" };
     }
 
-    public bool Login(string username, string password)
+    public string Login(string username, string password)
     {
         foreach (User user in users)
         {
             if (username == user.Username && password == user.Password)
             {
-                return true;
+                return "Success";
+            }
+            else if (username != user.Username)
+            {
+                return "Forkert brugernavn";
+            }
+            else if (password != user.Password)
+            {
+                return "Forkert adgangskode";
             }
         }
-
-        return false;
+        return "Noget gik galt";
     }
 }
