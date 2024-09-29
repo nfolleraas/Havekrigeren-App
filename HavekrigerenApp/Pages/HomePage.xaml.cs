@@ -1,8 +1,8 @@
 namespace HavekrigerenApp.Pages;
 
-public partial class FrontPage : ContentPage
+public partial class HomePage : ContentPage
 {
-	public FrontPage()
+	public HomePage()
 	{
 		InitializeComponent();
 	}

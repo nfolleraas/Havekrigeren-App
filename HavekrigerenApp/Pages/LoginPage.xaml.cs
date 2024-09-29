@@ -1,4 +1,6 @@
-﻿namespace HavekrigerenApp.Pages;
+﻿using Microsoft.Maui.Storage;
+
+namespace HavekrigerenApp.Pages;
 
 public partial class LoginPage : ContentPage
 {
@@ -6,6 +8,13 @@ public partial class LoginPage : ContentPage
     public LoginPage()
     {
         InitializeComponent();
+    }
+
+    public static void SaveUserStatus(string username, bool isLoggedIn)
+    {
+        Preferences.Default.Set("ActiveUser", username);
+        Preferences.Default.Set("IsLoggedIn", isLoggedIn);
+        Console.WriteLine($"{Preferences.Default.Get("ActiveUser", "Unknown")}, {Preferences.Default.Get("IsLoggedIn", false)}");
     }
 
     private void OnTextChanged(object sender, EventArgs e)
@@ -26,17 +35,18 @@ public partial class LoginPage : ContentPage
         string password = passwordEntry.Text;
 
         User user = new User();
-        string isLoginSuccessful = user.Login(username, password);
+        bool isLoginSuccessful = user.Login(username, password);
 
-        if (isLoginSuccessful == "Success")
+        if (isLoginSuccessful)
         {
-            await Navigation.PushAsync(new FrontPage());
+            await Shell.Current.GoToAsync("///HomePage");
+            SaveUserStatus(usernameEntry.Text, true);
             usernameEntry.Text = null;
             passwordEntry.Text = null;
         }
         else
         {
-            await DisplayAlert("Log ind", isLoginSuccessful, "Prøv igen");
+            await DisplayAlert("Log ind", "Forkert brugernavn eller adgangskode", "Prøv igen");
         }
     }
 

@@ -19,23 +19,15 @@ public class User
         users[1] = new User { Username = "2", Password = "1234" };
     }
 
-    public string Login(string username, string password)
+    public bool Login(string username, string password)
     {
         foreach (User user in users)
         {
             if (username == user.Username && password == user.Password)
             {
-                return "Success";
-            }
-            else if (username != user.Username)
-            {
-                return "Forkert brugernavn";
-            }
-            else if (password != user.Password)
-            {
-                return "Forkert adgangskode";
+                return true;
             }
         }
-        return "Noget gik galt";
+        return false;
     }
 }

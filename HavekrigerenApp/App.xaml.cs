@@ -1,34 +1,47 @@
-﻿namespace HavekrigerenApp
+﻿namespace HavekrigerenApp;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    public App()
     {
-        public App()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            MainPage = new AppShell();
-        }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
-
-            Console.WriteLine("App is starting up");
-        }
-
-        protected override void OnSleep()
-        {
-            base.OnSleep();
-
-            Console.WriteLine("App is going to sleep");
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-
-            Console.WriteLine("App is resuming");
-        }
-
+        MainPage = new AppShell();
     }
+
+    public bool IsUserLoggedIn()
+    {
+        return Preferences.Default.Get("IsLoggedIn", false);
+    }
+
+    protected override void OnStart()
+    {
+        base.OnStart();
+
+        Console.WriteLine("App is starting up");
+
+        if (IsUserLoggedIn())
+        {
+            Shell.Current.GoToAsync("///HomePage");
+        }
+        else
+        {
+            Shell.Current.GoToAsync("///LoginPage");
+        }
+    }
+
+    protected override void OnSleep()
+    {
+        base.OnSleep();
+
+        Console.WriteLine("App is going to sleep");
+    }
+
+    protected override void OnResume()
+    {
+        base.OnResume();
+
+        Console.WriteLine("App is resuming");
+    }
+
 }
