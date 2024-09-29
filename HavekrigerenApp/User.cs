@@ -15,8 +15,8 @@ public class User
 
     static User()
     {
-        users[0] = new User { Username = "1", Password = "1234"};
-        users[1] = new User { Username = "2", Password = "1234" };
+        users[0] = new User { Username = "Patrick", Password = "1234"};
+        users[1] = new User { Username = "Martin", Password = "1234" };
     }
 
     public bool Login(string username, string password)

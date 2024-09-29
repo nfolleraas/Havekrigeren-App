@@ -4,10 +4,11 @@
              x:Class="HavekrigerenApp.Pages.ViewAllCategoriesPage"
              Title="Vis Alle Kategorier"
              Shell.NavBarIsVisible="True">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <StackLayout
+        x:Name="viewAllCategoriesLayout"
+        Padding="10" >
+        
+    </StackLayout>
+
 </ContentPage>
