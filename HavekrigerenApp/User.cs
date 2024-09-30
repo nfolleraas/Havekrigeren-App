@@ -21,12 +21,6 @@ public class User
         users.Add(new User { username = "Martin", password = "1234" });
     }
 
-    //public User(string username, string password)
-    //{
-    //    this.username = username;
-    //    this.password = password;
-    //}
-
     public bool Login(string username, string password)
     {
         foreach (User user in users)
