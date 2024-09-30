@@ -4,10 +4,19 @@
              x:Class="HavekrigerenApp.Pages.ViewAllTasksPage"
              Title="ViewAllTasksPage"
              Shell.NavBarIsVisible="True" >
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    
+    <AbsoluteLayout>
+        <ScrollView
+            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+            AbsoluteLayout.LayoutFlags="All" >
+
+            <VerticalStackLayout
+                x:Name="viewAllTasksLayout"
+                Padding="10" >
+
+                <!--List of programmable inserted fields-->
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </AbsoluteLayout>
 </ContentPage>
