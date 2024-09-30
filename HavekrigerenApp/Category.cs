@@ -18,19 +18,19 @@ public class Category
         categories.Add("Træterrasse");
         categories.Add("Udgravning");
         categories.Add("Bortkørsel af jord");
-        categories.Add("Bortkørsel af jord");
-        categories.Add("Bortkørsel af jord");
-        categories.Add("Bortkørsel af jord");
-        categories.Add("Bortkørsel af jord");
-        categories.Add("Bortkørsel af jord");
-        categories.Add("Bortkørsel af jord");
-        categories.Add("Bortkørsel af jord");
-        categories.Add("Bortkørsel af jord");
-        categories.Add("Bortkørsel af jord");
+        //categories.Add("Bortkørsel af jord");
+        //categories.Add("Bortkørsel af jord");
+        //categories.Add("Bortkørsel af jord");
+        //categories.Add("Bortkørsel af jord");
+        //categories.Add("Bortkørsel af jord");
+        //categories.Add("Bortkørsel af jord");
+        //categories.Add("Bortkørsel af jord");
+        //categories.Add("Bortkørsel af jord");
+        //categories.Add("Bortkørsel af jord");
     }
 
     public IEnumerable<string> GetCategories()
-    {
+    {   
         return categories;
     }
 }

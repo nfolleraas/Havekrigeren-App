@@ -1,3 +1,5 @@
+using Microsoft.Maui.Animations;
+
 namespace HavekrigerenApp.Pages;
 
 public partial class ViewAllCategoriesPage : ContentPage
@@ -12,64 +14,76 @@ public partial class ViewAllCategoriesPage : ContentPage
 	private void DisplayAllCategories()
 	{
 		Category cat = new Category();
-		foreach (string category in cat.GetCategories())
+
+		int categoryCount = cat.GetCategories().Count();
+
+		if (categoryCount <= 0)
 		{
 
-			Button categoryButton = new Button
-			{
-				Padding = new Thickness(10),
-				HorizontalOptions = LayoutOptions.Fill,
-				VerticalOptions = LayoutOptions.Center,
-				Command = new Command(() => OnCategoryClicked(category))
-			};
+            Label noCategoriesLabel = new Label
+            {
+                Text = "Kunne ikke finde nogen kategorier...\n\nTryk på knappen (+) i højre hjørne for at tilføje en kategori.",
+                HorizontalOptions = LayoutOptions.Center,
+                HorizontalTextAlignment = TextAlignment.Center
+            };
 
-			Frame categoryFrame = new Frame
-			{
-				CornerRadius = 10,
-				Padding = new Thickness(10),
-				HasShadow = false,
-				GestureRecognizers =
-				{
-					new TapGestureRecognizer
-					{
-						Command = new Command(() => OnCategoryClicked(category))
-					}
-				},
-				Margin = new Thickness(0, 5)
-			};
+            viewAllCategoriesLayout.Children.Add(noCategoriesLabel);
 
-			Grid buttonGrid = new Grid
-			{
-				ColumnDefinitions =
-				{
-					new ColumnDefinition { Width = GridLength.Star},
-					new ColumnDefinition { Width = GridLength.Auto}
-				}
-			};
+        }
+        else
+		{
+            foreach (string category in cat.GetCategories())
+            {
+                Frame categoryFrame = new Frame
+                {
+                    CornerRadius = 10,
+                    Padding = new Thickness(10),
+                    HasShadow = false,
+                    GestureRecognizers =
+                {
+                    new TapGestureRecognizer
+                    {
+                        Command = new Command(() => OnCategoryClicked(category))
+                    }
+                },
+                    Margin = new Thickness(0, 5)
+                };
 
-			Label categoryLabel = new Label
-			{
-				Text = category,
-				VerticalOptions = LayoutOptions.Center,
-				HorizontalOptions = LayoutOptions.Start
-			};
+                Grid buttonGrid = new Grid
+                {
+                    ColumnDefinitions =
+                {
+                    new ColumnDefinition { Width = GridLength.Star},
+                    new ColumnDefinition { Width = GridLength.Auto}
+                }
+                };
 
-			Label seeMoreLabel = new Label
-			{
-				Text = "Se mere",
-				VerticalOptions = LayoutOptions.Center,
-				HorizontalOptions = LayoutOptions.End
-			};
+                Label categoryLabel = new Label
+                {
+                    Text = category,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Start,
+                    LineBreakMode = LineBreakMode.CharacterWrap,
+                    MaximumWidthRequest = 300
+                };
 
-            buttonGrid.Children.Add(categoryLabel);
-            Grid.SetColumn(categoryLabel, 0);
+                Label seeMoreLabel = new Label
+                {
+                    Text = "Se mere",
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.End
+                };
 
-            buttonGrid.Children.Add(seeMoreLabel);
-            Grid.SetColumnSpan(seeMoreLabel, 1);
+                buttonGrid.Children.Add(categoryLabel);
+                Grid.SetColumn(categoryLabel, 0);
 
-			categoryFrame.Content = buttonGrid;
+                buttonGrid.Children.Add(seeMoreLabel);
+                Grid.SetColumnSpan(seeMoreLabel, 1);
 
-			viewAllCategoriesLayout.Children.Add(categoryFrame);
+                categoryFrame.Content = buttonGrid;
+
+                viewAllCategoriesLayout.Children.Add(categoryFrame);
+            }
         }
 	}
 
