@@ -73,10 +73,25 @@ public partial class ViewAllCategoriesPage : ContentPage
         }
 	}
 
-	private void OnCategoryClicked(string category)
+	private string categoryName;
+    private void SetCategoryName(string category)
 	{
-		DisplayAlert("Kategori Valgt", $"Du klikkede på {category}", "OK");
+        categoryName = category;
+    }
+
+	public string GetCategoryName()
+	{
+		return categoryName;
 	}
+
+
+	private async void OnCategoryClicked(string category)
+	{
+		// IT WORK! NO TOUCHY
+        ViewAllCategoriesPage viewAllCategoriesPage = new ViewAllCategoriesPage();
+        viewAllCategoriesPage.SetCategoryName(category);
+        await Navigation.PushAsync(new ViewAllTasksPage(viewAllCategoriesPage));
+    }
 
 	private void OnCreateCategoryClicked(object sender, EventArgs e)
 	{
