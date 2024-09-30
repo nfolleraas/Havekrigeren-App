@@ -40,7 +40,7 @@ public partial class LoginPage : ContentPage
         if (isLoginSuccessful)
         {
             await Shell.Current.GoToAsync("///HomePage");
-            SaveUserStatus(usernameEntry.Text, true);
+            SaveUserStatus(username, true);
             usernameEntry.Text = null;
             passwordEntry.Text = null;
         }

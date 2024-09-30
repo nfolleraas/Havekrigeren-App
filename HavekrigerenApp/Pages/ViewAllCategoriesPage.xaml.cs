@@ -12,17 +12,24 @@ public partial class ViewAllCategoriesPage : ContentPage
 	private void DisplayAllCategories()
 	{
 		Category cat = new Category();
-		foreach (string category in cat.categories)
+		foreach (string category in cat.GetCategories())
 		{
-            Entry categoryLabel = new Entry
+            Label categoryLabel = new Label
             {
                 Text = category,
                 FontSize = 20,
                 TextColor = Colors.Black
-				
             };
 
+			Button categoryButton = new Button
+			{
+				Text = "Se mere",
+				FontSize = 20,
+				TextColor = Colors.Black
+			};
+
 			viewAllCategoriesLayout.Children.Add(categoryLabel);
+            viewAllCategoriesLayout.Children.Add(categoryButton);
         }
 	}
 

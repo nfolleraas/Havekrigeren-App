@@ -8,15 +8,20 @@ namespace HavekrigerenApp;
 
 public class Category
 {
-    public string[] categories = new string[10];
+    private List<string> categories = new List<string>();
 
     public Category()
     {
-        categories[0] = "Beplantning";
-        categories[1] = "Græsplæne";
-        categories[2] = "Træfældning";
-        categories[3] = "Træterrasse";
-        categories[4] = "Udgravning";
-        categories[5] = "Bortkørsel af jord";
+        categories.Add("Beplantning");
+        categories.Add("Græsplæne");
+        categories.Add("Træfældning");
+        categories.Add("Træterrasse");
+        categories.Add("Udgravning");
+        categories.Add("Bortkørsel af jord");
+    }
+
+    public IEnumerable<string> GetCategories()
+    {
+        return categories;
     }
 }
