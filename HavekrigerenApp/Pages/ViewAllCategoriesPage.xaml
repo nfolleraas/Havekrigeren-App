@@ -7,10 +7,9 @@
 
     <AbsoluteLayout>
         <ScrollView
-            x:Name="scrollView"
             AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
             AbsoluteLayout.LayoutFlags="All" >
-            
+
             <VerticalStackLayout
                 x:Name="viewAllCategoriesLayout"
                 Padding="10" >
@@ -21,6 +20,7 @@
         </ScrollView>
 
         <Button
+            x:Name="createCategory"
             ImageSource="Resources/Icons/create.png"
             BackgroundColor="Red"
             TextColor="White"
@@ -30,8 +30,9 @@
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds="0.9, 0.9, AutoSize, AutoSize"
             VerticalOptions="End"
-            HorizontalOptions="End" />
+            HorizontalOptions="End"
+            Clicked="OnCreateCategoryClicked" />
 
-    </AbsoluteLayout
+    </AbsoluteLayout>
 
 </ContentPage>

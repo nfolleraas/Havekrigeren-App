@@ -75,7 +75,12 @@ public partial class ViewAllCategoriesPage : ContentPage
 
 	private void OnCategoryClicked(string category)
 	{
-		DisplayAlert("Category selected", $"You clicked on {category}", "OK");
+		DisplayAlert("Kategori Valgt", $"Du klikkede på {category}", "OK");
 	}
+
+	private void OnCreateCategoryClicked(object sender, EventArgs e)
+	{
+        DisplayAlert("Opret Kategori", $"Du klikkede på knappen", "OK");
+    }
 
 }
