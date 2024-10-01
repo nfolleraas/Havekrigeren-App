@@ -13,14 +13,14 @@ public partial class ViewAllCategoriesPage : ContentPage
 
 	private void DisplayAllCategories()
 	{
-		Category cat = new Category();
+		var cat = new Category();
 
 		int categoryCount = cat.GetCategories().Count();
 
 		if (categoryCount <= 0)
 		{
 
-            Label noCategoriesLabel = new Label
+            var noCategoriesLabel = new Label
             {
                 Text = "Kunne ikke finde nogen kategorier...\n\nTryk på knappen (+) i højre hjørne for at tilføje en kategori.",
                 HorizontalOptions = LayoutOptions.Center,
@@ -34,7 +34,7 @@ public partial class ViewAllCategoriesPage : ContentPage
 		{
             foreach (string category in cat.GetCategories())
             {
-                Frame categoryFrame = new Frame
+                var categoryFrame = new Frame
                 {
                     CornerRadius = 10,
                     Padding = new Thickness(10),
@@ -49,7 +49,7 @@ public partial class ViewAllCategoriesPage : ContentPage
                     Margin = new Thickness(0, 5)
                 };
 
-                Grid buttonGrid = new Grid
+                var buttonGrid = new Grid
                 {
                     ColumnDefinitions =
                 {
@@ -58,7 +58,7 @@ public partial class ViewAllCategoriesPage : ContentPage
                 }
                 };
 
-                Label categoryLabel = new Label
+                var categoryLabel = new Label
                 {
                     Text = category,
                     VerticalOptions = LayoutOptions.Center,
@@ -67,7 +67,7 @@ public partial class ViewAllCategoriesPage : ContentPage
                     MaximumWidthRequest = 300
                 };
 
-                Label seeMoreLabel = new Label
+                var seeMoreLabel = new Label
                 {
                     Text = "Se mere",
                     VerticalOptions = LayoutOptions.Center,

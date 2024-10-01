@@ -23,7 +23,7 @@ public class User
 
     public bool Login(string username, string password)
     {
-        foreach (User user in users)
+        foreach (var user in users)
         {
             if (username == user.username && password == user.password)
             {

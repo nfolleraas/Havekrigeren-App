@@ -34,7 +34,7 @@ public partial class LoginPage : ContentPage
         string username = usernameEntry.Text;
         string password = passwordEntry.Text;
 
-        User user = new User();
+        var user = new User();
         bool isLoginSuccessful = user.Login(username, password);
 
         if (isLoginSuccessful)
