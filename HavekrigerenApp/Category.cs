@@ -4,33 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HavekrigerenApp;
-
-public class Category
+namespace HavekrigerenApp
 {
-    private List<string> categories = new List<string>();
-
-    public Category()
+    public class Category
     {
-        categories.Add("Beplantning");
-        categories.Add("Græsplæne");
-        categories.Add("Træfældning");
-        categories.Add("Træterrasse");
-        categories.Add("Udgravning");
-        categories.Add("Bortkørsel af jord");
-        //categories.Add("Bortkørsel af jord");
-        //categories.Add("Bortkørsel af jord");
-        //categories.Add("Bortkørsel af jord");
-        //categories.Add("Bortkørsel af jord");
-        //categories.Add("Bortkørsel af jord");
-        //categories.Add("Bortkørsel af jord");
-        //categories.Add("Bortkørsel af jord");
-        //categories.Add("Bortkørsel af jord");
-        //categories.Add("Bortkørsel af jord");
-    }
+        private List<string> categories = new List<string>();
 
-    public IEnumerable<string> GetCategories()
-    {   
-        return categories;
+        public Category()
+        {
+            categories.Add("Beplantning");
+            categories.Add("Græsplæne");
+            categories.Add("Træfældning");
+            categories.Add("Træterrasse");
+            categories.Add("Udgravning");
+            categories.Add("Bortkørsel af jord");
+            //categories.Add("Bortkørsel af jord");
+            //categories.Add("Bortkørsel af jord");
+            //categories.Add("Bortkørsel af jord");
+            //categories.Add("Bortkørsel af jord");
+            //categories.Add("Bortkørsel af jord");
+            //categories.Add("Bortkørsel af jord");
+            //categories.Add("Bortkørsel af jord");
+            //categories.Add("Bortkørsel af jord");
+            //categories.Add("Bortkørsel af jord");
+        }
+
+        public IEnumerable<string> GetCategories()
+        {
+            return categories;
+        }
     }
 }

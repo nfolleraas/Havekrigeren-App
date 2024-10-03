@@ -1,9 +1,11 @@
-namespace HavekrigerenApp.Pages;
-
-public partial class CreateCategoryPage : ContentPage
+namespace HavekrigerenApp.Pages
 {
-	public CreateCategoryPage()
+
+	public partial class CreateCategoryPage : ContentPage
 	{
-		InitializeComponent();
+		public CreateCategoryPage()
+		{
+			InitializeComponent();
+		}
 	}
 }

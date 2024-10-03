@@ -5,24 +5,25 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HavekrigerenApp;
-
-public class TaskManager
+namespace HavekrigerenApp
 {
-    public string ContactName { get; private set; }
-    public string Address { get; private set; }
-    public int PhoneNumber { get; private set; }
-    public string Category { get; private set; }
-    public string Date { get; private set; }
-    public string Notes { get; private set; }
-
-    public TaskManager(string contactName, string address, int phoneNumber, string category, string date, string notes)
+    public class TaskManager
     {
-        ContactName = contactName;
-        Address = address;
-        PhoneNumber = phoneNumber;
-        Category = category;
-        Date = date;
-        Notes = notes;
+        public string ContactName { get; set; }
+        public string Address { get; set; }
+        public int PhoneNumber { get; set; }
+        public string Category { get; set; }
+        public string Date { get; set; }
+        public string Notes { get; set; }
+
+        public TaskManager(string contactName, string address, int phoneNumber, string category, string date, string notes)
+        {
+            ContactName = contactName;
+            Address = address;
+            PhoneNumber = phoneNumber;
+            Category = category;
+            Date = date;
+            Notes = notes;
+        }
     }
 }

@@ -1,9 +1,11 @@
-namespace HavekrigerenApp.Pages;
-
-public partial class CalendarPage : ContentPage
+namespace HavekrigerenApp.Pages
 {
-	public CalendarPage()
+
+	public partial class CalendarPage : ContentPage
 	{
-		InitializeComponent();
+		public CalendarPage()
+		{
+			InitializeComponent();
+		}
 	}
 }

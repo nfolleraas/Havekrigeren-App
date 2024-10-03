@@ -1,9 +1,11 @@
-namespace HavekrigerenApp.Pages;
-
-public partial class HomePage : ContentPage
+namespace HavekrigerenApp.Pages
 {
-	public HomePage()
+
+	public partial class HomePage : ContentPage
 	{
-		InitializeComponent();
+		public HomePage()
+		{
+			InitializeComponent();
+		}
 	}
 }

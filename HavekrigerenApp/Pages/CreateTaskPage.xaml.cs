@@ -1,9 +1,11 @@
-namespace HavekrigerenApp.Pages;
-
-public partial class CreateTaskPage : ContentPage
+namespace HavekrigerenApp.Pages
 {
-	public CreateTaskPage()
+
+	public partial class CreateTaskPage : ContentPage
 	{
-		InitializeComponent();
+		public CreateTaskPage()
+		{
+			InitializeComponent();
+		}
 	}
 }

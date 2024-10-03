@@ -1,47 +1,48 @@
-﻿namespace HavekrigerenApp;
-
-public partial class App : Application
+﻿namespace HavekrigerenApp
 {
-    public App()
+    public partial class App : Application
     {
-        InitializeComponent();
-
-        MainPage = new AppShell();
-    }
-
-    public bool IsUserLoggedIn()
-    {
-        return Preferences.Default.Get("IsLoggedIn", false);
-    }
-
-    protected override void OnStart()
-    {
-        base.OnStart();
-
-        Console.WriteLine("App is starting up");
-
-        if (IsUserLoggedIn())
+        public App()
         {
-            Shell.Current.GoToAsync("///HomePage");
+            InitializeComponent();
+
+            MainPage = new AppShell();
         }
-        else
+
+        public bool IsUserLoggedIn()
         {
-            Shell.Current.GoToAsync("///LoginPage");
+            return Preferences.Default.Get("IsLoggedIn", false);
         }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+
+            Console.WriteLine("App is starting up");
+
+            if (IsUserLoggedIn())
+            {
+                Shell.Current.GoToAsync("///HomePage");
+            }
+            else
+            {
+                Shell.Current.GoToAsync("///LoginPage");
+            }
+        }
+
+        protected override void OnSleep()
+        {
+            base.OnSleep();
+
+            Console.WriteLine("App is going to sleep");
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            Console.WriteLine("App is resuming");
+        }
+
     }
-
-    protected override void OnSleep()
-    {
-        base.OnSleep();
-
-        Console.WriteLine("App is going to sleep");
-    }
-
-    protected override void OnResume()
-    {
-        base.OnResume();
-
-        Console.WriteLine("App is resuming");
-    }
-
 }

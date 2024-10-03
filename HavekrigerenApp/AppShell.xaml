@@ -12,6 +12,21 @@
         ContentTemplate="{DataTemplate local:Pages.LoginPage}"
         Route="LoginPage" />
 
+    <ShellContent
+        Title="ViewAllTasksPage"
+        ContentTemplate="{DataTemplate local:Pages.ViewAllTasksPage}"
+        Route="ViewAllTasksPage" />
+
+    <ShellContent
+        Title="ViewTaskPage"
+        ContentTemplate="{DataTemplate local:Pages.ViewTaskPage}"
+        Route="ViewTaskPage" />
+
+    <ShellContent
+        Title="CreateCategoryPage"
+        ContentTemplate="{DataTemplate local:Pages.CreateCategoryPage}"
+        Route="CreateCategoryPage" />
+
     <TabBar>
         <ShellContent
             Icon="Resources/Icons/home.png"

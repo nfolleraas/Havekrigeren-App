@@ -4,10 +4,79 @@
              x:Class="HavekrigerenApp.Pages.ViewTaskPage"
              Title="Vis Opgave"
              Shell.NavBarIsVisible="True">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <ScrollView>
+        <VerticalStackLayout 
+            x:Name="taskLayout"
+            Padding="10"
+            Spacing="15" >
+
+            <Label
+                Text="Kontaktperson"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                x:Name="contactPersonEditor"
+                Text=""
+                FontSize="20"
+                IsEnabled="False" />
+
+            <Label
+                Text="Adresse"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                x:Name="addressEditor"
+                Text=""
+                FontSize="20"
+                IsEnabled="False" />
+
+            <Label
+                Text="Telefon"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                x:Name="phoneNumberEditor"
+                Text=""
+                FontSize="20"
+                IsEnabled="False" />
+
+            <Label
+                Text="Kategori"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                x:Name="categoryEditor"
+                Text=""
+                FontSize="20"
+                IsEnabled="False" />
+
+            <Label
+                Text="Dato"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                x:Name="dateEditor"
+                Text=""
+                FontSize="20"
+                IsEnabled="False" />
+
+            <Label
+                Text="Noter"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                x:Name="notesEditor"
+                Text=""
+                FontSize="20"
+                IsEnabled="False" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
