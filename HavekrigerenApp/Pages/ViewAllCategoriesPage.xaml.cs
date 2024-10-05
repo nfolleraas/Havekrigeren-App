@@ -6,6 +6,7 @@ namespace HavekrigerenApp.Pages
     public partial class ViewAllCategoriesPage : ContentPage
     {
         private List<Category> categories;
+        private string errorMessage;
 
         public ViewAllCategoriesPage()
         {
@@ -42,23 +43,33 @@ namespace HavekrigerenApp.Pages
             {
                 categoryCount = categories.Count();
             }
-            catch
+            catch (Exception e)
             {
-                categoryCount = 0;
+                categoryCount = -1;
+                errorMessage = $"Der er sket en uventet fejl. \n Genstart appen og prøv igen. \n\n Fejlbesked: \n {e.Message}";
             }
 
-            if (categoryCount < 1)
+            if (categoryCount < 0)
             {
+                var errorLabel = new Label
+                {
+                    Text = errorMessage,
+                    HorizontalOptions = LayoutOptions.Center,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                };
 
+                viewAllCategoriesLayout.Children.Add(errorLabel);
+            }
+            else if (categoryCount == 0)
+            {
                 var noCategoriesLabel = new Label
                 {
                     Text = "Kunne ikke finde nogen kategorier...\n\nTryk på knappen (+) i højre hjørne for at tilføje en kategori.",
                     HorizontalOptions = LayoutOptions.Center,
-                    HorizontalTextAlignment = TextAlignment.Center
+                    HorizontalTextAlignment = TextAlignment.Center,
                 };
 
                 viewAllCategoriesLayout.Children.Add(noCategoriesLabel);
-
             }
             else
             {
@@ -144,11 +155,9 @@ namespace HavekrigerenApp.Pages
             await Navigation.PushAsync(new ViewAllTasksPage(categoryName));
         }
 
-        private void OnCreateCategoryClicked(object sender, EventArgs e)
+        private async void OnCreateCategoryClicked(object sender, EventArgs e)
         {
-            string temp = "Test Kategori";
-            Category.AddCategory(temp);
-            DisplayAlert("Opret Kategori", $"Oprettede kategori: {temp}", "OK");
+            await Navigation.PushAsync(new CreateCategoryPage());
         }
     }
 }

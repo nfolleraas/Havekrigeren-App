@@ -14,7 +14,6 @@ namespace HavekrigerenApp
     public class Category
     {
         public string CategoryName { get; set; }
-        public static List<Category> Categories { get; private set; }
 
         public Category(string categoryName)
         {
