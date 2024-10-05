@@ -2,12 +2,11 @@ namespace HavekrigerenApp.Pages
 {
     public partial class ViewAllTasksPage : ContentPage
     {
-        public ViewAllTasksPage(ViewAllCategoriesPage viewAllCategoriesPage)
+        public ViewAllTasksPage(string categoryName)
         {
             InitializeComponent();
 
-            string pageTitle = viewAllCategoriesPage.GetCategoryName();
-            Title = pageTitle;
+            Title = categoryName;
 
             DisplayTasks();
         }

@@ -11,11 +11,22 @@
             AbsoluteLayout.LayoutFlags="All" >
 
             <VerticalStackLayout
-                x:Name="viewAllCategoriesLayout"
                 Padding="10" >
+
+                <Button
+                    ImageSource="Resources/Icons/reload.png"
+                    BackgroundColor="Transparent"
+                    Clicked="OnReloadButtonClicked"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Start" />
+                
+                <VerticalStackLayout
+                    x:Name="viewAllCategoriesLayout"
+                    Padding="10" >
 
                 <!--List of programmable inserted fields-->
 
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
 
@@ -23,7 +34,6 @@
             x:Name="createCategory"
             ImageSource="Resources/Icons/create.png"
             BackgroundColor="Red"
-            TextColor="White"
             CornerRadius="100"
             WidthRequest="80"
             HeightRequest="80"

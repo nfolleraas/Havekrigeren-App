@@ -1,23 +1,53 @@
 using Microsoft.Maui.Animations;
+using System.Diagnostics;
 
 namespace HavekrigerenApp.Pages
 {
     public partial class ViewAllCategoriesPage : ContentPage
     {
+        private List<Category> categories;
+
         public ViewAllCategoriesPage()
         {
             InitializeComponent();
+
+            LoadCategories();
+        }
+
+        public async void LoadCategories()
+        {
+            var activityIndicator = new ActivityIndicator
+            {
+                IsVisible = true,
+                IsRunning = true,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            };
+
+            viewAllCategoriesLayout.Children.Add(activityIndicator);
+            
+            categories = await Category.GetCategories();
+
+            viewAllCategoriesLayout.Children.Remove(activityIndicator);
 
             DisplayAllCategories();
         }
 
         private void DisplayAllCategories()
         {
-            var cat = new Category();
+            viewAllCategoriesLayout.Children.Clear();
 
-            int categoryCount = cat.GetCategories().Count();
+            int categoryCount;
+            try
+            {
+                categoryCount = categories.Count();
+            }
+            catch
+            {
+                categoryCount = 0;
+            }
 
-            if (categoryCount <= 0)
+            if (categoryCount < 1)
             {
 
                 var noCategoriesLabel = new Label
@@ -32,7 +62,7 @@ namespace HavekrigerenApp.Pages
             }
             else
             {
-                foreach (string category in cat.GetCategories())
+                foreach (Category category in categories)
                 {
                     var categoryFrame = new Frame
                     {
@@ -43,7 +73,7 @@ namespace HavekrigerenApp.Pages
                 {
                     new TapGestureRecognizer
                     {
-                        Command = new Command(() => OnCategoryClicked(category))
+                        Command = new Command(() => OnCategoryClicked(category.CategoryName))
                     }
                 },
                         Margin = new Thickness(0, 5)
@@ -60,7 +90,7 @@ namespace HavekrigerenApp.Pages
 
                     var categoryLabel = new Label
                     {
-                        Text = category,
+                        Text = category.CategoryName,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Start,
                         LineBreakMode = LineBreakMode.CharacterWrap,
@@ -87,6 +117,11 @@ namespace HavekrigerenApp.Pages
             }
         }
 
+        private async void OnReloadButtonClicked(object sender, EventArgs e)
+        {
+            LoadCategories();
+        }
+
         private string categoryName;
         private void SetCategoryName(string category)
         {
@@ -99,18 +134,21 @@ namespace HavekrigerenApp.Pages
         }
 
 
-        private async void OnCategoryClicked(string category)
+        private async void OnCategoryClicked(string categoryName)
         {
             // IT WORK! NO TOUCHY
-            var viewAllCategoriesPage = new ViewAllCategoriesPage();
-            viewAllCategoriesPage.SetCategoryName(category);
-            await Navigation.PushAsync(new ViewAllTasksPage(viewAllCategoriesPage));
+            //var viewAllCategoriesPage = new ViewAllCategoriesPage();
+            //viewAllCategoriesPage.SetCategoryName(category);
+
+
+            await Navigation.PushAsync(new ViewAllTasksPage(categoryName));
         }
 
         private void OnCreateCategoryClicked(object sender, EventArgs e)
         {
-            DisplayAlert("Opret Kategori", $"Du klikkede på knappen", "OK");
+            string temp = "Test Kategori";
+            Category.AddCategory(temp);
+            DisplayAlert("Opret Kategori", $"Oprettede kategori: {temp}", "OK");
         }
-
     }
 }
