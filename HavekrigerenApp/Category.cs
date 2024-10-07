@@ -22,12 +22,12 @@ namespace HavekrigerenApp
 
         public static void AddCategory(string categoryName)
         {
-            CollectionReference collection = App.db.Collection("Categories");
+            CollectionReference collRef = App.db.Collection("Categories");
             Dictionary<string, object> data = new Dictionary<string, object>()
             {
                 {"categoryName", categoryName},
             };
-            collection.AddAsync(data);
+            collRef.AddAsync(data);
             Console.WriteLine($"Data added successfully: {data}");
         }
 
@@ -50,6 +50,19 @@ namespace HavekrigerenApp
                 }
             }
             return categories;
+        }
+
+        public static async void DeleteCategory(string categoryName)
+        {
+            CollectionReference collRef = App.db.Collection("Categories");
+            Query query = collRef.WhereEqualTo("categoryName", categoryName);
+            QuerySnapshot snapshot = await query.GetSnapshotAsync();
+
+            foreach (DocumentSnapshot document in snapshot.Documents)
+            {
+                await document.Reference.DeleteAsync();
+            }
+            
         }
 
         public override string ToString()

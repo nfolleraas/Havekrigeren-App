@@ -39,7 +39,7 @@ namespace HavekrigerenApp.Pages
 
                 await Navigation.PopAsync();
 
-                await DisplayAlert("Opret Kategori", $"Oprettede kategori: {createdCategory}", "OK");
+                await DisplayAlert("Opret Kategori", $"Oprettede kategori: \"{createdCategory}\". \nGenindlæs siden for at se ændringerne.", "OK");
             }
         }
     }

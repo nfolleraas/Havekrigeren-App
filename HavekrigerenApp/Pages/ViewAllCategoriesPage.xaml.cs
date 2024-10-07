@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Behaviors;
 using Microsoft.Maui.Animations;
 using System.Diagnostics;
 
@@ -75,28 +76,30 @@ namespace HavekrigerenApp.Pages
             {
                 foreach (Category category in categories)
                 {
-                    var categoryFrame = new Frame
+                    // Delete Swipe
+                    var deleteSwipeItem = new SwipeItem
                     {
-                        CornerRadius = 10,
-                        Padding = new Thickness(10),
-                        HasShadow = false,
-                        GestureRecognizers =
-                {
-                    new TapGestureRecognizer
+                        Text = "Slet",
+                        IconImageSource = "delete.png",
+                        BackgroundColor = Colors.LightPink,
+                    };
+                    deleteSwipeItem.Invoked += (sender, e) => DeleteCategory(sender, e, category.CategoryName);
+
+                    List<SwipeItem> rightSwipeItems = new List<SwipeItem>() { deleteSwipeItem };
+
+                    var swipeView = new SwipeView
                     {
-                        Command = new Command(() => OnCategoryClicked(category.CategoryName))
-                    }
-                },
-                        Margin = new Thickness(0, 5)
+                        RightItems = new SwipeItems(rightSwipeItems),
                     };
 
+                    // SwipeView content
                     var buttonGrid = new Grid
                     {
                         ColumnDefinitions =
-                {
-                    new ColumnDefinition { Width = GridLength.Star},
-                    new ColumnDefinition { Width = GridLength.Auto}
-                }
+                        {
+                            new ColumnDefinition { Width = GridLength.Star},
+                            new ColumnDefinition { Width = GridLength.Auto}
+                        }
                     };
 
                     var categoryLabel = new Label
@@ -121,9 +124,26 @@ namespace HavekrigerenApp.Pages
                     buttonGrid.Children.Add(seeMoreLabel);
                     Grid.SetColumnSpan(seeMoreLabel, 1);
 
-                    categoryFrame.Content = buttonGrid;
+                    var categoryFrame = new Frame
+                    {
+                        CornerRadius = 10, // Set corner radius
+                        Padding = new Thickness(10),
+                        HasShadow = false,
+                        Content = buttonGrid,
+                        Margin = new Thickness(0, 5),
 
-                    viewAllCategoriesLayout.Children.Add(categoryFrame);
+                        GestureRecognizers =
+                        {
+                            new TapGestureRecognizer
+                            {
+                                Command = new Command(() => OnCategoryClicked(category.CategoryName))
+                            }
+                        },
+                    };
+
+                    swipeView.Content = categoryFrame;
+
+                    viewAllCategoriesLayout.Children.Add(swipeView);
                 }
             }
         }
@@ -147,17 +167,19 @@ namespace HavekrigerenApp.Pages
 
         private async void OnCategoryClicked(string categoryName)
         {
-            // IT WORK! NO TOUCHY
-            //var viewAllCategoriesPage = new ViewAllCategoriesPage();
-            //viewAllCategoriesPage.SetCategoryName(category);
-
-
             await Navigation.PushAsync(new ViewAllTasksPage(categoryName));
         }
 
         private async void OnCreateCategoryClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new CreateCategoryPage());
+        }
+
+        private async void DeleteCategory(object sender, EventArgs e, string categoryName)
+        {
+            Category.DeleteCategory(categoryName);
+            await DisplayAlert("Kategori Slettet", $"Kategorien: \"{categoryName}\" blev slettet", "OK");
+            LoadCategories();
         }
     }
 }
