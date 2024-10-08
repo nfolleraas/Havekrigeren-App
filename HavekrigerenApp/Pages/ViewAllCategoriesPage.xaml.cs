@@ -79,9 +79,9 @@ namespace HavekrigerenApp.Pages
                     // Delete Swipe
                     var deleteSwipeItem = new SwipeItem
                     {
-                        Text = "Slet",
-                        IconImageSource = "delete.png",
-                        BackgroundColor = Colors.LightPink,
+                        IconImageSource = "Resources/Icons/delete.png",
+                        
+                        BackgroundColor = Colors.Red,
                     };
                     deleteSwipeItem.Invoked += (sender, e) => DeleteCategory(sender, e, category.CategoryName);
 
@@ -148,7 +148,7 @@ namespace HavekrigerenApp.Pages
             }
         }
 
-        private async void OnReloadButtonClicked(object sender, EventArgs e)
+        private void OnReloadButtonClicked(object sender, EventArgs e)
         {
             LoadCategories();
         }
@@ -177,9 +177,14 @@ namespace HavekrigerenApp.Pages
 
         private async void DeleteCategory(object sender, EventArgs e, string categoryName)
         {
-            Category.DeleteCategory(categoryName);
-            await DisplayAlert("Kategori Slettet", $"Kategorien: \"{categoryName}\" blev slettet", "OK");
-            LoadCategories();
+            bool answer = await DisplayAlert($"Er du sikker på du vil slette \"{categoryName}\"", "Denne handling kan ikke fortrydes", "Ja", "Nej");
+
+            if (answer)
+            {
+                Category.DeleteCategory(categoryName);
+                await DisplayAlert("Kategori Slettet", $"Kategorien: \"{categoryName}\" blev slettet", "OK");
+                LoadCategories();
+            }
         }
     }
 }

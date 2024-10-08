@@ -72,6 +72,7 @@
 	  <None Remove="config.json" />
 	  <None Remove="Resources\Icons\calendar.png" />
 	  <None Remove="Resources\Icons\create.png" />
+	  <None Remove="Resources\Icons\delete.png" />
 	  <None Remove="Resources\Icons\home.png" />
 	  <None Remove="Resources\Icons\list.png" />
 	  <None Remove="Resources\Icons\reload.png" />
@@ -131,6 +132,7 @@
 	<ItemGroup>
 	  <MauiImage Include="Resources\Icons\calendar.png" />
 	  <MauiImage Include="Resources\Icons\create.png" />
+	  <MauiImage Include="Resources\Icons\delete.png" />
 	  <MauiImage Include="Resources\Icons\home.png" />
 	  <MauiImage Include="Resources\Icons\list.png" />
 	  <MauiImage Include="Resources\Icons\reload.png" />
