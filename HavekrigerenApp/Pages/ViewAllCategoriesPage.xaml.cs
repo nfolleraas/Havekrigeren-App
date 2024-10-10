@@ -153,18 +153,6 @@ namespace HavekrigerenApp.Pages
             LoadCategories();
         }
 
-        private string categoryName;
-        private void SetCategoryName(string category)
-        {
-            categoryName = category;
-        }
-
-        public string GetCategoryName()
-        {
-            return categoryName;
-        }
-
-
         private async void OnCategoryClicked(string categoryName)
         {
             await Navigation.PushAsync(new ViewAllTasksPage(categoryName));

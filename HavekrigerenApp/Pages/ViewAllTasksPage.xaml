@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="HavekrigerenApp.Pages.ViewAllTasksPage"
              Title="ViewAllTasksPage"
              Shell.NavBarIsVisible="True" >
-    
+
     <AbsoluteLayout>
         <ScrollView
-            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-            AbsoluteLayout.LayoutFlags="All" >
+        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+        AbsoluteLayout.LayoutFlags="All" >
 
             <VerticalStackLayout
+            Padding="10" >
+
+                <Button
+                ImageSource="Resources/Icons/reload.png"
+                BackgroundColor="Transparent"
+                Clicked="OnReloadButtonClicked"
+                HorizontalOptions="Center" 
+                VerticalOptions="Start" />
+
+                <VerticalStackLayout
                 x:Name="viewAllTasksLayout"
                 Padding="10" >
 
-                <!--List of programmable inserted fields-->
+                    <!--List of programmable inserted fields-->
 
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
     </AbsoluteLayout>

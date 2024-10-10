@@ -1,4 +1,3 @@
-using Android.Webkit;
 using System.Linq;
 
 namespace HavekrigerenApp.Pages

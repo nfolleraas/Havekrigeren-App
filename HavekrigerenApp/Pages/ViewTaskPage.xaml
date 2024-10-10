@@ -17,7 +17,7 @@
                 Margin="0, 10, 0, -20" />
 
             <Editor
-                x:Name="contactPersonEditor"
+                x:Name="contactNameEditor"
                 Text=""
                 FontSize="20"
                 IsEnabled="False" />
