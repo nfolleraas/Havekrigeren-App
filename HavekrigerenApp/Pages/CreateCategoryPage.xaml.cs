@@ -24,21 +24,26 @@ namespace HavekrigerenApp.Pages
 
 		private async void OnCreateClicked(object sender, EventArgs e)
 		{
-            string createdCategory = categoryEntry.Text;
-            List<Category> categories = await Category.GetCategories();
-            bool categoryExists = categories.Any(c => c.CategoryName == createdCategory);
+            string categoryName = categoryEntry.Text;
+            List<Category> categories = await Database.GetDocuments<Category>("Categories");
+            bool categoryExists = categories.Any(c => c.CategoryName == categoryName);
 
             if (categoryExists)
             {
-                await DisplayAlert("Fejl", $"Kategorien {createdCategory} eksisterer allerede", "OK");
+                await DisplayAlert("Fejl", $"Kategorien \"{categoryName}\" eksisterer allerede.", "OK");
             }
             else
             {
-                Category.AddCategory(createdCategory);
+                Dictionary<string, object> categoryData = new Dictionary<string, object>()
+                {
+                    {"categoryName", categoryName}
+                };
+
+                Database.AddDocument("Categories", categoryData);
 
                 await Navigation.PopAsync();
 
-                await DisplayAlert("Opret Kategori", $"Oprettede kategori: \"{createdCategory}\". \nGenindlæs siden for at se ændringerne.", "OK");
+                await DisplayAlert("Opret Kategori", $"Oprettede kategori: \"{categoryName}\".", "OK");
             }
         }
     }

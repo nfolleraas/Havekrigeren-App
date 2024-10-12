@@ -6,6 +6,6 @@ namespace HavekrigerenApp.Pages
 		public HomePage()
 		{
 			InitializeComponent();
-		}
-	}
+        }
+    }
 }

@@ -12,7 +12,11 @@ namespace HavekrigerenApp.Pages
         public ViewAllCategoriesPage()
         {
             InitializeComponent();
+        }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
             LoadCategories();
         }
 
@@ -28,7 +32,7 @@ namespace HavekrigerenApp.Pages
 
             viewAllCategoriesLayout.Children.Add(activityIndicator);
             
-            categories = await Category.GetCategories();
+            categories = await Database.GetDocuments<Category>("Categories");
 
             viewAllCategoriesLayout.Children.Remove(activityIndicator);
 
@@ -155,7 +159,7 @@ namespace HavekrigerenApp.Pages
 
         private async void OnCategoryClicked(string categoryName)
         {
-            await Navigation.PushAsync(new ViewAllTasksPage(categoryName));
+            await Navigation.PushAsync(new ViewAllJobsPage(categoryName));
         }
 
         private async void OnCreateCategoryClicked(object sender, EventArgs e)
@@ -165,12 +169,12 @@ namespace HavekrigerenApp.Pages
 
         private async void DeleteCategory(object sender, EventArgs e, string categoryName)
         {
-            bool answer = await DisplayAlert($"Er du sikker på du vil slette \"{categoryName}\"", "Denne handling kan ikke fortrydes", "Ja", "Nej");
+            bool answer = await DisplayAlert("Slet Kategori",$"Er du sikker på du vil slette kategorien: \"{categoryName}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
 
             if (answer)
             {
-                Category.DeleteCategory(categoryName);
-                await DisplayAlert("Kategori Slettet", $"Kategorien: \"{categoryName}\" blev slettet", "OK");
+                Database.DeleteDocument("Categories", "categoryName", categoryName);
+                await DisplayAlert("Slet Kategori", $"Kategorien: \"{categoryName}\" blev slettet.", "OK");
                 LoadCategories();
             }
         }

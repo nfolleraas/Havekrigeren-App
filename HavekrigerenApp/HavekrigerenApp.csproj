@@ -79,6 +79,7 @@
 	  <None Remove="Resources\Icons\delete.png" />
 	  <None Remove="Resources\Icons\home.png" />
 	  <None Remove="Resources\Icons\list.png" />
+	  <None Remove="Resources\Icons\phone.png" />
 	  <None Remove="Resources\Icons\reload.png" />
 	  <None Remove="Resources\Icons\user.png" />
 	  <None Remove="resources\images\home.svg" />
@@ -98,22 +99,34 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\CreateJobPage.xaml.cs">
+	    <DependentUpon>CreateJobPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\HomePage.xaml.cs">
 	    <DependentUpon>HomePage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Pages\LoginPage.xaml.cs">
 	    <DependentUpon>LoginPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\ViewAllJobsPage.xaml.cs">
+	    <DependentUpon>ViewAllJobsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\ViewJobPage.xaml.cs">
+	    <DependentUpon>ViewJobPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\AdminPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\CalendarPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\CreateCategoryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\CreateTaskPage.xaml">
+	  <MauiXaml Update="Pages\CreateJobPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\HomePage.xaml">
@@ -125,10 +138,10 @@
 	  <MauiXaml Update="Pages\ViewAllCategoriesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ViewAllTasksPage.xaml">
+	  <MauiXaml Update="Pages\ViewAllJobsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ViewTaskPage.xaml">
+	  <MauiXaml Update="Pages\ViewJobPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
@@ -139,6 +152,7 @@
 	  <MauiImage Include="Resources\Icons\delete.png" />
 	  <MauiImage Include="Resources\Icons\home.png" />
 	  <MauiImage Include="Resources\Icons\list.png" />
+	  <MauiImage Include="Resources\Icons\phone.png" />
 	  <MauiImage Include="Resources\Icons\reload.png" />
 	  <MauiImage Include="Resources\Icons\user.png" />
 	</ItemGroup>

@@ -35,8 +35,9 @@ namespace HavekrigerenApp.Pages
             string username = usernameEntry.Text;
             string password = passwordEntry.Text;
 
-            var user = new User();
-            bool isLoginSuccessful = user.Login(username, password);
+            List<User> users = await Database.GetDocuments<User>("Users");
+
+            bool isLoginSuccessful = User.Login(username, password, users);
 
             if (isLoginSuccessful)
             {
@@ -47,13 +48,13 @@ namespace HavekrigerenApp.Pages
             }
             else
             {
-                await DisplayAlert("Log ind", "Forkert brugernavn eller adgangskode", "Prøv igen");
+                await DisplayAlert("Log ind", "Forkert brugernavn eller adgangskode.", "Prøv igen");
             }
         }
 
         private void OnForgottonPassword(object sender, EventArgs e)
         {
-            DisplayAlert("Glemt adgangskode", "", "OK");
+            DisplayAlert("Glemt Adgangskode", "Glemt adgangskode.", "OK");
         }
 
         private void OnShowPasswordToggled(object sender, CheckedChangedEventArgs e)

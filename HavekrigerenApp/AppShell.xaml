@@ -13,14 +13,14 @@
         Route="LoginPage" />
 
     <ShellContent
-        Title="ViewAllTasksPage"
-        ContentTemplate="{DataTemplate local:Pages.ViewAllTasksPage}"
-        Route="ViewAllTasksPage" />
+        Title="ViewAllJobsPage"
+        ContentTemplate="{DataTemplate local:Pages.ViewAllJobsPage}"
+        Route="ViewAllJobsPage" />
 
     <ShellContent
-        Title="ViewTaskPage"
-        ContentTemplate="{DataTemplate local:Pages.ViewTaskPage}"
-        Route="ViewTaskPage" />
+        Title="ViewJobPage"
+        ContentTemplate="{DataTemplate local:Pages.ViewJobPage}"
+        Route="ViewJobPage" />
 
     <ShellContent
         Title="CreateCategoryPage"
@@ -40,8 +40,8 @@
 
         <ShellContent
             Icon="Resources/Icons/create.png"
-            ContentTemplate="{DataTemplate local:Pages.CreateTaskPage}"
-            Route="CreateTaskPage" />
+            ContentTemplate="{DataTemplate local:Pages.CreateJobPage}"
+            Route="CreateJobPage" />
 
         <ShellContent
             Icon="Resources/Icons/calendar.png"
@@ -53,7 +53,11 @@
             ContentTemplate="{DataTemplate local:Pages.UserPage}"
             Route="UserPage" />
 
-
+        <ShellContent
+            x:Name="adminShellContent"
+            Title="Admin"
+            ContentTemplate="{DataTemplate local:Pages.AdminPage}"
+            Route="AdminPage" />
     </TabBar>
 
 </Shell>

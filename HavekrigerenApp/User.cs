@@ -10,22 +10,24 @@ namespace HavekrigerenApp
 {
     public class User
     {
-        private string username;
-        private string password;
+        public string Name { get; set; }
+        public string Password { get; set; }
 
-        private static List<User> users = new List<User>();
-
-        static User()
+        public User(string name, string password)
         {
-            users.Add(new User { username = "Patrick", password = "1234" });
-            users.Add(new User { username = "Martin", password = "1234" });
+            Name = name;
+            Password = password;
         }
 
-        public bool Login(string username, string password)
+        public User() 
+        { 
+        }
+
+        public static bool Login(string username, string password, List<User> users)
         {
-            foreach (var user in users)
+            foreach (User user in users)
             {
-                if (username == user.username && password == user.password)
+                if (username == user.Name && password == user.Password)
                 {
                     return true;
                 }
