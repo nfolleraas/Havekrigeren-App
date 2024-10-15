@@ -5,45 +5,38 @@
              x:Class="HavekrigerenApp.Pages.ViewAllCategoriesPage"
              Title="Alle Kategorier"
              Shell.NavBarIsVisible="True">
-
-    <AbsoluteLayout>
-        <ScrollView
-            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-            AbsoluteLayout.LayoutFlags="All" >
-
-            <VerticalStackLayout
-                Padding="10" >
-
-                <Button
-                    ImageSource="Resources/Icons/reload.png"
-                    BackgroundColor="Transparent"
-                    Clicked="OnReloadButtonClicked"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Start" />
-
+    
+    <RefreshView
+        x:Name="categoriesRefreshView"
+        Refreshing="RefreshCommand" >
+        <AbsoluteLayout>
+            <ScrollView
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All" >
+                
                 <VerticalStackLayout
-                    x:Name="viewAllCategoriesLayout"
-                    Padding="10" >
+                        x:Name="viewAllCategoriesLayout"
+                        Padding="10" >
 
                     <!--List of programmable inserted fields-->
 
                 </VerticalStackLayout>
-            </VerticalStackLayout>
-        </ScrollView>
+            </ScrollView>
 
-        <Button
-            x:Name="createCategory"
-            ImageSource="Resources/Icons/create.png"
-            BackgroundColor="Red"
-            CornerRadius="100"
-            WidthRequest="80"
-            HeightRequest="80"
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="0.9, 0.9, AutoSize, AutoSize"
-            VerticalOptions="End"
-            HorizontalOptions="End"
-            Clicked="OnCreateCategoryClicked" />
-
-    </AbsoluteLayout>
+            <Button
+                x:Name="createCategory"
+                ImageSource="create.png"
+                BackgroundColor="#009c00"
+                CornerRadius="40"
+                WidthRequest="80"
+                HeightRequest="80"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="0.9, 0.9, AutoSize, AutoSize"
+                VerticalOptions="End"
+                HorizontalOptions="End"
+                Clicked="OnCreateCategoryClicked" />
+        
+        </AbsoluteLayout>
+    </RefreshView>
 
 </ContentPage>

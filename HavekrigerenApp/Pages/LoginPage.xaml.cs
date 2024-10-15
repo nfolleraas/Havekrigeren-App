@@ -23,10 +23,12 @@ namespace HavekrigerenApp.Pages
             if (!string.IsNullOrEmpty(usernameEntry.Text) && !string.IsNullOrEmpty(passwordEntry.Text))
             {
                 loginButton.IsEnabled = true;
+                Console.WriteLine("Login button enabled");
             }
             else
             {
                 loginButton.IsEnabled = false;
+                Console.WriteLine("Login button disabled");
             }
         }
 
@@ -41,10 +43,18 @@ namespace HavekrigerenApp.Pages
 
             if (isLoginSuccessful)
             {
-                await Shell.Current.GoToAsync("///HomePage");
-                SaveUserStatus(username, true);
-                usernameEntry.Text = null;
-                passwordEntry.Text = null;
+                try
+                {
+                    await Shell.Current.GoToAsync("///HomePage");
+                    Console.WriteLine("Navigated to homepage");
+                    SaveUserStatus(username, true);
+                    usernameEntry.Text = null;
+                    passwordEntry.Text = null;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Navigation error: {ex.Message}");
+                }
             }
             else
             {

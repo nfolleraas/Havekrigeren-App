@@ -29,35 +29,38 @@
 
     <TabBar>
         <ShellContent
-            Icon="Resources/Icons/home.png"
+            Icon="home.png"
             ContentTemplate="{DataTemplate local:Pages.HomePage}"
             Route="HomePage" />
 
         <ShellContent
-            Icon="Resources/Icons/list.png"
+            Icon="list.png"
             ContentTemplate="{DataTemplate local:Pages.ViewAllCategoriesPage}"
             Route="ViewAllCategoriesPage" />
 
         <ShellContent
-            Icon="Resources/Icons/create.png"
+            Icon="create.png"
             ContentTemplate="{DataTemplate local:Pages.CreateJobPage}"
             Route="CreateJobPage" />
 
         <ShellContent
-            Icon="Resources/Icons/calendar.png"
+            Icon="calendar.png"
             ContentTemplate="{DataTemplate local:Pages.CalendarPage}"
             Route="CalendarPage" />
 
         <ShellContent
-            Icon="Resources/Icons/user.png"
+            Icon="user.png"
             ContentTemplate="{DataTemplate local:Pages.UserPage}"
             Route="UserPage" />
 
+        <!--
         <ShellContent
             x:Name="adminShellContent"
             Title="Admin"
             ContentTemplate="{DataTemplate local:Pages.AdminPage}"
             Route="AdminPage" />
+        -->
+        
     </TabBar>
 
 </Shell>

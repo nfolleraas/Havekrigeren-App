@@ -5,7 +5,14 @@ namespace HavekrigerenApp.Pages
 	{
 		public HomePage()
 		{
-			InitializeComponent();
+			try
+			{
+				InitializeComponent();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Homepage error: {ex.Message}");
+			}
         }
     }
 }

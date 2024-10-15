@@ -6,29 +6,23 @@
              Title="ViewAllJobsPage"
              Shell.NavBarIsVisible="True" >
 
-    <AbsoluteLayout>
-        <ScrollView
-        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-        AbsoluteLayout.LayoutFlags="All" >
-
-            <VerticalStackLayout
-            Padding="10" >
-
-                <Button
-                ImageSource="Resources/Icons/reload.png"
-                BackgroundColor="Transparent"
-                Clicked="OnReloadButtonClicked"
-                HorizontalOptions="Center" 
-                VerticalOptions="Start" />
+    <RefreshView
+        x:Name="jobsRefreshView"
+        Refreshing="RefreshCommand" >
+        <AbsoluteLayout>
+            <ScrollView
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All" >
 
                 <VerticalStackLayout
-                x:Name="viewAllJobsLayout"
-                Padding="10" >
+                        x:Name="viewAllJobsLayout"
+                        Padding="10" >
 
                     <!--List of programmable inserted fields-->
 
                 </VerticalStackLayout>
-            </VerticalStackLayout>
-        </ScrollView>
-    </AbsoluteLayout>
+            </ScrollView>
+        </AbsoluteLayout>
+    </RefreshView>
+    
 </ContentPage>

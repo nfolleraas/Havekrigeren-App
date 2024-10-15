@@ -1,5 +1,3 @@
-using Java.Util;
-
 namespace HavekrigerenApp.Pages
 {
     public partial class ViewAllJobsPage : ContentPage
@@ -14,27 +12,15 @@ namespace HavekrigerenApp.Pages
             Title = categoryName;
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
-            LoadJobs();
+            await LoadJobs();
         }
 
-        public async void LoadJobs()
+        public async Task LoadJobs()
         {
-            var activityIndicator = new ActivityIndicator
-            {
-                IsVisible = true,
-                IsRunning = true,
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center
-            };
-
-            viewAllJobsLayout.Children.Add(activityIndicator);
-
             jobs = await GetJobsByCategory(Title);
-
-            viewAllJobsLayout.Children.Remove(activityIndicator);
 
             DisplayAllJobs();
         }
@@ -108,7 +94,7 @@ namespace HavekrigerenApp.Pages
 
                     var swipeView = new SwipeView
                     {
-                        RightItems = new SwipeItems(rightSwipeItems),
+                        LeftItems = new SwipeItems(rightSwipeItems),
                     };
 
                     // SwipeView content
@@ -165,19 +151,26 @@ namespace HavekrigerenApp.Pages
                     viewAllJobsLayout.Children.Add(swipeView);
                 }
 
-                var addMoreLabel = new Label
+                var infoLabel = new Label
                 {
-                    Text = "Tryk på + for at tilføje flere",
+                    Text = "Tryk på + for at tilføje flere\nSwipe til venstre for at slette en opgave",
                     HorizontalOptions = LayoutOptions.Center,
+                    HorizontalTextAlignment = TextAlignment.Center,
                     TextColor = Colors.Gray
                 };
-                viewAllJobsLayout.Children.Add(addMoreLabel);
+                viewAllJobsLayout.Children.Add(infoLabel);
             }
         }
 
-        private void OnReloadButtonClicked(object sender, EventArgs e)
+        private async void RefreshCommand(object sender, EventArgs e)
         {
-            LoadJobs();
+            jobsRefreshView.IsRefreshing = true;
+            Console.WriteLine("Started reloading");
+
+            await LoadJobs();
+
+            jobsRefreshView.IsRefreshing = false;
+            Console.WriteLine("Done reloading");
         }
 
         private async void OnJobClicked(Job job)

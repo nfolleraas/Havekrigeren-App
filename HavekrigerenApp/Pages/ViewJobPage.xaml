@@ -20,7 +20,7 @@
             <Editor
                 x:Name="contactNameEditor"
                 Text=""
-                TextColor="#1b1b1b"
+                TextColor="{StaticResource PrimaryText}"
                 FontSize="20"
                 IsEnabled="False" />
 
@@ -33,7 +33,7 @@
             <Editor
                 x:Name="addressEditor"
                 Text=""
-                TextColor="#1b1b1b"
+                TextColor="{StaticResource PrimaryText}"
                 FontSize="20"
                 IsEnabled="False" />
 
@@ -52,14 +52,14 @@
                 <Editor
                     x:Name="phoneNumberEditor"
                     Text=""
-                    TextColor="#1b1b1b"
+                    TextColor="{StaticResource PrimaryText}"
                     FontSize="20"
                     IsEnabled="False"
                     VerticalOptions="Center"
                     HorizontalOptions="Start"
                     Grid.ColumnSpan="0" />
                 <Button
-                    ImageSource="Resources/Icons/phone.png"
+                    ImageSource="phone.png"
                     Scale="0.6"
                     BackgroundColor="Transparent"
                     HorizontalOptions="Fill"
@@ -76,7 +76,7 @@
             <Editor
                 x:Name="categoryEditor"
                 Text=""
-                TextColor="#1b1b1b"
+                TextColor="{StaticResource PrimaryText}"
                 FontSize="20"
                 IsEnabled="False" />
 
@@ -89,7 +89,7 @@
             <Editor
                 x:Name="dateEditor"
                 Text=""
-                TextColor="#1b1b1b"
+                TextColor="{StaticResource PrimaryText}"
                 FontSize="20"
                 IsEnabled="False" />
 
@@ -103,7 +103,7 @@
                 x:Name="notesEditor"
                 Placeholder="Ingen noter..."
                 Text=""
-                TextColor="#1b1b1b"
+                TextColor="{StaticResource PrimaryText}"
                 FontSize="20"
                 IsEnabled="False" />
 

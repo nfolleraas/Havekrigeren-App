@@ -13,6 +13,7 @@
 
             <Label
                 Text="Kontaktperson *"
+                FontAttributes="Bold"
                 FontSize="15"
                 Margin="0, 10, 0, -20" />
 
@@ -26,6 +27,7 @@
 
             <Label
                 Text="Adresse *"
+                FontAttributes="Bold"
                 FontSize="15" 
                 Margin="0, 10, 0, -20" />
 
@@ -39,6 +41,7 @@
 
             <Label
                 Text="Telefonnummer *"
+                FontAttributes="Bold"
                 FontSize="15" 
                 Margin="0, 10, 0, -20" />
 
@@ -55,16 +58,20 @@
 
             <Label
                 Text="Kategori *"
+                FontAttributes="Bold"
                 FontSize="15" 
                 Margin="0, 10, 0, -20" />
 
             <Picker
                 x:Name="categoryPicker"
                 Title="Vælg en kategori"
+                TitleColor="#C8C8C8"
+                FontSize="20"
                 SelectedIndexChanged="OnTextChanged"/>
 
             <Label
                 Text="Dato"
+                FontAttributes="Bold"
                 FontSize="15" 
                 Margin="0, 10, 0, -20" />
 
@@ -76,6 +83,7 @@
 
             <Label
                 Text="Noter"
+                FontAttributes="Bold"
                 FontSize="15" 
                 Margin="0, 10, 0, -20" />
 

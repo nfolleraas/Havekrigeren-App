@@ -9,7 +9,7 @@
             Spacing="25" >
 
         <Image
-            Source="Resources/Images/havekrigeren_logo.png"
+            Source="havekrigeren_logo.png"
             HeightRequest="185"
             Aspect="AspectFit" 
             Margin="0, 40, 0, 20"/>

@@ -1,6 +1,8 @@
 using CommunityToolkit.Maui.Behaviors;
+using Google.Type;
 using Microsoft.Maui.Animations;
 using System.Diagnostics;
+using System.Net;
 
 namespace HavekrigerenApp.Pages
 {
@@ -14,27 +16,15 @@ namespace HavekrigerenApp.Pages
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
-            LoadCategories();
+            await LoadCategories();
         }
 
-        public async void LoadCategories()
+        public async Task LoadCategories()
         {
-            var activityIndicator = new ActivityIndicator
-            {
-                IsVisible = true,
-                IsRunning = true,
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.Center
-            };
-
-            viewAllCategoriesLayout.Children.Add(activityIndicator);
-            
             categories = await Database.GetDocuments<Category>("Categories");
-
-            viewAllCategoriesLayout.Children.Remove(activityIndicator);
 
             DisplayAllCategories();
         }
@@ -83,8 +73,7 @@ namespace HavekrigerenApp.Pages
                     // Delete Swipe
                     var deleteSwipeItem = new SwipeItem
                     {
-                        IconImageSource = "Resources/Icons/delete.png",
-                        
+                        IconImageSource = "delete.png",
                         BackgroundColor = Colors.Red,
                     };
                     deleteSwipeItem.Invoked += (sender, e) => DeleteCategory(sender, e, category.CategoryName);
@@ -93,7 +82,7 @@ namespace HavekrigerenApp.Pages
 
                     var swipeView = new SwipeView
                     {
-                        RightItems = new SwipeItems(rightSwipeItems),
+                        LeftItems = new SwipeItems(rightSwipeItems),
                     };
 
                     // SwipeView content
@@ -149,12 +138,25 @@ namespace HavekrigerenApp.Pages
 
                     viewAllCategoriesLayout.Children.Add(swipeView);
                 }
+
+                var infoLabel = new Label
+                {
+                    Text = "Swipe til venstre for at slette en kategori",
+                    HorizontalOptions = LayoutOptions.Center,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    TextColor = Colors.Gray
+                };
+                viewAllCategoriesLayout.Children.Add(infoLabel);
             }
         }
 
-        private void OnReloadButtonClicked(object sender, EventArgs e)
+        private async void RefreshCommand(object sender, EventArgs e)
         {
-            LoadCategories();
+            categoriesRefreshView.IsRefreshing = true;
+            Console.WriteLine("Started reloading");
+            await LoadCategories();
+            categoriesRefreshView.IsRefreshing = false;
+            Console.WriteLine("Done reloading");
         }
 
         private async void OnCategoryClicked(string categoryName)
@@ -175,7 +177,7 @@ namespace HavekrigerenApp.Pages
             {
                 Database.DeleteDocument("Categories", "categoryName", categoryName);
                 await DisplayAlert("Slet Kategori", $"Kategorien: \"{categoryName}\" blev slettet.", "OK");
-                LoadCategories();
+                await LoadCategories();
             }
         }
     }
