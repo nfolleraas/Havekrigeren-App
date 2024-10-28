@@ -1,15 +1,11 @@
-﻿using FirebaseAdmin;
-using Google.Api.Gax;
-using Google.Apis.Auth.OAuth2;
-using Google.Cloud.Firestore;
-using Newtonsoft.Json;
-using System.Reflection;
-using static Google.Cloud.Firestore.V1.StructuredQuery.Types;
+﻿using HavekrigerenApp.Classes;
+using System.Globalization;
 
 namespace HavekrigerenApp
 {
     public partial class App : Application
     {
+        public static CultureInfo Culture { get; set; } = new CultureInfo("da-DK");
 
         public App()
         {

@@ -8,8 +8,8 @@
     <ScrollView>
         <VerticalStackLayout
             x:Name="createJobLayout"
-            Padding="30,0"
-            Spacing="15" >
+            Padding="15"
+            Spacing="10" >
 
             <Label
                 Text="Kontaktperson *"
@@ -70,16 +70,30 @@
                 SelectedIndexChanged="OnTextChanged"/>
 
             <Label
-                Text="Dato"
+                Text="Start Dato"
                 FontAttributes="Bold"
                 FontSize="15" 
                 Margin="0, 10, 0, -20" />
 
             <DatePicker
-                x:Name="datePicker"
+                x:Name="startDatePicker"
                 Format="dd/MM-yyyy"
-                DateSelected="OnDateSelected" 
+                FontSize="20"
+                DateSelected="OnStartDateSelected" 
                 HandlerChanged="OnTextChanged" />
+
+            <Label
+                Text="Slut Dato"
+                FontAttributes="Bold"
+                FontSize="15" 
+                Margin="0, 10, 0, -20" />
+
+            <DatePicker
+                x:Name="endDatePicker"
+                Format="dd/MM-yyyy"
+                FontSize="20"
+                DateSelected="OnEndDateSelected" 
+                HandlerChanged="OnTextChanged" />   
 
             <Label
                 Text="Noter"

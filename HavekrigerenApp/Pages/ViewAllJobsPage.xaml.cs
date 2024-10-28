@@ -1,3 +1,5 @@
+using HavekrigerenApp.Classes;
+
 namespace HavekrigerenApp.Pages
 {
     public partial class ViewAllJobsPage : ContentPage
@@ -88,7 +90,11 @@ namespace HavekrigerenApp.Pages
 
                         BackgroundColor = Colors.Red,
                     };
-                    deleteSwipeItem.Invoked += (sender, e) => DeleteJob(sender, e, job.ContactName, job.Address);
+
+                    deleteSwipeItem.Invoked += (sender, e) =>
+                    {
+                        DeleteJob(sender, e, job.ContactName, job.Address);
+                    };
 
                     List<SwipeItem> rightSwipeItems = new List<SwipeItem>() { deleteSwipeItem };
 
@@ -162,7 +168,7 @@ namespace HavekrigerenApp.Pages
             }
         }
 
-        private async void RefreshCommand(object sender, EventArgs e)
+        private async void RefreshCommand(object? sender, EventArgs e)
         {
             jobsRefreshView.IsRefreshing = true;
             Console.WriteLine("Started reloading");
@@ -178,7 +184,7 @@ namespace HavekrigerenApp.Pages
             await Navigation.PushAsync(new ViewJobPage(job));
         }
 
-        private async void DeleteJob(object sender, EventArgs e, string contactName, string address)
+        private async void DeleteJob(object? sender, EventArgs e, string contactName, string address)
         {
             bool answer = await DisplayAlert("Slet Opgave", $"Er du sikker på du vil slette opgaven: \"{contactName} på {address}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
 

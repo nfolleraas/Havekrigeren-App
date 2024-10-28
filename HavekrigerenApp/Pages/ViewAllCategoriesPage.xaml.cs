@@ -3,6 +3,8 @@ using Google.Type;
 using Microsoft.Maui.Animations;
 using System.Diagnostics;
 using System.Net;
+using HavekrigerenLibrary;
+using HavekrigerenApp.Classes;
 
 namespace HavekrigerenApp.Pages
 {
@@ -76,7 +78,10 @@ namespace HavekrigerenApp.Pages
                         IconImageSource = "delete.png",
                         BackgroundColor = Colors.Red,
                     };
-                    deleteSwipeItem.Invoked += (sender, e) => DeleteCategory(sender, e, category.CategoryName);
+                    deleteSwipeItem.Invoked += (sender, e) =>
+                    {
+                        DeleteCategory(sender, e, category.CategoryName);
+                    };
 
                     List<SwipeItem> rightSwipeItems = new List<SwipeItem>() { deleteSwipeItem };
 
@@ -98,6 +103,7 @@ namespace HavekrigerenApp.Pages
                     var categoryLabel = new Label
                     {
                         Text = category.CategoryName,
+                        FontSize = FontSizes.Medium,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Start,
                         LineBreakMode = LineBreakMode.CharacterWrap,
@@ -119,11 +125,9 @@ namespace HavekrigerenApp.Pages
 
                     var categoryFrame = new Frame
                     {
-                        CornerRadius = 10, // Set corner radius
                         Padding = new Thickness(10),
-                        HasShadow = false,
+                        Margin = new Thickness(5),
                         Content = buttonGrid,
-                        Margin = new Thickness(0, 5),
 
                         GestureRecognizers =
                         {
@@ -150,6 +154,11 @@ namespace HavekrigerenApp.Pages
             }
         }
 
+        private void DeleteSwipeItem_Invoked(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private async void RefreshCommand(object sender, EventArgs e)
         {
             categoriesRefreshView.IsRefreshing = true;
@@ -169,7 +178,7 @@ namespace HavekrigerenApp.Pages
             await Navigation.PushAsync(new CreateCategoryPage());
         }
 
-        private async void DeleteCategory(object sender, EventArgs e, string categoryName)
+        private async void DeleteCategory(object? sender, EventArgs e, string categoryName)
         {
             bool answer = await DisplayAlert("Slet Kategori",$"Er du sikker på du vil slette kategorien: \"{categoryName}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
 

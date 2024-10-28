@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace HavekrigerenApp.Pages
 {
 
@@ -6,6 +8,7 @@ namespace HavekrigerenApp.Pages
 		public CalendarPage()
 		{
 			InitializeComponent();
+			calendar.Culture = App.Culture;
 		}
 	}
 }

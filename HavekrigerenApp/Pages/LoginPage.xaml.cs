@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Storage;
+﻿using HavekrigerenApp.Classes;
+using Microsoft.Maui.Storage;
 
 namespace HavekrigerenApp.Pages
 {

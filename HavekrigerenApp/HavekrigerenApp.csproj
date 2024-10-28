@@ -170,6 +170,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\HavekrigerenLibrary\HavekrigerenLibrary.csproj" />
+	  <ProjectReference Include="C:\Users\nfoll\Downloads\Plugin.Maui.Calendar\Plugin.Maui.Calendar.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiAsset Update="Resources\Raw\config.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </MauiAsset>

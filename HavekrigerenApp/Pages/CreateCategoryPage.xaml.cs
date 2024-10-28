@@ -1,9 +1,10 @@
 using System.Linq;
+using HavekrigerenApp.Classes;
 
 namespace HavekrigerenApp.Pages
 {
 
-	public partial class CreateCategoryPage : ContentPage
+    public partial class CreateCategoryPage : ContentPage
 	{
 		public CreateCategoryPage()
 		{

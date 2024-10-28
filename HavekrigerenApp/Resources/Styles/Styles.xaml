@@ -2,7 +2,8 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar" >
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource Primary}" />
@@ -21,6 +22,27 @@
 
     <Style TargetType="BoxView">
         <Setter Property="BackgroundColor" Value="{StaticResource Gray950}" />
+    </Style>
+
+    <Style TargetType="controls:Calendar">
+        <Setter Property="DaysTitleColor" Value="{StaticResource PrimaryText}" />
+        <Setter Property="MonthLabelColor" Value="{StaticResource PrimaryText}" />
+        <Setter Property="YearLabelColor" Value="{StaticResource PrimaryText}" />
+        <Setter Property="WeekendDayColor" Value="{StaticResource WeekendColor}" />
+        <Setter Property="DaysTitleWeekendColor" Value="{StaticResource WeekendColor}" />
+        <Setter Property="SelectedDateColor" Value="{StaticResource PrimaryText}" />
+        <Setter Property="SelectedDayBackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TodayOutlineColor" Value="{StaticResource PrimaryDark}" />
+        <Setter Property="ArrowsBackgroundColor" Value="Transparent" />
+        <Setter Property="ArrowsBorderColor" Value="Transparent" />
+        <Setter Property="ArrowsSymbolNext" Value="▶" />
+        <Setter Property="ArrowsSymbolPrev" Value="◀" />
+        <Setter Property="FooterArrowVisible" Value="True" />
+        <Setter Property="CalendarLayout" Value="Month" />
+        <Setter Property="FirstDayOfWeek" Value="Monday" />
+        <Setter Property="DaysTitleLabelFirstUpperRestLower" Value="True" />
+        <Setter Property="ArrowsFontSize" Value="20"/>
+        
     </Style>
 
     <Style TargetType="Button">

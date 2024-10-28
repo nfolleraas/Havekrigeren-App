@@ -1,7 +1,9 @@
 using System.Runtime;
 using System.Text;
+using HavekrigerenApp.Classes;
 
-namespace HavekrigerenApp.Pages {
+namespace HavekrigerenApp.Pages
+{
 
     public partial class ViewJobPage : ContentPage
     {
@@ -30,7 +32,8 @@ namespace HavekrigerenApp.Pages {
             addressEditor.Text = jobInfo.Address;
             phoneNumberEditor.Text = $"(+45) {jobInfo.PhoneNumber}";
             categoryEditor.Text = jobInfo.Category;
-            dateEditor.Text = jobInfo.Date.ToString("dd/MM-yyyy");
+            startDateEditor.Text = jobInfo.StartDate.ToString("dd/MM-yyyy");
+            endDateEditor.Text = jobInfo.EndDate.ToString("dd/MM-yyyy");
             notesEditor.Text = jobInfo.Notes;
         }
 

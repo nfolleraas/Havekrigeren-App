@@ -1,9 +1,10 @@
 using System.Runtime.CompilerServices;
+using HavekrigerenApp.Classes;
 
 namespace HavekrigerenApp.Pages
 {
 
-	public partial class CreateJobPage : ContentPage
+    public partial class CreateJobPage : ContentPage
 	{
 		public CreateJobPage()
 		{
@@ -12,12 +13,6 @@ namespace HavekrigerenApp.Pages
             LoadCategories();
 
             categoryPicker.SelectedIndexChanged += DisplayCategoryPicker;
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ClearInputs();
         }
 
         private async void LoadCategories()
@@ -38,12 +33,17 @@ namespace HavekrigerenApp.Pages
             }
         }
 
-        private void OnDateSelected(object sender, DateChangedEventArgs e)
+        private void OnStartDateSelected(object sender, DateChangedEventArgs e)
         {
-            DateTime selectedDate = e.NewDate;
+            DateTime selectedStartDate = e.NewDate;
         }
 
-		private void OnTextChanged(object sender, EventArgs e)
+        private void OnEndDateSelected(object sender, DateChangedEventArgs e)
+        {
+            DateTime selectedEndDate = e.NewDate;
+        }
+
+        private void OnTextChanged(object sender, EventArgs e)
 		{
             if (!string.IsNullOrEmpty(contactNameEntry.Text) && 
                 !string.IsNullOrEmpty(addressEntry.Text) &&
@@ -64,7 +64,8 @@ namespace HavekrigerenApp.Pages
             addressEntry.Text = "";
             phoneNumberEntry.Text = "";
             categoryPicker.SelectedItem = "";
-            datePicker.Date = DateTime.Now;
+            startDatePicker.Date = DateTime.Now;
+            endDatePicker.Date = DateTime.Now;
             notesEditor.Text = "";
         }
 
@@ -74,7 +75,8 @@ namespace HavekrigerenApp.Pages
             string address = addressEntry.Text;
             string phoneNumber = phoneNumberEntry.Text;
             string category = categoryPicker.SelectedItem.ToString() ?? "";
-            DateOnly date = DateOnly.FromDateTime(datePicker.Date);
+            DateOnly startDate = DateOnly.FromDateTime(startDatePicker.Date);
+            DateOnly endDate = DateOnly.FromDateTime(endDatePicker.Date);
             string notes = notesEditor.Text;
 
             if (phoneNumber.Length != 8)
@@ -92,7 +94,8 @@ namespace HavekrigerenApp.Pages
                 {"address", address},
                 {"phoneNumber", phoneNumber},
                 {"category", category},
-                {"date", date.ToString("dd/MM-yyyy")},
+                {"startDate", startDate.ToString("dd/MM-yyyy")},
+                {"endDate", endDate.ToString("dd/MM-yyyy")},
                 {"notes", notes}
             };
 
@@ -101,7 +104,7 @@ namespace HavekrigerenApp.Pages
 
             ClearInputs();
 
-            await DisplayAlert("Opret Opgave", $"Oprettede opgave: \"{contactName} på {address}\".", "OK");
+            await DisplayAlert("Opret Opgave", $"Oprettede opgave: \nKontaktperson: {contactName}\nAdresse: {address}.", "OK");
         }
     }
 }
