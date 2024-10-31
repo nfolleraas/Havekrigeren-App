@@ -12,6 +12,7 @@
 
         <controls:Calendar
             x:Name="calendar"
+            AnimateCalendar="False"
             VerticalOptions="Fill"
             HorizontalOptions="Fill">
         </controls:Calendar>

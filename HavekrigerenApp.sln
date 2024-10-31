@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HavekrigerenApp", "Havekrig
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HavekrigerenLibrary", "HavekrigerenLibrary\HavekrigerenLibrary.csproj", "{89674993-4320-43F6-88ED-82FA3236C86E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plugin.Maui.Calendar", "C:\Users\nfoll\Downloads\Plugin.Maui.Calendar\Plugin.Maui.Calendar.csproj", "{DBA1A495-746F-4C85-90E4-253BDF80150A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plugin.Maui.Calendar", "Plugin.Maui.Calendar\Plugin.Maui.Calendar.csproj", "{75533F3B-54DC-4831-8CC0-914F33940D29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,10 @@ Global
 		{89674993-4320-43F6-88ED-82FA3236C86E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89674993-4320-43F6-88ED-82FA3236C86E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89674993-4320-43F6-88ED-82FA3236C86E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBA1A495-746F-4C85-90E4-253BDF80150A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBA1A495-746F-4C85-90E4-253BDF80150A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBA1A495-746F-4C85-90E4-253BDF80150A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBA1A495-746F-4C85-90E4-253BDF80150A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75533F3B-54DC-4831-8CC0-914F33940D29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75533F3B-54DC-4831-8CC0-914F33940D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75533F3B-54DC-4831-8CC0-914F33940D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75533F3B-54DC-4831-8CC0-914F33940D29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
