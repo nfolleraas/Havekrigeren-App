@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using HavekrigerenApp.Classes;
 
 namespace HavekrigerenApp.Pages
@@ -10,12 +9,16 @@ namespace HavekrigerenApp.Pages
 		{
 			InitializeComponent();
 
-            LoadCategories();
-
             categoryPicker.SelectedIndexChanged += DisplayCategoryPicker;
         }
 
-        private async void LoadCategories()
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            await LoadCategories();
+        }
+
+        private async Task LoadCategories()
         {
             var categories = await Database.GetDocuments<Category>("Categories");
 
