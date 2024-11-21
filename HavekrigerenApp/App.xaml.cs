@@ -6,32 +6,38 @@ namespace HavekrigerenApp
     public partial class App : Application
     {
         public static CultureInfo Culture { get; set; } = new CultureInfo("da-DK");
+        private static CategoryRepository categoryRepo;
 
         public App()
         {
             InitializeComponent();
 
+            categoryRepo = new CategoryRepository();
+
             MainPage = new AppShell();
         }
+
 
         public bool IsUserLoggedIn()
         {
             return Preferences.Default.Get("IsLoggedIn", false);
         }
 
-        protected override void OnStart()
+        protected async override void OnStart()
         {
             base.OnStart();
 
             Console.WriteLine("App is starting up");
 
+            await categoryRepo.LoadAll();
+
             if (IsUserLoggedIn())
             {
-                Shell.Current.GoToAsync("///HomePage");
+                await Shell.Current.GoToAsync("///HomePage");
             }
             else
             {
-                Shell.Current.GoToAsync("///LoginPage");
+                await Shell.Current.GoToAsync("///LoginPage");
             }
         }
 

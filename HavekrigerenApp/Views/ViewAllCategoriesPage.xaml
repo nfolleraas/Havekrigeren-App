@@ -14,7 +14,7 @@
         <CollectionView ItemsSource="{Binding CategoriesVM}" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Padding="5" Margin="0,10,0,0">
+                    <Frame Padding="10" Margin="0,10,0,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <!--Takes remaining space-->
@@ -23,8 +23,8 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <Label Text="{Binding Name}" FontSize="Medium" VerticalTextAlignment="Center" Grid.Column="0"/>
-                            <Label Text="Se mere" FontSize="Medium" VerticalTextAlignment="Center" Grid.Column="1"/>
+                            <Label Text="{Binding Name}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300"/>
+                            <Label Text="Se mere" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1"/>
                         </Grid>
 
                         <Frame.GestureRecognizers>

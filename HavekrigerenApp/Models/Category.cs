@@ -1,15 +1,21 @@
-﻿namespace HavekrigerenApp.Models
+﻿using Google.Cloud.Firestore;
+
+namespace HavekrigerenApp.Models
 {
+    [FirestoreData]
     public class Category
     {
-        private int index = 0;
-        public int Id { get; set; }
+        [FirestoreProperty]
         public string Name { get; set; }
 
         public Category(string name)
         {
-            Id = index++;
             Name = name;
+        }
+
+        // Parameterless contructor for Firebase cus they stupid
+        public Category()
+        {
         }
     }
 }

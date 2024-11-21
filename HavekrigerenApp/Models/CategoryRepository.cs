@@ -2,36 +2,48 @@
 {
     public class CategoryRepository
     {
-        private List<Category> categories = new List<Category>();
+        private static List<Category> categories = new List<Category>();
+        private DatabaseRepository databaseRepo;
+        private string collectionName = "Categories";
 
         public CategoryRepository()
         {
-            categories.Add(new Category("Kategori 1"));
-            categories.Add(new Category("Kategori 2"));
-            categories.Add(new Category("Kategori 3"));
-            categories.Add(new Category("Kategori 4"));
+            databaseRepo = new DatabaseRepository();
         }
 
-        public void Add(string name)
+        public async Task Add(string name)
         {
             if (!string.IsNullOrEmpty(name))
             {
                 Category newCategory = new Category(name);
                 categories.Add(newCategory);
+                
+                await databaseRepo.AddAsync(collectionName, newCategory);
             }
             else
             {
-                throw new ArgumentException("Not all arguments are valid!");
+                throw new ArgumentException($"Name \"{name}\" cannot be null or empty!");
             }
         }
 
-        public Category Get(int id)
+        public async Task LoadAll()
+        {
+            categories = await databaseRepo.GetAllAsync<Category>(collectionName);
+        }
+
+        public List<Category> GetAll()
+        {
+            categories.Sort((x, y) => x.Name.CompareTo(y.Name));
+            return categories;
+        }
+
+        public Category Get(string name)
         {
             Category result = null;
 
             foreach (Category category in categories)
             {
-                if (category.Id == id)
+                if (category.Name == name)
                 {
                     result = category;
                     break;
@@ -40,9 +52,5 @@
             return result;
         }
 
-        public List<Category> GetAll()
-        {
-            return categories;
-        }
     }
 }
