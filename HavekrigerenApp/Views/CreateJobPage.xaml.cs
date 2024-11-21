@@ -1,4 +1,4 @@
-namespace HavekrigerenApp.Views
+namespace HavekrigerenApp
 {
 
     public partial class CreateJobPage : ContentPage

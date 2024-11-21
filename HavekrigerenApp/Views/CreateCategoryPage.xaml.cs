@@ -1,6 +1,5 @@
-namespace HavekrigerenApp.Views
+namespace HavekrigerenApp
 {
-
     public partial class CreateCategoryPage : ContentPage
 	{
 		public CreateCategoryPage()

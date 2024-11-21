@@ -185,10 +185,6 @@
 	  </MauiImage>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="ViewModels\" />
-	</ItemGroup>
-
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionHavekrigerenAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

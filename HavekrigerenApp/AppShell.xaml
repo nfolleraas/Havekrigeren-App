@@ -7,52 +7,52 @@
     Shell.FlyoutBehavior="Disabled"
     Title="HavekrigerenApp">
 
-    <ShellContent
-        Title="LoginPage"
-        ContentTemplate="{DataTemplate local:Pages.LoginPage}"
-        Route="LoginPage" />
-
-    <ShellContent
-        Title="ViewAllJobsPage"
-        ContentTemplate="{DataTemplate local:Pages.ViewAllJobsPage}"
-        Route="ViewAllJobsPage" />
-
-    <ShellContent
-        Title="ViewJobPage"
-        ContentTemplate="{DataTemplate local:Pages.ViewJobPage}"
-        Route="ViewJobPage" />
-
-    <ShellContent
-        Title="CreateCategoryPage"
-        ContentTemplate="{DataTemplate local:Pages.CreateCategoryPage}"
-        Route="CreateCategoryPage" />
-
     <TabBar>
         <ShellContent
             Icon="home.png"
-            ContentTemplate="{DataTemplate local:Pages.HomePage}"
+            ContentTemplate="{DataTemplate local:HomePage}"
             Route="HomePage" />
 
         <ShellContent
             Icon="list.png"
-            ContentTemplate="{DataTemplate local:Pages.ViewAllCategoriesPage}"
+            ContentTemplate="{DataTemplate local:ViewAllCategoriesPage}"
             Route="ViewAllCategoriesPage" />
 
         <ShellContent
             Icon="create.png"
-            ContentTemplate="{DataTemplate local:Pages.CreateJobPage}"
+            ContentTemplate="{DataTemplate local:CreateJobPage}"
             Route="CreateJobPage" />
 
         <ShellContent
             Icon="calendar.png"
-            ContentTemplate="{DataTemplate local:Pages.CalendarPage}"
+            ContentTemplate="{DataTemplate local:CalendarPage}"
             Route="CalendarPage" />
 
         <ShellContent
             Icon="user.png"
-            ContentTemplate="{DataTemplate local:Pages.UserPage}"
+            ContentTemplate="{DataTemplate local:UserPage}"
             Route="UserPage" />
 
     </TabBar>
+
+    <ShellContent
+        Title="LoginPage"
+        ContentTemplate="{DataTemplate local:LoginPage}"
+        Route="LoginPage" />
+
+    <ShellContent
+        Title="ViewAllJobsPage"
+        ContentTemplate="{DataTemplate local:ViewAllJobsPage}"
+        Route="ViewAllJobsPage" />
+
+    <ShellContent
+        Title="ViewJobPage"
+        ContentTemplate="{DataTemplate local:ViewJobPage}"
+        Route="ViewJobPage" />
+
+    <ShellContent
+        Title="CreateCategoryPage"
+        ContentTemplate="{DataTemplate local:CreateCategoryPage}"
+        Route="CreateCategoryPage" />
 
 </Shell>

@@ -2,41 +2,37 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="HavekrigerenApp.Pages.ViewAllCategoriesPage"
+             x:Class="HavekrigerenApp.ViewAllCategoriesPage"
              Title="Alle Kategorier"
              Shell.NavBarIsVisible="True">
-    
-    <RefreshView
-        x:Name="categoriesRefreshView"
-        Refreshing="RefreshCommand" >
-        <AbsoluteLayout>
-            <ScrollView
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All" >
-                
-                <VerticalStackLayout
-                        x:Name="viewAllCategoriesLayout"
-                        Padding="10" >
 
-                    <!--List of programmable inserted fields-->
+    <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand">
+        <!--If no categories are available-->
+        <Label Text="Ingen kategorier" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
 
-                </VerticalStackLayout>
-            </ScrollView>
+        <!--If more than 0 categories are available-->
+        <CollectionView ItemsSource="{Binding CategoriesVM}" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="5" Margin="0,10,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <!--Takes remaining space-->
+                                <ColumnDefinition Width="*"/>
+                                <!--Auto width-->
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-            <Button
-                x:Name="createCategory"
-                ImageSource="create.png"
-                BackgroundColor="#009c00"
-                CornerRadius="40"
-                WidthRequest="80"
-                HeightRequest="80"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds="0.9, 0.9, AutoSize, AutoSize"
-                VerticalOptions="End"
-                HorizontalOptions="End"
-                Clicked="OnCreateCategoryClicked" />
-        
-        </AbsoluteLayout>
-    </RefreshView>
+                            <Label Text="{Binding Name}" FontSize="Medium" VerticalTextAlignment="Center" Grid.Column="0"/>
+                            <Label Text="Se mere" FontSize="Medium" VerticalTextAlignment="Center" Grid.Column="1"/>
+                        </Grid>
 
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CategoryClickedCmd}" CommandParameter="{Binding Name}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
 </ContentPage>

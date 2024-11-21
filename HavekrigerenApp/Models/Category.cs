@@ -1,27 +1,15 @@
-﻿using Google.Cloud.Firestore;
-using Google.Cloud.Firestore.V1;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HavekrigerenApp.Models
+﻿namespace HavekrigerenApp.Models
 {
     public class Category
     {
-        public string CategoryName { get; set; }
+        private int index = 0;
+        public int Id { get; set; }
+        public string Name { get; set; }
 
-        public Category(string categoryName)
+        public Category(string name)
         {
-            CategoryName = categoryName;
-        }
-
-        public Category()
-        {
+            Id = index++;
+            Name = name;
         }
     }
 }

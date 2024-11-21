@@ -11,8 +11,6 @@ namespace HavekrigerenApp
         {
             InitializeComponent();
 
-            Database.InitializeFirebase();
-
             MainPage = new AppShell();
         }
 
