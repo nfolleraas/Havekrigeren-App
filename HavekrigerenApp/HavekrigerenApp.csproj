@@ -123,9 +123,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\AdminPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\CalendarPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -164,7 +161,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\HavekrigerenLibrary\HavekrigerenLibrary.csproj" />
 	  <ProjectReference Include="..\Plugin.Maui.Calendar\Plugin.Maui.Calendar.csproj" />
 	</ItemGroup>
 

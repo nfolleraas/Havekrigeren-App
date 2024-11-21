@@ -53,14 +53,6 @@
             ContentTemplate="{DataTemplate local:Pages.UserPage}"
             Route="UserPage" />
 
-        <!--
-        <ShellContent
-            x:Name="adminShellContent"
-            Title="Admin"
-            ContentTemplate="{DataTemplate local:Pages.AdminPage}"
-            Route="AdminPage" />
-        -->
-        
     </TabBar>
 
 </Shell>
