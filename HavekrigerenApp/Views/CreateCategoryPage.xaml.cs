@@ -1,5 +1,5 @@
 using System.Linq;
-using HavekrigerenApp.Classes;
+using HavekrigerenApp.Models;
 
 namespace HavekrigerenApp.Pages
 {

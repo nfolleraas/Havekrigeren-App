@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HavekrigerenApp.Classes
+namespace HavekrigerenApp.Models
 {
     public class Job
     {

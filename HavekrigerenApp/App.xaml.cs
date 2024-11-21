@@ -1,4 +1,4 @@
-﻿using HavekrigerenApp.Classes;
+﻿using HavekrigerenApp.Models;
 using System.Globalization;
 
 namespace HavekrigerenApp

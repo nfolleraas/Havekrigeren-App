@@ -1,63 +1,52 @@
-using HavekrigerenApp.Classes;
+using CommunityToolkit.Maui.Behaviors;
+using Google.Type;
+using Microsoft.Maui.Animations;
+using System.Diagnostics;
+using System.Net;
+using HavekrigerenLibrary;
+using HavekrigerenApp.Models;
 
 namespace HavekrigerenApp.Pages
 {
-    public partial class ViewAllJobsPage : ContentPage
+    public partial class ViewAllCategoriesPage : ContentPage
     {
-        private List<Job> jobs;
+        private List<Category> categories;
         private string errorMessage;
 
-        public ViewAllJobsPage(string categoryName)
+        public ViewAllCategoriesPage()
         {
             InitializeComponent();
-
-            Title = categoryName;
         }
 
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            await LoadJobs();
+            await LoadCategories();
         }
 
-        public async Task LoadJobs()
+        public async Task LoadCategories()
         {
-            jobs = await GetJobsByCategory(Title);
+            categories = await Database.GetDocuments<Category>("Categories");
 
-            DisplayAllJobs();
+            DisplayAllCategories();
         }
 
-        private async Task<List<Job>> GetJobsByCategory(string categoryName)
+        private void DisplayAllCategories()
         {
-            List<Job> jobs = await Database.GetDocuments<Job>("Jobs");
-            List<Job> jobsByCategory = new List<Job>();
+            viewAllCategoriesLayout.Children.Clear();
 
-            foreach (Job job in jobs)
-            {
-                if (job.Category == categoryName)
-                {
-                    jobsByCategory.Add(job);
-                }
-            }
-            return jobsByCategory;
-        }
-
-        private void DisplayAllJobs()
-        {
-            viewAllJobsLayout.Children.Clear();
-
-            int jobCount;
+            int categoryCount;
             try
             {
-                jobCount = jobs.Count();
+                categoryCount = categories.Count();
             }
             catch (Exception e)
             {
-                jobCount = -1;
+                categoryCount = -1;
                 errorMessage = $"Der er sket en uventet fejl. \n Genstart appen og prøv igen. \n\n Fejlbesked: \n {e.Message}";
             }
 
-            if (jobCount < 0)
+            if (categoryCount < 0)
             {
                 var errorLabel = new Label
                 {
@@ -66,34 +55,32 @@ namespace HavekrigerenApp.Pages
                     HorizontalTextAlignment = TextAlignment.Center,
                 };
 
-                viewAllJobsLayout.Children.Add(errorLabel);
+                viewAllCategoriesLayout.Children.Add(errorLabel);
             }
-            else if (jobCount == 0)
+            else if (categoryCount == 0)
             {
-                var noJobsLabel = new Label
+                var noCategoriesLabel = new Label
                 {
-                    Text = "Kunne ikke finde nogen opgaver...\n\nTryk på knappen (+) i midten af navigationslinjen for at tilføje en opgave.",
+                    Text = "Kunne ikke finde nogen kategorier...\n\nTryk på knappen (+) i højre hjørne for at tilføje en kategori.",
                     HorizontalOptions = LayoutOptions.Center,
                     HorizontalTextAlignment = TextAlignment.Center,
                 };
 
-                viewAllJobsLayout.Children.Add(noJobsLabel);
+                viewAllCategoriesLayout.Children.Add(noCategoriesLabel);
             }
             else
             {
-                foreach (Job job in jobs)
+                foreach (Category category in categories)
                 {
                     // Delete Swipe
                     var deleteSwipeItem = new SwipeItem
                     {
-                        IconImageSource = "Resources/Icons/delete.png",
-
+                        IconImageSource = "delete.png",
                         BackgroundColor = Colors.Red,
                     };
-
                     deleteSwipeItem.Invoked += (sender, e) =>
                     {
-                        DeleteJob(sender, e, job.ContactName, job.Address);
+                        DeleteCategory(sender, e, category.CategoryName);
                     };
 
                     List<SwipeItem> rightSwipeItems = new List<SwipeItem>() { deleteSwipeItem };
@@ -113,9 +100,10 @@ namespace HavekrigerenApp.Pages
                         }
                     };
 
-                    var jobLabel = new Label
+                    var categoryLabel = new Label
                     {
-                        Text = $"{job.ContactName}\n{job.Address}",
+                        Text = category.CategoryName,
+                        FontSize = FontSizes.Medium,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Start,
                         LineBreakMode = LineBreakMode.CharacterWrap,
@@ -129,70 +117,76 @@ namespace HavekrigerenApp.Pages
                         HorizontalOptions = LayoutOptions.End
                     };
 
-                    buttonGrid.Children.Add(jobLabel);
-                    Grid.SetColumn(jobLabel, 0);
+                    buttonGrid.Children.Add(categoryLabel);
+                    Grid.SetColumn(categoryLabel, 0);
 
                     buttonGrid.Children.Add(seeMoreLabel);
                     Grid.SetColumnSpan(seeMoreLabel, 1);
 
-                    var jobFrame = new Frame
+                    var categoryFrame = new Frame
                     {
-                        CornerRadius = 10, // Set corner radius
                         Padding = new Thickness(10),
-                        HasShadow = false,
+                        Margin = new Thickness(5),
                         Content = buttonGrid,
-                        Margin = new Thickness(0, 5),
 
                         GestureRecognizers =
                         {
                             new TapGestureRecognizer
                             {
-                                Command = new Command(() => OnJobClicked(job))
+                                Command = new Command(() => OnCategoryClicked(category.CategoryName))
                             }
                         },
                     };
 
-                    swipeView.Content = jobFrame;
+                    swipeView.Content = categoryFrame;
 
-                    viewAllJobsLayout.Children.Add(swipeView);
+                    viewAllCategoriesLayout.Children.Add(swipeView);
                 }
 
                 var infoLabel = new Label
                 {
-                    Text = "Tryk på + for at tilføje flere\nSwipe til venstre for at slette en opgave",
+                    Text = "Swipe til venstre for at slette en kategori",
                     HorizontalOptions = LayoutOptions.Center,
                     HorizontalTextAlignment = TextAlignment.Center,
                     TextColor = Colors.Gray
                 };
-                viewAllJobsLayout.Children.Add(infoLabel);
+                viewAllCategoriesLayout.Children.Add(infoLabel);
             }
         }
 
-        private async void RefreshCommand(object? sender, EventArgs e)
+        private void DeleteSwipeItem_Invoked(object? sender, EventArgs e)
         {
-            jobsRefreshView.IsRefreshing = true;
+            throw new NotImplementedException();
+        }
+
+        private async void RefreshCommand(object sender, EventArgs e)
+        {
+            categoriesRefreshView.IsRefreshing = true;
             Console.WriteLine("Started reloading");
-
-            await LoadJobs();
-
-            jobsRefreshView.IsRefreshing = false;
+            await LoadCategories();
+            categoriesRefreshView.IsRefreshing = false;
             Console.WriteLine("Done reloading");
         }
 
-        private async void OnJobClicked(Job job)
+        private async void OnCategoryClicked(string categoryName)
         {
-            await Navigation.PushAsync(new ViewJobPage(job));
+            await Navigation.PushAsync(new ViewAllJobsPage(categoryName));
         }
 
-        private async void DeleteJob(object? sender, EventArgs e, string contactName, string address)
+        private async void OnCreateCategoryClicked(object sender, EventArgs e)
         {
-            bool answer = await DisplayAlert("Slet Opgave", $"Er du sikker på du vil slette opgaven: \"{contactName} på {address}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
+            await Navigation.PushAsync(new CreateCategoryPage());
+        }
+
+        private async void DeleteCategory(object? sender, EventArgs e, string categoryName)
+        {
+            bool answer = await DisplayAlert("Slet Kategori",$"Er du sikker på du vil slette kategorien: \"{categoryName}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
 
             if (answer)
             {
-                Database.DeleteDocument("Jobs", "contactName", contactName);
-                await DisplayAlert("Slet Opgave", $"Opgaven: \"{contactName} på {address}\" blev slettet.", "OK");
-                LoadJobs();
+                Database.DeleteDocument("Categories", "categoryName", categoryName);
+                await DisplayAlert("Slet Kategori", $"Kategorien: \"{categoryName}\" blev slettet.", "OK");
+                await LoadCategories();
             }
         }
     }

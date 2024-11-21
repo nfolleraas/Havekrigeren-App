@@ -6,7 +6,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HavekrigerenApp.Classes
+namespace HavekrigerenApp.Models
 {
     public class User
     {

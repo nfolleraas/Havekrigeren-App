@@ -1,4 +1,4 @@
-using HavekrigerenApp.Classes;
+using HavekrigerenApp.Models;
 
 namespace HavekrigerenApp.Pages;
 

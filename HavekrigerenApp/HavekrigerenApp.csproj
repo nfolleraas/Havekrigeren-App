@@ -105,49 +105,49 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Pages\CreateJobPage.xaml.cs">
+	  <Compile Update="Views\CreateJobPage.xaml.cs">
 	    <DependentUpon>CreateJobPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\HomePage.xaml.cs">
+	  <Compile Update="Views\HomePage.xaml.cs">
 	    <DependentUpon>HomePage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\LoginPage.xaml.cs">
+	  <Compile Update="Views\LoginPage.xaml.cs">
 	    <DependentUpon>LoginPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ViewAllJobsPage.xaml.cs">
+	  <Compile Update="Views\ViewAllJobsPage.xaml.cs">
 	    <DependentUpon>ViewAllJobsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ViewJobPage.xaml.cs">
+	  <Compile Update="Views\ViewJobPage.xaml.cs">
 	    <DependentUpon>ViewJobPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Pages\AdminPage.xaml">
+	  <MauiXaml Update="Views\AdminPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\CalendarPage.xaml">
+	  <MauiXaml Update="Views\CalendarPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\CreateCategoryPage.xaml">
+	  <MauiXaml Update="Views\CreateCategoryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\CreateJobPage.xaml">
+	  <MauiXaml Update="Views\CreateJobPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\HomePage.xaml">
+	  <MauiXaml Update="Views\HomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\UserPage.xaml">
+	  <MauiXaml Update="Views\UserPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ViewAllCategoriesPage.xaml">
+	  <MauiXaml Update="Views\ViewAllCategoriesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ViewAllJobsPage.xaml">
+	  <MauiXaml Update="Views\ViewAllJobsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ViewJobPage.xaml">
+	  <MauiXaml Update="Views\ViewJobPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
@@ -187,6 +187,10 @@
 	  <MauiImage Update="Resources\Images\havekrigeren_logo_3x.png">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </MauiImage>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ViewModels\" />
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionHavekrigerenAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>

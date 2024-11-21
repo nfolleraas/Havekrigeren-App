@@ -1,6 +1,6 @@
 using System.Runtime;
 using System.Text;
-using HavekrigerenApp.Classes;
+using HavekrigerenApp.Models;
 
 namespace HavekrigerenApp.Pages
 {

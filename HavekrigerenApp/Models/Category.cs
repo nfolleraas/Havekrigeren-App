@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HavekrigerenApp.Classes
+namespace HavekrigerenApp.Models
 {
     public class Category
     {
