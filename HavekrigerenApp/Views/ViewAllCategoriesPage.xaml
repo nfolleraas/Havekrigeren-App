@@ -14,23 +14,31 @@
         <CollectionView ItemsSource="{Binding CategoriesVM}" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Padding="10" Margin="0,10,0,0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <!--Takes remaining space-->
-                                <ColumnDefinition Width="*"/>
-                                <!--Auto width-->
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+                    <SwipeView>
+                        <SwipeView.LeftItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Slet" IconImageSource="delete.png" BackgroundColor="Red"/>
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                        
+                        <Frame Padding="10" Margin="0,10,0,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <!--Takes remaining space-->
+                                    <ColumnDefinition Width="*"/>
+                                    <!--Auto width-->
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                            <Label Text="{Binding Name}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300"/>
-                            <Label Text="Se mere" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1"/>
-                        </Grid>
+                                <Label Text="{Binding Name}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300"/>
+                                <Label Text="Se mere" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1"/>
+                            </Grid>
 
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding CategoryClickedCmd}" CommandParameter="{Binding Name}"/>
-                        </Frame.GestureRecognizers>
-                    </Frame>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CategoryClickedCmd}" CommandParameter="{Binding Name}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
