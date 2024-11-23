@@ -4,13 +4,27 @@ namespace HavekrigerenApp.Services
 {
     public class AlertService : IAlertService
     {
-        public async Task ShowAlert(string title, string message, string cancel)
+        public async Task DisplayAlert(string title, string message, string cancel)
         {
             Page currentPage = Shell.Current.CurrentPage;
 
             if (currentPage != null)
             {
                 await currentPage.DisplayAlert(title, message, cancel);
+            }
+            else
+            {
+                throw new InvalidOperationException("Current page is not accessible.");
+            }
+        }
+
+        public async Task<string> DisplayPromptAsync(string title, string message, string accept = "OK", string cancel = "Cancel", string? placeholder = null, int maxLength = -1, Keyboard? keyboard = null, string initialValue = "")
+        {
+            Page currentPage = Shell.Current.CurrentPage;
+
+            if (currentPage != null)
+            {
+                return await currentPage.DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue);
             }
             else
             {

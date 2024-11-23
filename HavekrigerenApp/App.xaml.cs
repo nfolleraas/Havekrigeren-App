@@ -29,8 +29,6 @@ namespace HavekrigerenApp
 
             Console.WriteLine("App is starting up");
 
-            await categoryRepo.LoadAll();
-
             if (IsUserLoggedIn())
             {
                 await Shell.Current.GoToAsync("///HomePage");
@@ -54,6 +52,5 @@ namespace HavekrigerenApp
 
             Console.WriteLine("App is resuming");
         }
-
     }
 }

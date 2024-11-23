@@ -4,59 +4,69 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="HavekrigerenApp.ViewAllCategoriesPage">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <!--Auto width-->
-            <RowDefinition Height="Auto"/>
-            <!--Takes remaining space-->
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- Auto height for header -->
+                <RowDefinition Height="Auto" />
+                <!-- Remaining space for the list -->
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <StackLayout Orientation="Horizontal" Padding="10">
-            <Label Text="Alle Kategorier" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" Grid.Row="0" HorizontalOptions="StartAndExpand"/>
-            <Button Text="Ny Kategori" HorizontalOptions="End" HeightRequest="50" CornerRadius="25">
-                <Button.ImageSource>
-                    <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White"/>
-                </Button.ImageSource>
-            </Button>
-        </StackLayout>
+            <!-- Header Section -->
+            <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="0">
+                <Label Text="Alle Kategorier" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
+                <Button Text="Ny Kategori" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCmd}">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
+                    </Button.ImageSource>
+                </Button>
+            </StackLayout>
 
-        <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="1">
-            <!--If no categories are available-->
-            <Label Text="Ingen kategorier" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+            <!-- Main Content Section -->
+            <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="1">
+                <!-- No categories message -->
+                <Label Text="Ingen kategorier" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center" 
+                   IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}" />
 
-            <!--If more than 0 categories are available-->
-            <CollectionView ItemsSource="{Binding CategoriesVM}" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <SwipeView>
-                            <SwipeView.LeftItems>
-                                <SwipeItems>
-                                    <SwipeItem Text="Slet" IconImageSource="delete.png" BackgroundColor="Red"/>
-                                </SwipeItems>
-                            </SwipeView.LeftItems>
+                <!-- CollectionView for categories -->
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCmd}" RefreshColor="{StaticResource Primary}" Margin="0,20,0,0">
+                <CollectionView ItemsSource="{Binding CategoriesVM}" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <SwipeView.LeftItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Slet" 
+                                               IconImageSource="delete.png" 
+                                               BackgroundColor="Red" />
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
 
-                            <Frame Padding="10" Margin="0,10,0,0">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <!--Takes remaining space-->
-                                        <ColumnDefinition Width="*"/>
-                                        <!--Auto width-->
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
+                                <Frame Padding="10" Margin="0,10,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <!-- Remaining space -->
+                                            <ColumnDefinition Width="*" />
+                                            <!-- Auto width -->
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
 
-                                    <Label Text="{Binding Name}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300"/>
-                                    <Label Text="Se mere ▶" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1"/>
-                                </Grid>
+                                        <Label Text="{Binding Name}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300" />
+                                        <Label Text="Se mere ▶" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1" />
+                                    </Grid>
 
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding CategoryClickedCmd}" CommandParameter="{Binding Name}"/>
-                                </Frame.GestureRecognizers>
-                            </Frame>
-                        </SwipeView>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCmd}" CommandParameter="{Binding Name}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
         </StackLayout>
     </Grid>
+
 </ContentPage>

@@ -11,7 +11,7 @@
             databaseRepo = new DatabaseRepository();
         }
 
-        public async Task Add(string name)
+        public async Task AddAsync(string name)
         {
             if (!string.IsNullOrEmpty(name))
             {
@@ -26,7 +26,7 @@
             }
         }
 
-        public async Task LoadAll()
+        public async Task LoadAllAsync()
         {
             categories = await databaseRepo.GetAllAsync<Category>(collectionName);
         }

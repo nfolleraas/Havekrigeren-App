@@ -153,7 +153,6 @@
 	<ItemGroup>
 	  <MauiImage Include="Resources\Icons\calendar.png" />
 	  <MauiImage Include="Resources\Icons\create.png" />
-	  <MauiImage Include="Resources\Icons\create_white.png" />
 	  <MauiImage Include="Resources\Icons\delete.png" />
 	  <MauiImage Include="Resources\Icons\home.png" />
 	  <MauiImage Include="Resources\Icons\list.png" />
