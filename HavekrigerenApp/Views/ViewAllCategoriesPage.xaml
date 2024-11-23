@@ -6,14 +6,19 @@
 
         <Grid>
             <Grid.RowDefinitions>
+                <!-- Auto height for path -->
+                <RowDefinition Height="Auto" />
                 <!-- Auto height for header -->
                 <RowDefinition Height="Auto" />
                 <!-- Remaining space for the list -->
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            
+            <!--Path Section-->
+        <Label Text="Alle kategorier/"/>
 
-            <!-- Header Section -->
-            <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="0">
+        <!-- Header Section -->
+            <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="1">
                 <Label Text="Alle Kategorier" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
                 <Button Text="Ny Kategori" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCmd}">
                     <Button.ImageSource>
@@ -23,7 +28,7 @@
             </StackLayout>
 
             <!-- Main Content Section -->
-            <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="1">
+            <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="2">
                 <!-- No categories message -->
                 <Label Text="Ingen kategorier" 
                    HorizontalOptions="Center" 
