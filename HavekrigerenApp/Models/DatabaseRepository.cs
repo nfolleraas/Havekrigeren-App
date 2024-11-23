@@ -1,14 +1,29 @@
 ﻿using Google.Cloud.Firestore;
+using HavekrigerenApp.Services;
 
 namespace HavekrigerenApp.Models
 {
     public class DatabaseRepository
     {
         private FirestoreDb db;
+        private AlertService alertService;
         public DatabaseRepository()
         {
             Database.InitializeDatabase();
             db = Database.Db;
+            alertService = new AlertService();
+        }
+        public async Task AddAsync<T>(string collectionName, T item) where T : class
+        {
+            try
+            {
+                var collection = db.Collection(collectionName);
+                await collection.AddAsync(item);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding data: {ex.Message}");
+            }
         }
 
         public async Task<List<T>> GetAllAsync<T>(string collectionName) where T : class
@@ -27,18 +42,6 @@ namespace HavekrigerenApp.Models
             }
         }
 
-        public async Task AddAsync<T>(string collectionName, T item) where T : class
-        {
-            try
-            {
-                var collection = db.Collection(collectionName);
-                await collection.AddAsync(item);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error adding data: {ex.Message}");
-            }
-        }
 
         public async Task UpdateAsync<T>(string collectionName, string documentId, T item) where T : class
         {
@@ -53,16 +56,25 @@ namespace HavekrigerenApp.Models
             }
         }
 
-        public async Task DeleteAsync(string collectionName, string documentId)
+        public async Task DeleteAsync(string collectionName, string fieldName, string fieldValue)
         {
             try
             {
-                var document = db.Collection(collectionName).Document(documentId);
-                await document.DeleteAsync();
+                var querySnapshot = await db.Collection(collectionName).WhereEqualTo(fieldName, fieldValue).GetSnapshotAsync();
+
+                foreach(var document in querySnapshot.Documents)
+                {
+                    await document.Reference.DeleteAsync();
+                }
+
+                if (querySnapshot.Documents.Count == 0)
+                {
+                    await alertService.DisplayAlert("Fejl!", $"Kunne ikke finde den efterspurgte kategori \"{fieldValue}\".");
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting data: {ex.Message}");
+                await alertService.DisplayAlert("Fejl!", $"Fejlbesked: {ex.Message}");
             }
         }
     }

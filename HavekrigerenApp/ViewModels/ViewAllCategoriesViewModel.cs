@@ -42,6 +42,7 @@ namespace HavekrigerenApp.ViewModels
         public ICommand CategoryClickedCmd { get; set; }
         public ICommand CreateCategoryCmd { get; set; }
         public ICommand RefreshCmd { get; set; }
+        public ICommand DeleteCategoryCmd { get; set; }
 
         public ViewAllCategoriesViewModel()
         {
@@ -52,6 +53,7 @@ namespace HavekrigerenApp.ViewModels
             CategoryClickedCmd = new Command<string>(OnCategoryClicked);
             CreateCategoryCmd = new Command(OnCreateCategoryClicked);
             RefreshCmd = new Command(async () => await OnRefresh());
+            DeleteCategoryCmd = new Command<Category>(OnDeleteCategoryClicked);
         }
 
         private async Task LoadCategories()
@@ -111,6 +113,25 @@ namespace HavekrigerenApp.ViewModels
             finally
             {
                 IsRefreshing = false;
+            }
+        }
+
+        private async void OnDeleteCategoryClicked(Category category)
+        {
+            try
+            {
+                bool answer = await alertService.DisplayAlert("Slet Kategori", $"Er du sikker på, du vil slette kategorien \"{category.Name}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
+
+                if (answer)
+                {
+                    await categoryRepo.DeleteAsync(category);
+                    await alertService.DisplayAlert("Slet Kategori", $"Kategorien \"{category.Name}\" blev slettet.");
+                    await OnRefresh();
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                await alertService.DisplayAlert("Fejl!", $"Fejlbesked: {ex.Message}");
             }
         }
 

@@ -30,10 +30,7 @@
             <!-- Main Content Section -->
             <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="2">
                 <!-- No categories message -->
-                <Label Text="Ingen kategorier" 
-                   HorizontalOptions="Center" 
-                   VerticalOptions="Center" 
-                   IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}" />
+                <Label Text="Ingen kategorier" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}" />
 
                 <!-- CollectionView for categories -->
             <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCmd}" RefreshColor="{StaticResource Primary}" Margin="0,20,0,0">
@@ -41,13 +38,11 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <SwipeView>
-                                <SwipeView.LeftItems>
+                                <SwipeView.RightItems>
                                     <SwipeItems>
-                                        <SwipeItem Text="Slet" 
-                                               IconImageSource="delete.png" 
-                                               BackgroundColor="Red" />
+                                        <SwipeItem Text="Slet" IconImageSource="delete.png" BackgroundColor="Red" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCategoryCmd}" CommandParameter="{Binding Category}"/>
                                     </SwipeItems>
-                                </SwipeView.LeftItems>
+                                </SwipeView.RightItems>
 
                                 <Frame Padding="10" Margin="0,10,0,0">
                                     <Grid>
@@ -63,7 +58,7 @@
                                     </Grid>
 
                                     <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCmd}" CommandParameter="{Binding Name}" />
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCmd}" CommandParameter="{Binding Name}"/>
                                     </Frame.GestureRecognizers>
                                 </Frame>
                             </SwipeView>
