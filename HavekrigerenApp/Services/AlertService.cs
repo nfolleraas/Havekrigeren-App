@@ -14,7 +14,7 @@ namespace HavekrigerenApp.Services
             }
             else
             {
-                throw new InvalidOperationException("Current page is not accessible.");
+                throw new InvalidOperationException("Siden du prøver at tilgå er ikke tilgængelig.");
             }
         }
         public async Task<bool> DisplayAlert(string title, string message, string accept, string cancel)
@@ -27,7 +27,7 @@ namespace HavekrigerenApp.Services
             }
             else
             {
-                throw new InvalidOperationException("Current page is not accessible.");
+                throw new InvalidOperationException("Siden du prøver at tilgå er ikke tilgængelig.");
             }
         }
 
@@ -41,7 +41,7 @@ namespace HavekrigerenApp.Services
             }
             else
             {
-                throw new InvalidOperationException("Current page is not accessible.");
+                throw new InvalidOperationException("Siden du prøver at tilgå er ikke tilgængelig.");
             }
         }
     }

@@ -9,27 +9,27 @@
 
     <TabBar>
         <ShellContent
-            Icon="home.png"
+            Icon="home_1x.png"
             ContentTemplate="{DataTemplate local:HomePage}"
             Route="HomePage" />
 
         <ShellContent
-            Icon="list.png"
+            Icon="list_1x.png"
             ContentTemplate="{DataTemplate local:ViewAllCategoriesPage}"
             Route="ViewAllCategoriesPage" />
 
         <ShellContent
-            Icon="create.png"
+            Icon="plus_1x.png"
             ContentTemplate="{DataTemplate local:CreateJobPage}"
             Route="CreateJobPage" />
 
         <ShellContent
-            Icon="calendar.png"
+            Icon="calendar_1x.png"
             ContentTemplate="{DataTemplate local:CalendarPage}"
             Route="CalendarPage" />
 
         <ShellContent
-            Icon="user.png"
+            Icon="user_1x.png"
             ContentTemplate="{DataTemplate local:UserPage}"
             Route="UserPage" />
 

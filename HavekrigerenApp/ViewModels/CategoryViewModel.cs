@@ -12,7 +12,5 @@ namespace HavekrigerenApp.ViewModels
             Category = category;
             Name = category.Name;
         }
-
-        
     }
 }

@@ -7,7 +7,6 @@ namespace HavekrigerenApp.Models
         private static List<Category> categories = new List<Category>();
         private DatabaseRepository databaseRepo;
         private string collectionName = "Categories";
-        private string fieldName = "Name";
 
         public CategoryRepository()
         {
@@ -18,7 +17,12 @@ namespace HavekrigerenApp.Models
         {
             if (!string.IsNullOrEmpty(name))
             {
-                Category newCategory = new Category(name);
+                int id = 0;
+                if (categories.Count != 0)
+                {
+                    id = GetHighestId() + 1;
+                }
+                Category newCategory = new Category(name, id);
                 categories.Add(newCategory);
                 
                 await databaseRepo.AddAsync(collectionName, newCategory);
@@ -40,13 +44,13 @@ namespace HavekrigerenApp.Models
             return categories;
         }
 
-        public Category Get(string name)
+        public Category Get(int id)
         {
-            Category result = null;
+            Category? result = null;
 
             foreach (Category category in categories)
             {
-                if (category.Name == name)
+                if (category.Id == id)
                 {
                     result = category;
                     break;
@@ -55,17 +59,24 @@ namespace HavekrigerenApp.Models
             return result;
         }
 
+        public int GetHighestId()
+        {
+            int highestId = 0;
+
+            foreach (Category category in categories)
+            {
+                if (category.Id > highestId)
+                {
+                    highestId = category.Id;
+                }
+            }
+            return highestId;
+        }
+
         public async Task DeleteAsync(Category category)
         {
-            if (!string.IsNullOrEmpty(category.Name))
-            {
-                categories.Remove(category);
-                await databaseRepo.DeleteAsync(collectionName, fieldName, category.Name);
-            }
-            else
-            {
-                throw new ArgumentException($"Name \"{category.Name}\" cannot be null or empty!");
-            }
+            categories.Remove(category);
+            await databaseRepo.DeleteAsync(collectionName, "Id", category.Id);
         }
 
     }

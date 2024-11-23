@@ -1,4 +1,5 @@
-﻿using HavekrigerenApp.Models;
+﻿using Android.Icu.Text;
+using HavekrigerenApp.Models;
 using HavekrigerenApp.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -47,12 +48,12 @@ namespace HavekrigerenApp.ViewModels
         public ViewAllCategoriesViewModel()
         {
             CategoriesVM = new ObservableCollection<CategoryViewModel>();
-            OnRefresh();
+            RefreshPage();
 
             // Command registration
             CategoryClickedCmd = new Command<string>(OnCategoryClicked);
             CreateCategoryCmd = new Command(OnCreateCategoryClicked);
-            RefreshCmd = new Command(async () => await OnRefresh());
+            RefreshCmd = new Command(async () => await RefreshPage());
             DeleteCategoryCmd = new Command<Category>(OnDeleteCategoryClicked);
         }
 
@@ -76,11 +77,11 @@ namespace HavekrigerenApp.ViewModels
             }
             catch (InvalidOperationException ex)
             {
-                Console.WriteLine(ex.Message);
+                await alertService.DisplayAlert("Fejl!", ex.Message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Something else went wrong: " + ex.Message);
+                await alertService.DisplayAlert("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
 
@@ -89,21 +90,27 @@ namespace HavekrigerenApp.ViewModels
             try
             {
                 string result = await alertService.DisplayPromptAsync("Ny Kategori", "Indtast navn på ny kategori", "Opret", "Annuller");
-                await categoryRepo.AddAsync(result);
-
-                await OnRefresh();
+                if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
+                {
+                    await alertService.DisplayAlert("Opret Kategori", "Navnet på kategorien skal have indhold.");
+                }
+                else
+                {
+                    await categoryRepo.AddAsync(result);
+                    await RefreshPage();
+                }
             }
             catch (InvalidOperationException ex)
             {
-                Console.WriteLine(ex.Message);
+                await alertService.DisplayAlert("Fejl!", ex.Message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Something else went wrong: " + ex.Message);
+                await alertService.DisplayAlert("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
 
-        private async Task OnRefresh()
+        private async Task RefreshPage()
         {
             try
             {
@@ -126,12 +133,12 @@ namespace HavekrigerenApp.ViewModels
                 {
                     await categoryRepo.DeleteAsync(category);
                     await alertService.DisplayAlert("Slet Kategori", $"Kategorien \"{category.Name}\" blev slettet.");
-                    await OnRefresh();
+                    await RefreshPage();
                 }
             }
             catch (ArgumentException ex)
             {
-                await alertService.DisplayAlert("Fejl!", $"Fejlbesked: {ex.Message}");
+                await alertService.DisplayAlert("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
 

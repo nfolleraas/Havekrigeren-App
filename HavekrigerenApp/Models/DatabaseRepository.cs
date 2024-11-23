@@ -56,7 +56,7 @@ namespace HavekrigerenApp.Models
             }
         }
 
-        public async Task DeleteAsync(string collectionName, string fieldName, string fieldValue)
+        public async Task DeleteAsync(string collectionName, string fieldName, object fieldValue)
         {
             try
             {
