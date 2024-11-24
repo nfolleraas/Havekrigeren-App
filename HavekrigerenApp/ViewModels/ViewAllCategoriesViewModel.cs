@@ -73,15 +73,15 @@ namespace HavekrigerenApp.ViewModels
         {
             try
             {
-                await alertService.DisplayAlert("Category Clicked", name, "OK");
+                await alertService.DisplayAlertAsync("Category Clicked", name, "OK");
             }
             catch (InvalidOperationException ex)
             {
-                await alertService.DisplayAlert("Fejl!", ex.Message);
+                await alertService.DisplayAlertAsync("Fejl!", ex.Message);
             }
             catch (Exception ex)
             {
-                await alertService.DisplayAlert("Fejl!", $"Fejlbesked:\n{ex.Message}");
+                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
 
@@ -92,7 +92,7 @@ namespace HavekrigerenApp.ViewModels
                 string result = await alertService.DisplayPromptAsync("Ny Kategori", "Indtast navn på ny kategori", "Opret", "Annuller");
                 if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
                 {
-                    await alertService.DisplayAlert("Opret Kategori", "Navnet på kategorien skal have indhold.");
+                    await alertService.DisplayAlertAsync("Opret Kategori", "Navnet på kategorien skal have indhold.");
                 }
                 else
                 {
@@ -102,11 +102,11 @@ namespace HavekrigerenApp.ViewModels
             }
             catch (InvalidOperationException ex)
             {
-                await alertService.DisplayAlert("Fejl!", ex.Message);
+                await alertService.DisplayAlertAsync("Fejl!", ex.Message);
             }
             catch (Exception ex)
             {
-                await alertService.DisplayAlert("Fejl!", $"Fejlbesked:\n{ex.Message}");
+                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
 
@@ -127,18 +127,18 @@ namespace HavekrigerenApp.ViewModels
         {
             try
             {
-                bool answer = await alertService.DisplayAlert("Slet Kategori", $"Er du sikker på, du vil slette kategorien \"{category.Name}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
+                bool answer = await alertService.DisplayAlertAsync("Slet Kategori", $"Er du sikker på, du vil slette kategorien \"{category.Name}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
 
                 if (answer)
                 {
                     await categoryRepo.DeleteAsync(category);
-                    await alertService.DisplayAlert("Slet Kategori", $"Kategorien \"{category.Name}\" blev slettet.");
+                    await alertService.DisplayAlertAsync("Slet Kategori", $"Kategorien \"{category.Name}\" blev slettet.");
                     await RefreshPage();
                 }
             }
             catch (ArgumentException ex)
             {
-                await alertService.DisplayAlert("Fejl!", $"Fejlbesked:\n{ex.Message}");
+                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
 

@@ -6,15 +6,14 @@ namespace HavekrigerenApp.Models
     public class Category
     {
         [FirestoreProperty]
+        public int Id { get; set; }
+        [FirestoreProperty]
         public string Name { get; set; }
 
-        [FirestoreProperty]
-        public int Id { get; set; }
-
-        public Category(string name, int id)
+        public Category(int id, string name)
         {
-            Name = name;
             Id = id;
+            Name = name;
         }
 
         // Parameterless contructor for Firebase cus they stupid

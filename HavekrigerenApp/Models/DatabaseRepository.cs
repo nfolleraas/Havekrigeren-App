@@ -69,12 +69,12 @@ namespace HavekrigerenApp.Models
 
                 if (querySnapshot.Documents.Count == 0)
                 {
-                    await alertService.DisplayAlert("Fejl!", $"Kunne ikke finde den efterspurgte kategori \"{fieldValue}\".");
+                    await alertService.DisplayAlertAsync("Fejl!", $"Kunne ikke finde den efterspurgte kategori \"{fieldValue}\".");
                 }
             }
             catch (Exception ex)
             {
-                await alertService.DisplayAlert("Fejl!", $"Fejlbesked: {ex.Message}");
+                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked: {ex.Message}");
             }
         }
     }
