@@ -1,5 +1,4 @@
-﻿using Android.Icu.Text;
-using HavekrigerenApp.Models;
+﻿using HavekrigerenApp.Models;
 using HavekrigerenApp.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,6 +13,7 @@ namespace HavekrigerenApp.ViewModels
 
         private CategoryRepository categoryRepo = new CategoryRepository();
         private AlertService alertService = new AlertService();
+        private NavigationService navigationService = new NavigationService();
 
         private ObservableCollection<CategoryViewModel>? _categoriesVM;
         public ObservableCollection<CategoryViewModel>? CategoriesVM 
@@ -25,9 +25,7 @@ namespace HavekrigerenApp.ViewModels
                 OnPropertyChanged(nameof(CategoriesVM));
             }
         }
-
         private bool _isRefreshing;
-
         public bool IsRefreshing
         {
             get => _isRefreshing;
@@ -37,7 +35,7 @@ namespace HavekrigerenApp.ViewModels
                 OnPropertyChanged(nameof(IsRefreshing));
             }
         }
-
+        public string Path { get; } = "Alle kategorier /";
 
         // Commands
         public ICommand CategoryClickedCmd { get; set; }
@@ -73,7 +71,8 @@ namespace HavekrigerenApp.ViewModels
         {
             try
             {
-                await alertService.DisplayAlertAsync("Category Clicked", name, "OK");
+                //await navigationService.PushAsync(new ViewAllJobsPage(name));
+                await Shell.Current.GoToAsync($"///ViewAllJobsPage?name={name}");
             }
             catch (InvalidOperationException ex)
             {
@@ -81,6 +80,7 @@ namespace HavekrigerenApp.ViewModels
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
