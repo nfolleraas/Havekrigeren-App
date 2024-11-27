@@ -12,8 +12,7 @@ using System.Threading.Tasks;
 
 namespace HavekrigerenApp.ViewModels
 {
-    [QueryProperty(nameof(CategoryName), "categoryName")]
-    public class ViewAllJobsViewModel : ObservableObject, INotifyPropertyChanged
+    public class ViewAllJobsViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -41,30 +40,18 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private string _categoryName;
+        public string CategoryName { get; set; }
 
-        public string CategoryName
-        {
-            get => _categoryName;
-            set => SetProperty(ref _categoryName, value);
-        }
-
-        private string _path;
-
-        public string Path
-        {
-            get => _path;   
-            set => SetProperty(ref _path, value);
-        }
-
+            
         // Commands
 
 
-        public ViewAllJobsViewModel()
+        public ViewAllJobsViewModel(string categoryName)
         {
-            Path = $"Alle kategorier / {CategoryName} /";
-
             JobsVM = new ObservableCollection<JobViewModel>();
+
+            CategoryName = categoryName;
+
             RefreshPage();
 
             // Command registration

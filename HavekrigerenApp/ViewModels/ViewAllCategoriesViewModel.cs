@@ -71,8 +71,7 @@ namespace HavekrigerenApp.ViewModels
         {
             try
             {
-                //await navigationService.PushAsync(new ViewAllJobsPage(name));
-                await Shell.Current.GoToAsync($"///ViewAllJobsPage?name={name}");
+                await navigationService.PushAsync(new ViewAllJobsPage(name));
             }
             catch (InvalidOperationException ex)
             {

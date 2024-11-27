@@ -33,12 +33,6 @@
             ContentTemplate="{DataTemplate local:UserPage}"
             Route="UserPage" />
 
-        <ShellContent
-            Title="ViewAllJobsPage"
-            ContentTemplate="{DataTemplate local:ViewAllJobsPage}"
-            Route="ViewAllJobsPage" 
-            IsVisible="False"/>
-
     </TabBar>
 
     <ShellContent
@@ -46,7 +40,10 @@
         ContentTemplate="{DataTemplate local:LoginPage}"
         Route="LoginPage" />
 
-
+    <ShellContent
+            Title="ViewAllJobsPage"
+            ContentTemplate="{DataTemplate local:ViewAllJobsPage}"
+            Route="ViewAllJobsPage" />
 
     <ShellContent
         Title="ViewJobPage"

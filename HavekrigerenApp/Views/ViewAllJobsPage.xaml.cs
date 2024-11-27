@@ -4,13 +4,16 @@ namespace HavekrigerenApp
 {
     public partial class ViewAllJobsPage : ContentPage
     {
-        ViewAllJobsViewModel vm = new ViewAllJobsViewModel();
+        ViewAllJobsViewModel vm;
 
-        public ViewAllJobsPage()
+        public ViewAllJobsPage(string categoryName)
         {
             InitializeComponent();
 
+            vm = new ViewAllJobsViewModel(categoryName);
             BindingContext = vm;
+
+            Title = categoryName;
         }
     }
 }
