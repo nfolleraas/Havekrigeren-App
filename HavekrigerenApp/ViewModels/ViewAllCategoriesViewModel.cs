@@ -49,10 +49,10 @@ namespace HavekrigerenApp.ViewModels
             RefreshPage();
 
             // Command registration
-            CategoryClickedCmd = new Command<string>(OnCategoryClicked);
-            CreateCategoryCmd = new Command(OnCreateCategoryClicked);
+            CategoryClickedCmd = new Command<string>(CategoryClicked);
+            CreateCategoryCmd = new Command(CreateCategory);
             RefreshCmd = new Command(async () => await RefreshPage());
-            DeleteCategoryCmd = new Command<Category>(OnDeleteCategoryClicked);
+            DeleteCategoryCmd = new Command<Category>(DeleteCategory);
         }
 
         private async Task LoadCategories()
@@ -67,7 +67,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private async void OnCategoryClicked(string name)
+        private async void CategoryClicked(string name)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private async void OnCreateCategoryClicked()
+        private async void CreateCategory()
         {
             try
             {
@@ -123,7 +123,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private async void OnDeleteCategoryClicked(Category category)
+        private async void DeleteCategory(Category category)
         {
             try
             {
