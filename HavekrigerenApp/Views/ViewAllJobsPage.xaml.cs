@@ -12,8 +12,6 @@ namespace HavekrigerenApp
 
             vm = new ViewAllJobsViewModel(categoryName);
             BindingContext = vm;
-
-            Title = categoryName;
         }
     }
 }

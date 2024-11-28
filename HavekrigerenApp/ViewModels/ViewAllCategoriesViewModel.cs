@@ -12,6 +12,7 @@ namespace HavekrigerenApp.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private CategoryRepository categoryRepo = new CategoryRepository();
+        private JobRepository jobRepo = new JobRepository();
         private AlertService alertService = new AlertService();
         private NavigationService navigationService = new NavigationService();
 
@@ -126,10 +127,18 @@ namespace HavekrigerenApp.ViewModels
         {
             try
             {
-                bool answer = await alertService.DisplayAlertAsync("Slet Kategori", $"Er du sikker på, du vil slette kategorien \"{category.Name}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
+                bool answer = await alertService.DisplayAlertAsync("Slet Kategori", $"Er du sikker på, du vil slette kategorien \"{category.Name}\"?\nDette vil også slette alle opgaver i kategorien.\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
 
                 if (answer)
                 {
+                    List<Job> jobs = jobRepo.GetAll().ToList();
+                    foreach (Job job in jobs)
+                    {
+                        if (category.Name == job.Category)
+                        {
+                            await jobRepo.DeleteAsync(job);
+                        }
+                    }
                     await categoryRepo.DeleteAsync(category);
                     await alertService.DisplayAlertAsync("Slet Kategori", $"Kategorien \"{category.Name}\" blev slettet.");
                     await RefreshPage();

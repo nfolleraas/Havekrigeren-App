@@ -18,6 +18,7 @@ namespace HavekrigerenApp.Models
             if (!string.IsNullOrEmpty(name))
             {
                 int id = 0;
+                await LoadAllAsync();
                 if (categories.Count != 0)
                 {
                     id = GetHighestId() + 1;

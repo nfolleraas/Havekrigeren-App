@@ -1,6 +1,4 @@
-﻿using Android.Webkit;
-
-namespace HavekrigerenApp.Models
+﻿namespace HavekrigerenApp.Models
 {
     public class JobRepository
     {
@@ -23,6 +21,7 @@ namespace HavekrigerenApp.Models
                 && !string.IsNullOrEmpty(endDate))
             {
                 int id = 0;
+                await LoadAllAsync();
                 if (jobs.Count != 0)
                 {
                     id = GetHighestId() + 1;

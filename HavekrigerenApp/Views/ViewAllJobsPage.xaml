@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="HavekrigerenApp.ViewAllJobsPage">
+             x:Class="HavekrigerenApp.ViewAllJobsPage"
+             Title="{Binding CategoryName}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,11 +17,6 @@
 
         <!--Path Section-->
         <Label Text="{Binding Path}" Grid.Row="0"/>
-
-        <!-- Header Section -->
-        <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="1">
-            <Label Text="{Binding CategoryName}" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
-        </StackLayout>
 
         <!-- Main Content Section -->
         <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="2">

@@ -5,14 +5,14 @@ namespace HavekrigerenApp
 {
     public partial class App : Application
     {
-        public static CultureInfo Culture { get; set; } = new CultureInfo("da-DK");
-        private static CategoryRepository categoryRepo;
+        public CultureInfo Culture { get; set; } = new CultureInfo("da-DK");
+        private JobRepository jobRepo;
 
         public App()
         {
             InitializeComponent();
 
-            categoryRepo = new CategoryRepository();
+            jobRepo = new JobRepository();
 
             MainPage = new AppShell();
         }
@@ -28,6 +28,10 @@ namespace HavekrigerenApp
             base.OnStart();
 
             Console.WriteLine("App is starting up");
+
+            //await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
+            //await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
+            //await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
 
             if (IsUserLoggedIn())
             {

@@ -1,5 +1,4 @@
-﻿using Android.Webkit;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using HavekrigerenApp.Models;
 using HavekrigerenApp.Services;
 using System;
@@ -9,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace HavekrigerenApp.ViewModels
 {
@@ -42,8 +42,9 @@ namespace HavekrigerenApp.ViewModels
 
         public string CategoryName { get; set; }
 
-            
+
         // Commands
+        public ICommand RefreshCmd { get; set; }
 
 
         public ViewAllJobsViewModel(string categoryName)
@@ -55,6 +56,7 @@ namespace HavekrigerenApp.ViewModels
             RefreshPage();
 
             // Command registration
+            RefreshCmd = new Command(async () => await RefreshPage());
 
         }
 
@@ -65,8 +67,11 @@ namespace HavekrigerenApp.ViewModels
             JobsVM.Clear();
             foreach (Job job in jobRepo.GetAll())
             {
-                JobViewModel jobVM = new JobViewModel(job);
-                JobsVM.Add(jobVM);
+                if (job.Category == CategoryName)
+                { 
+                    JobViewModel jobVM = new JobViewModel(job);
+                    JobsVM.Add(jobVM);
+                }
             }
         }
 
