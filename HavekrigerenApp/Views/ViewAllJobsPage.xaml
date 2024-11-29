@@ -7,30 +7,19 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <!-- Auto height for path -->
             <RowDefinition Height="Auto" />
-            <!-- Auto height for header -->
             <RowDefinition Height="Auto" />
-            <!-- Remaining space for the list -->
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!--Path Section-->
+        <!-- Path -->
         <Label Text="{Binding Path}" Grid.Row="0"/>
 
-        <!-- Main Content Section -->
+        <!-- Main Content -->
         <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="2">
             <!-- No jobs message -->
-            <Label HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding JobsVM.Count, Converter={StaticResource ZeroToBooleanConverter}}">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Kunne ikke finde nogen opgaver."/>
-                        <Span Text="&#x0a;"/>
-                        <Span Text="&#x0a;"/>
-                        <Span Text="Tryk på plusset i navigationsbaren for at oprette en ny."/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
+            <Label Text="Kunne ikke finde nogen opgaver." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding JobsVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+            <Label Text="Tryk på plusset i navigationsbaren for at oprette en ny." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,20,0,0" IsVisible="{Binding JobsVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
 
             <!-- CollectionView for jobs -->
             <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCmd}" RefreshColor="{StaticResource Primary}" Margin="0,20,0,0">
@@ -47,20 +36,27 @@
                                 <Frame Padding="10" Margin="0,10,0,0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <!-- Remaining space -->
                                             <ColumnDefinition Width="*" />
-                                            <!-- Auto width -->
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
+                                        
+                                        <!-- Job Info -->
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Text="{Binding ContactName}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300"/>
+                                            <Label Text="{Binding Address}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300"/>
+                                        </StackLayout>
 
-                                        <Label FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300">
+
+                                        <!--<Label FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="{Binding ContactName}"/>
                                                     <Span Text="{Binding Address}"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
-                                        </Label>
+                                        </Label>-->
+                                        
+                                        <!-- See More -->
                                         <Label Text="Se mere ▶" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1" />
                                     </Grid>
 
