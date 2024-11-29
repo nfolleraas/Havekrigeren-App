@@ -42,20 +42,10 @@
                                         
                                         <!-- Job Info -->
                                         <StackLayout Orientation="Vertical">
-                                            <Label Text="{Binding ContactName}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300"/>
-                                            <Label Text="{Binding Address}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300"/>
+                                            <Label Text="{Binding ContactName}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="TailTruncation" MaximumWidthRequest="300"/>
+                                            <Label Text="{Binding Address}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="TailTruncation" MaximumWidthRequest="300"/>
                                         </StackLayout>
 
-
-                                        <!--<Label FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding ContactName}"/>
-                                                    <Span Text="{Binding Address}"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>-->
-                                        
                                         <!-- See More -->
                                         <Label Text="Se mere ▶" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1" />
                                     </Grid>

@@ -1,4 +1,4 @@
-﻿namespace HavekrigerenApp.Models
+﻿namespace HavekrigerenApp.Models.Classes
 {
     public class JobRepository
     {
@@ -13,11 +13,11 @@
 
         public async Task AddAsync(string contactName, string phoneNumber, string address, string category, string startDate, string endDate, string notes = "")
         {
-            if (!string.IsNullOrEmpty(contactName) 
-                && !string.IsNullOrEmpty(phoneNumber) 
-                && !string.IsNullOrEmpty(address) 
-                && !string.IsNullOrEmpty(category) 
-                && !string.IsNullOrEmpty(startDate) 
+            if (!string.IsNullOrEmpty(contactName)
+                && !string.IsNullOrEmpty(phoneNumber)
+                && !string.IsNullOrEmpty(address)
+                && !string.IsNullOrEmpty(category)
+                && !string.IsNullOrEmpty(startDate)
                 && !string.IsNullOrEmpty(endDate))
             {
                 int id = 0;

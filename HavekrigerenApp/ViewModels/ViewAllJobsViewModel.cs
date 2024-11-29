@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using HavekrigerenApp.Models;
-using HavekrigerenApp.Services;
+using HavekrigerenApp.Models.Classes;
+using HavekrigerenApp.Models.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -65,6 +65,7 @@ namespace HavekrigerenApp.ViewModels
             await jobRepo.LoadAllAsync();
 
             JobsVM.Clear();
+            // Instatiate new JobViewModel for each job if the job is in the category
             foreach (Job job in jobRepo.GetAll())
             {
                 if (job.Category == CategoryName)

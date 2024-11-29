@@ -1,5 +1,5 @@
-﻿using HavekrigerenApp.Models;
-using HavekrigerenApp.Services;
+﻿using HavekrigerenApp.Models.Classes;
+using HavekrigerenApp.Models.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -26,6 +26,7 @@ namespace HavekrigerenApp.ViewModels
                 OnPropertyChanged(nameof(CategoriesVM));
             }
         }
+
         private bool _isRefreshing;
         public bool IsRefreshing
         {
@@ -36,7 +37,6 @@ namespace HavekrigerenApp.ViewModels
                 OnPropertyChanged(nameof(IsRefreshing));
             }
         }
-        public string Path { get; } = "Alle kategorier /";
 
         // Commands
         public ICommand CategoryClickedCmd { get; set; }
@@ -61,6 +61,7 @@ namespace HavekrigerenApp.ViewModels
             await categoryRepo.LoadAllAsync();
 
             CategoriesVM.Clear();
+            // Instatiate new CategoryViewModel for each category
             foreach (Category category in categoryRepo.GetAll())
             {
                 CategoryViewModel categoryVM = new CategoryViewModel(category);
@@ -90,12 +91,17 @@ namespace HavekrigerenApp.ViewModels
             try
             {
                 string result = await alertService.DisplayPromptAsync("Ny Kategori", "Indtast navn på ny kategori", "Opret", "Annuller");
-                if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
+                if (result == null)
+                {
+                    return; // Exit method
+                }
+                else if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
                 {
                     await alertService.DisplayAlertAsync("Opret Kategori", "Navnet på kategorien skal have indhold.");
                 }
                 else
                 {
+                    // Successfully add category
                     await categoryRepo.AddAsync(result);
                     await RefreshPage();
                 }
@@ -131,14 +137,16 @@ namespace HavekrigerenApp.ViewModels
 
                 if (answer)
                 {
-                    List<Job> jobs = jobRepo.GetAll().ToList();
+                    // Delete every job in the category
+                    List<Job> jobs = jobRepo.GetAll().ToList(); // Create a duplicate of jobs list
                     foreach (Job job in jobs)
                     {
                         if (category.Name == job.Category)
                         {
-                            await jobRepo.DeleteAsync(job);
+                            await jobRepo.DeleteAsync(job); // Delete job in the real jobs list
                         }
                     }
+                    // Then delete the category
                     await categoryRepo.DeleteAsync(category);
                     await alertService.DisplayAlertAsync("Slet Kategori", $"Kategorien \"{category.Name}\" blev slettet.");
                     await RefreshPage();
@@ -150,6 +158,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
+        // Method for updating the UI on changes
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -1,9 +1,11 @@
-﻿using HavekrigerenApp.Interfaces;
+﻿using HavekrigerenApp.Models.Interfaces;
 
-namespace HavekrigerenApp.Services
+namespace HavekrigerenApp.Models.Services
 {
     public class AlertService : IAlertService
     {
+        // Service for alerts and prompts
+
         public async Task DisplayAlertAsync(string title, string message, string cancel = "OK")
         {
             Page currentPage = Shell.Current.CurrentPage;

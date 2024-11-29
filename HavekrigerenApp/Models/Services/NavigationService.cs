@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using static Android.Icu.Text.CaseMap;
 
-namespace HavekrigerenApp.Services
+namespace HavekrigerenApp.Models.Services
 {
     public class NavigationService : INavigation
     {
+        // Service for page navigation
+
         public IReadOnlyList<Page> ModalStack => throw new NotImplementedException();
 
         public IReadOnlyList<Page> NavigationStack => throw new NotImplementedException();
@@ -48,6 +50,7 @@ namespace HavekrigerenApp.Services
             throw new NotImplementedException();
         }
 
+        // Navigate to a page
         public async Task PushAsync(Page page)
         {
             Page currentPage = Shell.Current.CurrentPage;

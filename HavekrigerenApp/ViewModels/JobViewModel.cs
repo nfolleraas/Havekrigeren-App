@@ -1,9 +1,10 @@
-﻿using HavekrigerenApp.Models;
+﻿using HavekrigerenApp.Models.Classes;
 
 namespace HavekrigerenApp.ViewModels
 {
     public class JobViewModel
     {
+        // Properties to display
         public Job Job { get; set; }
         public string ContactName { get; set; }
         public string PhoneNumber { get; set; }

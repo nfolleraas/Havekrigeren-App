@@ -1,6 +1,6 @@
 ﻿using HavekrigerenApp.Interfaces;
 
-namespace HavekrigerenApp.Models
+namespace HavekrigerenApp.Models.Classes
 {
     public class CategoryRepository
     {
@@ -25,7 +25,7 @@ namespace HavekrigerenApp.Models
                 }
                 Category newCategory = new Category(id, name);
                 categories.Add(newCategory);
-                
+
                 await databaseRepo.AddAsync(collectionName, newCategory);
             }
             else

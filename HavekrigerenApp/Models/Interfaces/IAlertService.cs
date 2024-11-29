@@ -1,4 +1,4 @@
-﻿namespace HavekrigerenApp.Interfaces
+﻿namespace HavekrigerenApp.Models.Interfaces
 {
     public interface IAlertService
     {
