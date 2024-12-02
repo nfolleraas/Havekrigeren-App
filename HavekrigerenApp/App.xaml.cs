@@ -26,12 +26,12 @@ namespace HavekrigerenApp
 
             Console.WriteLine("App is starting up");
 
-            CategoryRepository categoryRepo = new CategoryRepository();
-            await categoryRepo.AddAsync("Kategori");
-            JobRepository jobRepo = new JobRepository();
-            await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
-            await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
-            await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
+            //CategoryRepository categoryRepo = new CategoryRepository();
+            //await categoryRepo.AddAsync("Kategori");
+            //JobRepository jobRepo = new JobRepository();
+            //await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
+            //await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
+            //await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
 
             if (IsUserLoggedIn())
             {

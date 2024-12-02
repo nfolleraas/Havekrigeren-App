@@ -47,10 +47,11 @@ namespace HavekrigerenApp.ViewModels
         public ViewAllCategoriesViewModel()
         {
             CategoriesVM = new ObservableCollection<CategoryViewModel>();
-            RefreshPage();
+            // Show the user that the page is loading
+            RefreshPage(); // Could use LoadCategories() instead, but that doesnt show the reload animation
 
             // Command registration
-            CategoryClickedCmd = new Command<string>(CategoryClicked);
+            CategoryClickedCmd = new Command<Category>(CategoryClicked);
             CreateCategoryCmd = new Command(CreateCategory);
             RefreshCmd = new Command(async () => await RefreshPage());
             DeleteCategoryCmd = new Command<Category>(DeleteCategory);
@@ -69,11 +70,11 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private async void CategoryClicked(string name)
+        private async void CategoryClicked(Category category)
         {
             try
             {
-                await navigationService.PushAsync(new ViewAllJobsPage(name));
+                await navigationService.PushAsync(new ViewAllJobsPage(category.Name));
             }
             catch (InvalidOperationException ex)
             {
@@ -101,6 +102,14 @@ namespace HavekrigerenApp.ViewModels
                 }
                 else
                 {
+                    foreach (var categoryVM in CategoriesVM)
+                    {
+                        if (result.Contains(categoryVM.Name))
+                        {
+                            await alertService.DisplayAlertAsync("Opret Kategori", $"Kategorien \"{result}\" eksisterer allerede.");
+                            return; // Exit method
+                        }
+                    }
                     // Successfully add category
                     await categoryRepo.AddAsync(result);
                     await RefreshPage();
