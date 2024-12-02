@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HavekrigerenApp.CreateJobPage"
-             Title="Opret Opgave"
-             Shell.NavBarIsVisible="True">
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="HavekrigerenApp.CreateJobPage">
 
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="0">
+            <Label Text="Opret Opgave" HeightRequest="50" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand"/>
+        </StackLayout>
+        
+        <!-- Main Content -->
+        <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="1">
+            <Label Text="Kontaktperson *" FontAttributes="Bold" FontSize="Medium"/>
+            <Entry x:Name="contactNameEntry" Text="{Binding ContactName, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" IsSpellCheckEnabled="True" Margin="0,0,0,10"/>
+
+            <Label Text="Addresse *" FontAttributes="Bold" FontSize="Medium" />
+            <Entry x:Name="addressEntry" Text="{Binding Address, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" IsSpellCheckEnabled="True" Margin="0,0,0,10"/>
+
+            <Label Text="Telefonnummer *" FontAttributes="Bold" FontSize="Medium"/>
+            <Entry x:Name="phoneNumberEntry" Text="{Binding PhoneNumber, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" Keyboard="Numeric" MaxLength="8" Margin="0,0,0,10"/>
+
+            <Label Text="Kategori *" FontAttributes="Bold" FontSize="Medium"/>
+            <Picker x:Name="categoryPicker" Title="Vælg en kategori" FontSize="Medium" ItemsSource="{Binding Categories}" SelectedItem="{Binding Category, Mode=TwoWay}" Margin="0,0,0,10"/>
+
+            <Label Text="Start Dato *" FontAttributes="Bold" FontSize="Medium"/>
+            <DatePicker x:Name="startDatePicker" Format="dd/MM-yyyy" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10">
+                <DatePicker.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding StartDateSelectedCmd}" CommandParameter="{Binding Date, Source={x:Reference startDatePicker}}"/>
+                </DatePicker.Behaviors>
+            </DatePicker>
+
+            <Label Text="Slut Dato *" FontAttributes="Bold" FontSize="Medium"/>
+            <DatePicker x:Name="endDatePicker" Format="dd/MM-yyyy" Date="{Binding EndDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10">
+                <DatePicker.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding EndDateSelectedCmd}" CommandParameter="{Binding Date, Source={x:Reference endDatePicker}}"/>
+                </DatePicker.Behaviors>
+            </DatePicker>
+
+            <Label Text="Noter" FontAttributes="Bold" FontSize="Medium"/>
+            <Entry x:Name="notesEntry" Placeholder="Indtast..." FontSize="Medium" IsSpellCheckEnabled="True" Margin="0,0,0,10"/>
+
+            <Button Text="Opret" HeightRequest="50" CornerRadius="25" IsEnabled="{Binding IsButtonEnabled, Mode=OneWay}" Command="{Binding CreateJobCmd}" CommandParameter="{Binding}">
+                <Button.ImageSource>
+                    <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
+                </Button.ImageSource>
+            </Button>
+
+        </StackLayout>
+    </Grid>
 </ContentPage>

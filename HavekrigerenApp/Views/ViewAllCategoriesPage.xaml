@@ -7,15 +7,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-            
-        <!-- Path -->
-        <Label Text="{Binding Path}" Grid.Row="0"/>
 
         <!-- Header -->
-        <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="1">
+        <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="0">
             <Label Text="Alle Kategorier" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
             <Button Text="Ny Kategori" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCmd}">
                 <Button.ImageSource>
@@ -25,7 +21,7 @@
         </StackLayout>
 
         <!-- Main Content -->
-        <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="2">
+        <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="1">
             <!-- No categories message -->
             <Label Text="Kunne ikke finde nogen kategorier." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
             <Label Text="Tryk på knappen til højre for at tilføje en ny." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,20,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
