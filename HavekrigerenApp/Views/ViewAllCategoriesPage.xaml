@@ -4,42 +4,31 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="HavekrigerenApp.ViewAllCategoriesPage">
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <!-- Auto height for path -->
-                <RowDefinition Height="Auto" />
-                <!-- Auto height for header -->
-                <RowDefinition Height="Auto" />
-                <!-- Remaining space for the list -->
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
             
-            <!--Path Section-->
-            <Label Text="Alle kategorier /"/>
+        <!-- Path -->
+        <Label Text="{Binding Path}" Grid.Row="0"/>
 
-        <!-- Header Section -->
-            <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="1">
-                <Label Text="Alle Kategorier" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
-                <Button Text="Ny Kategori" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCmd}">
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
-                    </Button.ImageSource>
-                </Button>
-            </StackLayout>
+        <!-- Header -->
+        <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="1">
+            <Label Text="Alle Kategorier" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
+            <Button Text="Ny Kategori" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCmd}">
+                <Button.ImageSource>
+                    <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
+                </Button.ImageSource>
+            </Button>
+        </StackLayout>
 
-            <!-- Main Content Section -->
-            <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="2">
-                <!-- No categories message -->
-            <Label HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Kunne ikke finde nogen kategorier."/>
-                        <Span Text="&#x0a;"/>
-                        <Span Text="&#x0a;"/>
-                        <Span Text="Tryk på knappen til højre for at tilføje en ny."/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
+        <!-- Main Content -->
+        <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="2">
+            <!-- No categories message -->
+            <Label Text="Kunne ikke finde nogen kategorier." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+            <Label Text="Tryk på knappen til højre for at tilføje en ny." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,20,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
 
             <!-- CollectionView for categories -->
             <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCmd}" RefreshColor="{StaticResource Primary}" Margin="0,20,0,0">
@@ -56,9 +45,7 @@
                                 <Frame Padding="10" Margin="0,10,0,0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <!-- Remaining space -->
                                             <ColumnDefinition Width="*" />
-                                            <!-- Auto width -->
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
@@ -67,7 +54,7 @@
                                     </Grid>
 
                                     <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCmd}" CommandParameter="{Binding Name}"/>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCmd}" CommandParameter="{Binding Category}"/>
                                     </Frame.GestureRecognizers>
                                 </Frame>
                             </SwipeView>

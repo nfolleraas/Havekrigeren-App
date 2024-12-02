@@ -41,9 +41,9 @@
         Route="LoginPage" />
 
     <ShellContent
-        Title="ViewAllJobsPage"
-        ContentTemplate="{DataTemplate local:ViewAllJobsPage}"
-        Route="ViewAllJobsPage" />
+            Title="ViewAllJobsPage"
+            ContentTemplate="{DataTemplate local:ViewAllJobsPage}"
+            Route="ViewAllJobsPage" />
 
     <ShellContent
         Title="ViewJobPage"

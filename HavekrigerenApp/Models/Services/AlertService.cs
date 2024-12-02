@@ -1,10 +1,12 @@
-﻿using HavekrigerenApp.Interfaces;
+﻿using HavekrigerenApp.Models.Interfaces;
 
-namespace HavekrigerenApp.Services
+namespace HavekrigerenApp.Models.Services
 {
     public class AlertService : IAlertService
     {
-        public async Task DisplayAlert(string title, string message, string cancel = "OK")
+        // Service for alerts and prompts
+
+        public async Task DisplayAlertAsync(string title, string message, string cancel = "OK")
         {
             Page currentPage = Shell.Current.CurrentPage;
 
@@ -17,7 +19,7 @@ namespace HavekrigerenApp.Services
                 throw new InvalidOperationException("Siden du prøver at tilgå er ikke tilgængelig.");
             }
         }
-        public async Task<bool> DisplayAlert(string title, string message, string accept, string cancel)
+        public async Task<bool> DisplayAlertAsync(string title, string message, string accept, string cancel)
         {
             Page currentPage = Shell.Current.CurrentPage;
 
@@ -38,6 +40,20 @@ namespace HavekrigerenApp.Services
             if (currentPage != null)
             {
                 return await currentPage.DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue);
+            }
+            else
+            {
+                throw new InvalidOperationException("Siden du prøver at tilgå er ikke tilgængelig.");
+            }
+        }
+
+        public async Task<string> DisplayActionSheetAsync(string title, string cancel, string destruction, string[] buttons)
+        {
+            Page currentPage = Shell.Current.CurrentPage;
+
+            if (currentPage != null)
+            {
+                return await currentPage.DisplayActionSheet(title, cancel, destruction, buttons);
             }
             else
             {

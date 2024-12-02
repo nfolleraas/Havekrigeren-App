@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HavekrigerenApp.Models
+namespace HavekrigerenApp.Models.Classes
 {
     public class Database
     {

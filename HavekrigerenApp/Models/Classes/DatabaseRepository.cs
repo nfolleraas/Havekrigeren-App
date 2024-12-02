@@ -1,7 +1,7 @@
 ﻿using Google.Cloud.Firestore;
-using HavekrigerenApp.Services;
+using HavekrigerenApp.Models.Services;
 
-namespace HavekrigerenApp.Models
+namespace HavekrigerenApp.Models.Classes
 {
     public class DatabaseRepository
     {
@@ -62,19 +62,19 @@ namespace HavekrigerenApp.Models
             {
                 var querySnapshot = await db.Collection(collectionName).WhereEqualTo(fieldName, fieldValue).GetSnapshotAsync();
 
-                foreach(var document in querySnapshot.Documents)
+                foreach (var document in querySnapshot.Documents)
                 {
                     await document.Reference.DeleteAsync();
                 }
 
                 if (querySnapshot.Documents.Count == 0)
                 {
-                    await alertService.DisplayAlert("Fejl!", $"Kunne ikke finde den efterspurgte kategori \"{fieldValue}\".");
+                    await alertService.DisplayAlertAsync("Fejl!", $"Kunne ikke finde den efterspurgte kategori \"{fieldValue}\".");
                 }
             }
             catch (Exception ex)
             {
-                await alertService.DisplayAlert("Fejl!", $"Fejlbesked: {ex.Message}");
+                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked: {ex.Message}");
             }
         }
     }

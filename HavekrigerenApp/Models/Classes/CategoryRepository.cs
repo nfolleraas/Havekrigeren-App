@@ -1,6 +1,6 @@
-﻿using HavekrigerenApp.Interfaces;
+﻿using HavekrigerenApp.Models.Interfaces;
 
-namespace HavekrigerenApp.Models
+namespace HavekrigerenApp.Models.Classes
 {
     public class CategoryRepository
     {
@@ -18,19 +18,34 @@ namespace HavekrigerenApp.Models
             if (!string.IsNullOrEmpty(name))
             {
                 int id = 0;
+                await LoadAllAsync();
                 if (categories.Count != 0)
                 {
                     id = GetHighestId() + 1;
                 }
-                Category newCategory = new Category(name, id);
+                Category newCategory = new Category(id, name);
                 categories.Add(newCategory);
-                
+
                 await databaseRepo.AddAsync(collectionName, newCategory);
             }
             else
             {
-                throw new ArgumentException($"Name \"{name}\" cannot be null or empty!");
+                throw new ArgumentException($"Category arguments cannot be null or empty!");
             }
+        }
+
+        public int GetHighestId()
+        {
+            int highestId = 0;
+
+            foreach (Category category in categories)
+            {
+                if (category.Id > highestId)
+                {
+                    highestId = category.Id;
+                }
+            }
+            return highestId;
         }
 
         public async Task LoadAllAsync()
@@ -57,20 +72,6 @@ namespace HavekrigerenApp.Models
                 }
             }
             return result;
-        }
-
-        public int GetHighestId()
-        {
-            int highestId = 0;
-
-            foreach (Category category in categories)
-            {
-                if (category.Id > highestId)
-                {
-                    highestId = category.Id;
-                }
-            }
-            return highestId;
         }
 
         public async Task DeleteAsync(Category category)
