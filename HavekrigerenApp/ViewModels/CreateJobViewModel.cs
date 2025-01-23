@@ -15,10 +15,11 @@ namespace HavekrigerenApp.ViewModels
         private JobRepository jobRepo = new JobRepository();
         private AlertService alertService = new AlertService();
         private NavigationService navigationService = new NavigationService();
+        private DatabaseRepository databaseRepo = new DatabaseRepository();
 
-        private ObservableCollection<Category> _categories;
+        private ObservableCollection<string> _categories;
 
-        public ObservableCollection<Category> Categories
+        public ObservableCollection<string> Categories
         {
             get => _categories;
             set 
@@ -73,6 +74,7 @@ namespace HavekrigerenApp.ViewModels
                 _category = value;
                 //EnableCreateButton();
                 OnPropertyChanged(nameof(Category));
+                Console.WriteLine(Category);
             }
         }
 
@@ -128,7 +130,7 @@ namespace HavekrigerenApp.ViewModels
 
         public CreateJobViewModel()
         {
-            _categories = new ObservableCollection<Category>();
+            _categories = new ObservableCollection<string>();
             _isButtonEnabled = false;
             LoadCategories();
 
@@ -144,7 +146,7 @@ namespace HavekrigerenApp.ViewModels
 
             foreach (Category category in categoryRepo.GetAll())
             {
-                _categories.Add(category);
+                _categories.Add(category.Name);
             }
         }
 
@@ -173,7 +175,8 @@ namespace HavekrigerenApp.ViewModels
             try
             {
                 await alertService.DisplayAlertAsync("Opret Opgave", $"Oprettede opgaven \"{_contactName}, {_address}\"");
-                Console.WriteLine(_contactName + " " + _address + " " + _category + " " + _startDate + " " + _endDate + " " + _notes);
+                Console.WriteLine(ContactName + " " + PhoneNumber + " " + Address + " " + Category + " " + StartDate + " " + EndDate + " " + Notes);
+                jobRepo.AddAsync(ContactName, PhoneNumber, Address, Category.Name, StartDate.ToString(), EndDate.ToString(), Notes);
             }
             catch (InvalidOperationException ex)
             {

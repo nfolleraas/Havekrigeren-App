@@ -33,6 +33,9 @@ namespace HavekrigerenApp
             //await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
             //await jobRepo.AddAsync("Jens Jensen", "12345678", "Vej 1", "Kategori", "12/3-1234", "14/3-1234");
 
+            await Shell.Current.GoToAsync("///HomePage");
+
+            /*
             if (IsUserLoggedIn())
             {
                 await Shell.Current.GoToAsync("///HomePage");
@@ -41,6 +44,7 @@ namespace HavekrigerenApp
             {
                 await Shell.Current.GoToAsync("///LoginPage");
             }
+            */
         }
 
         protected override void OnSleep()

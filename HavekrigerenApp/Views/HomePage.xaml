@@ -4,10 +4,10 @@
              x:Class="HavekrigerenApp.HomePage"
              Title="Hjem"
              Shell.NavBarIsVisible="True" >
-    
+
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="Home Page"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
     </VerticalStackLayout>

@@ -5,10 +5,116 @@
              Title="Vis Opgave"
              Shell.NavBarIsVisible="True">
 
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="10"
+            Spacing="15">
+            
+            <!-- Contact Person -->
+            <Label 
+                Text="Kontaktperson"
+                FontAttributes="Bold"
+                FontSize="15"
+                Margin="0,10,0,-20" />
+            
+            <Editor
+                Text="{Binding JobVM.ContactName}"
+                TextColor="{StaticResource PrimaryText}"
+                FontSize="20"
+                IsEnabled="False" />
+    
+            <!-- Address -->
+            <Label
+                Text="Adresse"
+                FontAttributes="Bold"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                Text="{Binding JobVM.Address}"
+                TextColor="{StaticResource PrimaryText}"
+                FontSize="20"
+                IsEnabled="False" />
+
+            <!-- Phone -->
+            <Label
+                Text="Telefon"
+                FontAttributes="Bold"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Grid
+                Margin="0, -10, -30, -20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Editor
+                    Text="{Binding JobVM.PhoneNumber}"
+                    TextColor="{StaticResource PrimaryText}"
+                    FontSize="20"
+                    IsEnabled="False"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Grid.ColumnSpan="0" />
+                <Button
+                    ImageSource="phone.png"
+                    Scale="0.6"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="Fill"
+                    Grid.ColumnSpan="1" />
+            </Grid>
+            
+            <!-- Category -->
+            <Label
+                Text="Kategori"
+                FontAttributes="Bold"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                Text="{Binding JobVM.Category}"
+                TextColor="{StaticResource PrimaryText}"
+                FontSize="20"
+                IsEnabled="False" />
+
+            <Label
+                Text="Start Dato"
+                FontAttributes="Bold"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                Text="{Binding JobVM.StartDate}"
+                TextColor="{StaticResource PrimaryText}"
+                FontSize="20"
+                IsEnabled="False" />
+
+            <Label
+                Text="Slut Dato"
+                FontAttributes="Bold"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                Text="{Binding JobVM.EndDate}"
+                TextColor="{StaticResource PrimaryText}"
+                FontSize="20"
+                IsEnabled="False" />
+
+            <Label
+                Text="Noter"
+                FontAttributes="Bold"
+                FontSize="15"
+                Margin="0, 10, 0, -20" />
+
+            <Editor
+                Placeholder="Ingen noter..."
+                Text="{Binding JobVM.Notes}"
+                TextColor="{StaticResource PrimaryText}"
+                FontSize="20"
+                IsEnabled="False" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

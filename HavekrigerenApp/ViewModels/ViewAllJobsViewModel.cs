@@ -85,8 +85,8 @@ namespace HavekrigerenApp.ViewModels
         {
             try
             {
-                //await navigationService.PushAsync(new ViewJobPage());
-                await alertService.DisplayAlertAsync("Opgave", $"Trykkede på {job.ContactName}, {job.Address}");
+                await navigationService.PushAsync(new ViewJobPage(job));
+                //await alertService.DisplayAlertAsync("Opgave", $"Trykkede på {job.ContactName}, {job.Address}");
             }
             catch (InvalidOperationException ex)
             {
