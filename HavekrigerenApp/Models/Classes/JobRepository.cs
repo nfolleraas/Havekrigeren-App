@@ -1,4 +1,6 @@
-﻿namespace HavekrigerenApp.Models.Classes
+﻿using System.Globalization;
+
+namespace HavekrigerenApp.Models.Classes
 {
     public class JobRepository
     {
@@ -11,23 +13,32 @@
             databaseRepo = new DatabaseRepository();
         }
 
-        public async Task AddAsync(string contactName, string phoneNumber, string address, Category category, DateTime startDate, DateTime endDate, string notes = "")
+        public async Task AddAsync(string contactName, string phoneNumber, string address, Category category, bool hasDate, DateTime? startDate, DateTime? endDate, string notes, DateTime dateCreated)
         {
             // Check if inputs have content
             if (!string.IsNullOrEmpty(contactName)
                 && !string.IsNullOrEmpty(phoneNumber)
                 && !string.IsNullOrEmpty(address)
-                && !string.IsNullOrEmpty(category.ToString())
-                && !string.IsNullOrEmpty(startDate.ToString())
-                && !string.IsNullOrEmpty(endDate.ToString()))
+                && !string.IsNullOrEmpty(category.ToString()))
             {
+                // Set job id to highest id + 1
                 int id = 0;
                 await LoadAllAsync();
                 if (jobs.Count != 0)
                 {
                     id = GetHighestId() + 1;
                 }
-                Job newJob = new Job(id, contactName, phoneNumber, address, category.ToString(), startDate.ToString(), endDate.ToString(), notes);
+
+                // Converts notes to empty string if null
+                if (string.IsNullOrEmpty(notes))
+                {
+                    notes = string.Empty;
+                }
+                // Converts start and end dates to either date format or empty string
+                string formattedStartDate = startDate?.ToString("dd/MM-yyyy") ?? string.Empty;
+                string formattedEndDate = endDate?.ToString("dd/MM-yyyy") ?? string.Empty;
+
+                Job newJob = new Job(id, contactName, phoneNumber, address, category.ToString(), hasDate, formattedStartDate, formattedEndDate, notes, dateCreated.ToString("dd/MM-yyyy HH:mm:ss"));
                 jobs.Add(newJob);
 
                 await databaseRepo.AddAsync(collectionName, newJob);

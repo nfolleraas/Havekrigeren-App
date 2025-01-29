@@ -25,9 +25,11 @@
             <!-- No categories message -->
             <Label Text="Kunne ikke finde nogen kategorier." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
             <Label Text="Tryk på knappen til højre for at tilføje en ny." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,20,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+            <Label Text="OBS!" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Italic" Margin="0,50,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+            <Label Text="Kan du ikke se dine oprettede kategorier? Prøv at luk appen helt og start den op igen, så burde de gerne komme." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,0,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
 
             <!-- CollectionView for categories -->
-            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCmd}" RefreshColor="{StaticResource Primary}" Margin="0,20,0,0">
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCmd}" Margin="0,20,0,0">
                 <CollectionView ItemsSource="{Binding CategoriesVM}" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

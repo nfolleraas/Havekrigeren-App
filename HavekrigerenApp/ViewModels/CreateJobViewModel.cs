@@ -18,7 +18,6 @@ namespace HavekrigerenApp.ViewModels
         private DatabaseRepository databaseRepo = new DatabaseRepository();
 
         private ObservableCollection<Category> _categories;
-
         public ObservableCollection<Category> Categories
         {
             get => _categories;
@@ -65,22 +64,20 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private Category _category;
-        public Category Category
+        private Category? _category;
+        public Category? Category
         {
             get => _category;
             set
             {
-                if (_category != value)
-                {
-                    _category = value;
-                    OnPropertyChanged(nameof(Category));
-                }
+                _category = value;
+                EnableCreateButton();
+                OnPropertyChanged(nameof(Category));
             }
         }
 
-        private DateTime _startDate = DateTime.Today;
-        public DateTime StartDate
+        private DateTime? _startDate;
+        public DateTime? StartDate
         {
             get => _startDate;
             set
@@ -90,8 +87,8 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private DateTime _endDate = DateTime.Today;
-        public DateTime EndDate
+        private DateTime? _endDate;
+        public DateTime? EndDate
         {
             get => _endDate;
             set
@@ -112,6 +109,17 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
+        private DateTime _dateCreated;
+        public DateTime DateCreated
+        {
+            get => _dateCreated;
+            set
+            {
+                _dateCreated = value;
+                OnPropertyChanged(nameof(DateCreated));
+            }
+        }
+
         private bool _isButtonEnabled;
         public bool IsButtonEnabled
         {
@@ -123,26 +131,40 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
+        private bool _isChecked;
+        public bool IsChecked
+        {
+            get => _isChecked;
+            set 
+            { 
+                _isChecked = value; 
+                OnPropertyChanged(nameof(IsChecked));
+            }
+        }
 
         // Commands
         public ICommand CreateJobCmd { get; set; }
         public ICommand StartDateSelectedCmd { get; set; }
         public ICommand EndDateSelectedCmd { get; set; }
+        public ICommand ToggleDatesCmd { get; set; }
 
         public CreateJobViewModel()
         {
             _categories = new ObservableCollection<Category>();
             _isButtonEnabled = false;
-            LoadCategories();
+            //LoadCategories();
 
             // Command registration
             CreateJobCmd = new Command(CreateJob);
             StartDateSelectedCmd = new Command<DateTime>(StartDateSelected);
             EndDateSelectedCmd = new Command<DateTime>(EndDateSelected);
+            ToggleDatesCmd = new Command<bool>(ToggleDates);
         }
 
-        private async Task LoadCategories()
+        public async Task LoadCategories()
         {
+            Categories.Clear();
+
             await categoryRepo.LoadAllAsync();
 
             foreach (Category category in categoryRepo.GetAll())
@@ -155,8 +177,8 @@ namespace HavekrigerenApp.ViewModels
         {
             _isButtonEnabled = !string.IsNullOrWhiteSpace(_contactName)
                 && !string.IsNullOrWhiteSpace(_address)
-                && !string.IsNullOrWhiteSpace(_phoneNumber);
-                //&& !string.IsNullOrWhiteSpace(_category.ToString());
+                && !string.IsNullOrWhiteSpace(_phoneNumber)
+                && _category != null;
 
             OnPropertyChanged(nameof(IsButtonEnabled));
         }
@@ -175,9 +197,11 @@ namespace HavekrigerenApp.ViewModels
         {
             try
             {
+                
                 await alertService.DisplayAlertAsync("Opret Opgave", $"Oprettede opgaven \"{_contactName}, {_address}\"");
-                Console.WriteLine($"ContactName: {_contactName} \nPhoneNumber: {_phoneNumber} \nAddress: {_address} \nCategory: {_category} \nStartDate: {_startDate} \nEndDate: {_endDate} \nNotes: {_notes}");
-                await jobRepo.AddAsync(_contactName, _phoneNumber, _address, _category, _startDate, _endDate, _notes);
+                _dateCreated = DateTime.Now;
+                await jobRepo.AddAsync(_contactName, _phoneNumber, _address, _category, _isChecked, _startDate, _endDate, _notes, _dateCreated);
+                ResetInputs();
             }
             catch (InvalidOperationException ex)
             {
@@ -186,6 +210,34 @@ namespace HavekrigerenApp.ViewModels
             catch (Exception ex)
             {
                 await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
+            }
+        }
+
+        private void ResetInputs()
+        {
+            ContactName = string.Empty;
+            PhoneNumber = string.Empty;
+            Address = string.Empty;
+            Category = null;
+            IsChecked = false;
+            StartDate = null;
+            EndDate = null;
+            Notes = string.Empty;
+        }
+
+        private void ToggleDates(bool isChecked)
+        {
+            if (isChecked)
+            {
+                Console.WriteLine("yay");
+                _startDate = DateTime.Now;
+                _endDate = DateTime.Now;
+            }
+            else
+            {
+                Console.WriteLine("nay");
+                _startDate = null;
+                _endDate = null;
             }
         }
 

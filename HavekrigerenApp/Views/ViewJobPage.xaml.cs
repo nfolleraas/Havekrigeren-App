@@ -13,5 +13,12 @@ namespace HavekrigerenApp
             vm = new ViewJobViewModel(job);
             BindingContext = vm;
         }
+
+        protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
+        {
+            base.OnNavigatedFrom(args);
+            Navigation.PopAsync();
+        }
+
     }
 }

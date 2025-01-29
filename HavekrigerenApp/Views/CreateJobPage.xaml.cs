@@ -13,5 +13,11 @@ namespace HavekrigerenApp
 			vm = new CreateJobViewModel();
 			BindingContext = vm;
         }
+
+        protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+            await vm.LoadCategories();
+        }
     }
 }

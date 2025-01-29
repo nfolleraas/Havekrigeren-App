@@ -28,10 +28,12 @@
             ContentTemplate="{DataTemplate local:CalendarPage}"
             Route="CalendarPage" />
 
+        <!--
         <ShellContent
             Icon="user_1x.png"
             ContentTemplate="{DataTemplate local:UserPage}"
             Route="UserPage" />
+        -->
 
     </TabBar>
 
