@@ -4,11 +4,10 @@
              x:Class="HavekrigerenApp.CalendarPage"
              Title="Kalender"
              Shell.NavBarIsVisible="True">
-    
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <StackLayout Orientation="Vertical" Margin="25,0,25,0">
+
+        <WebView Source="Calendar.html"/>
+
+    </StackLayout>
 </ContentPage>

@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+        *, *:after, *:before {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --c-theme-primary: #008FFD;
+            --c-theme-primary-accent: #CBE8FF;
+            --c-bg-primary: #D6DAE0;
+            --c-bg-secondary: #EAEBEC;
+            --c-bg-tertiary: #FDFDFD;
+            --c-text-primary: #1F1F25;
+            --c-text-secondary: #999FA6;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--c-bg-primary);
+            color: var(--c-text-primary);
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+            button:focus {
+                outline: 0;
+            }
+
+        .datepicker {
+            width: 95%;
+            max-width: 350px;
+            background-color: var(--c-bg-tertiary);
+            border-radius: 10px;
+            box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+
+        .datepicker-top {
+            margin-bottom: 1rem;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            margin-top: -0.5rem;
+        }
+
+        .tag {
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+            border: 0;
+            background-color: var(--c-bg-secondary);
+            border-radius: 10px;
+            padding: 0.5em 0.75em;
+            font-weight: 600;
+        }
+
+        .month-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            background-color: #FFF;
+            border-radius: 12px;
+            width: 2.5rem;
+            height: 2.5rem;
+            box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.25), 0 0 10px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .month-name {
+            font-weight: 600;
+        }
+
+        .datepicker-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-row-gap: 1rem;
+        }
+
+        .day, .date {
+            justify-self: center;
+        }
+
+        .day {
+            color: var(--c-text-secondary);
+            font-size: 0.875em;
+            font-weight: 500;
+            justify-self: center;
+        }
+
+        .date {
+            border: 0;
+            padding: 0;
+            width: 2.25rem;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-weight: 600;
+            border: 2px solid transparent;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+            .date:focus {
+                outline: 0;
+                color: var(--c-theme-primary);
+                border: 2px solid var(--c-theme-primary-accent);
+            }
+
+        .faded {
+            color: var(--c-text-secondary);
+        }
+
+        .current-day {
+            color: #FFF;
+            border-color: var(--c-theme-primary);
+            background-color: var(--c-theme-primary);
+        }
+
+            .current-day:focus {
+                background-color: var(--c-theme-primary-accent);
+            }
+    </style>
+</head>
+<body>
+    <div class="datepicker">
+        <div class="datepicker-top">
+            <div class="btn-group">
+                <button class="tag">Today</button>
+                <button class="tag">Tomorrow</button>
+                <button class="tag">In 2 days</button>
+            </div>
+            <div class="month-selector">
+                <button class="arrow"><i class="material-icons">chevron_left</i></button>
+                <span class="month-name">December 2020</span>
+                <button class="arrow"><i class="material-icons">chevron_right</i></button>
+            </div>
+        </div>
+        <div class="datepicker-calendar">
+            <span class="day">Mo</span>
+            <span class="day">Tu</span>
+            <span class="day">We</span>
+            <span class="day">Th</span>
+            <span class="day">Fr</span>
+            <span class="day">Sa</span>
+            <span class="day">Su</span>
+            <button class="date faded">30</button>
+            <button class="date">1</button>
+            <button class="date">2</button>
+            <button class="date">3</button>
+            <button class="date">4</button>
+            <button class="date">5</button>
+            <button class="date">6</button>
+            <button class="date">7</button>
+            <button class="date">8</button>
+            <button class="date current-day">9</button>
+            <button class="date">10</button>
+            <button class="date">11</button>
+            <button class="date">12</button>
+            <button class="date">13</button>
+            <button class="date">14</button>
+            <button class="date">15</button>
+            <button class="date">16</button>
+            <button class="date">17</button>
+            <button class="date">18</button>
+            <button class="date">19</button>
+            <button class="date">20</button>
+            <button class="date">21</button>
+            <button class="date">22</button>
+            <button class="date">23</button>
+            <button class="date">24</button>
+            <button class="date">25</button>
+            <button class="date">26</button>
+            <button class="date">27</button>
+            <button class="date">28</button>
+            <button class="date">29</button>
+            <button class="date">30</button>
+            <button class="date">31</button>
+            <button class="date faded">1</button>
+            <button class="date faded">2</button>
+            <button class="date faded">3</button>
+        </div>
+    </div>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+    const monthName = document.querySelector(".month-name");
+    const prevBtn = document.querySelector(".month-selector .arrow:first-child");
+    const nextBtn = document.querySelector(".month-selector .arrow:last-child");
+    const calendarDays = document.querySelector(".datepicker-calendar");
+    let currentDate = new Date();
+    
+    const jobs = {
+        "2024-02-05": ["Job A", "Job B"],
+        "2024-02-10": ["Job C"],
+    };
+    
+    function updateCalendar() {
+        calendarDays.innerHTML = '<span class="day">Mo</span>' +
+                                 '<span class="day">Tu</span>' +
+                                 '<span class="day">We</span>' +
+                                 '<span class="day">Th</span>' +
+                                 '<span class="day">Fr</span>' +
+                                 '<span class="day">Sa</span>' +
+                                 '<span class="day">Su</span>';
+        
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        monthName.textContent = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(currentDate);
+        
+        const firstDay = new Date(year, month, 1).getDay();
+        const lastDate = new Date(year, month + 1, 0).getDate();
+        const prevMonthLastDate = new Date(year, month, 0).getDate();
+        
+        for (let i = firstDay === 0 ? 6 : firstDay - 1; i > 0; i--) {
+            calendarDays.innerHTML += `<button class="date faded">${prevMonthLastDate - i + 1}</button>`;
+        }
+        
+        for (let day = 1; day <= lastDate; day++) {
+            const dateKey = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+            const hasJobs = jobs[dateKey] ? 'has-jobs' : '';
+            calendarDays.innerHTML += `<button class="date ${hasJobs}" data-date="${dateKey}">${day}</button>`;
+        }
+    }
+    
+    prevBtn.addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        updateCalendar();
+    });
+    
+    nextBtn.addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        updateCalendar();
+    });
+    
+    calendarDays.addEventListener("click", (e) => {
+        if (e.target.classList.contains("date")) {
+            const selectedDate = e.target.dataset.date;
+            alert(jobs[selectedDate] ? `Jobs: ${jobs[selectedDate].join(", ")}` : "No jobs on this date");
+        }
+    });
+    
+    updateCalendar();
+});
+
+
+    </script>
+</body>
+</html>
