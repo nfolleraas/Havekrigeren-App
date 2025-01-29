@@ -2,41 +2,65 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="HavekrigerenApp.Pages.ViewAllCategoriesPage"
-             Title="Alle Kategorier"
-             Shell.NavBarIsVisible="True">
-    
-    <RefreshView
-        x:Name="categoriesRefreshView"
-        Refreshing="RefreshCommand" >
-        <AbsoluteLayout>
-            <ScrollView
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All" >
-                
-                <VerticalStackLayout
-                        x:Name="viewAllCategoriesLayout"
-                        Padding="10" >
+             x:Class="HavekrigerenApp.ViewAllCategoriesPage">
 
-                    <!--List of programmable inserted fields-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-                </VerticalStackLayout>
-            </ScrollView>
+        <!-- Header -->
+        <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="0">
+            <Label Text="Alle Kategorier" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
+            <Button Text="Ny Kategori" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCmd}">
+                <Button.ImageSource>
+                    <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
+                </Button.ImageSource>
+            </Button>
+        </StackLayout>
 
-            <Button
-                x:Name="createCategory"
-                ImageSource="create.png"
-                BackgroundColor="#009c00"
-                CornerRadius="40"
-                WidthRequest="80"
-                HeightRequest="80"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds="0.9, 0.9, AutoSize, AutoSize"
-                VerticalOptions="End"
-                HorizontalOptions="End"
-                Clicked="OnCreateCategoryClicked" />
-        
-        </AbsoluteLayout>
-    </RefreshView>
+        <!-- Main Content -->
+        <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="1">
+            <!-- No categories message -->
+            <Label Text="Kunne ikke finde nogen kategorier." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+            <Label Text="Tryk på knappen til højre for at tilføje en ny." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,20,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+            <Label Text="OBS!" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Italic" Margin="0,50,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+            <Label Text="Kan du ikke se dine oprettede kategorier? Prøv at luk appen helt og start den op igen, så burde de gerne komme." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,0,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+
+            <!-- CollectionView for categories -->
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCmd}" Margin="0,20,0,0">
+                <CollectionView ItemsSource="{Binding CategoriesVM}" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem IconImageSource="trash_1x.png" BackgroundColor="Red" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCategoryCmd}" CommandParameter="{Binding Category}"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Frame Padding="10" Margin="0,10,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Text="{Binding Name}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300" />
+                                        <Label Text="Se mere ▶" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1" />
+                                    </Grid>
+
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCmd}" CommandParameter="{Binding Category}"/>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+    </Grid>
 
 </ContentPage>

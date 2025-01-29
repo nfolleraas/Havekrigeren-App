@@ -1,4 +1,4 @@
-namespace HavekrigerenApp.Pages
+namespace HavekrigerenApp
 {
 
 	public partial class CalendarPage : ContentPage
@@ -6,7 +6,6 @@ namespace HavekrigerenApp.Pages
 		public CalendarPage()
 		{
 			InitializeComponent();
-			calendar.Culture = App.Culture;
 		}
 	}
 }

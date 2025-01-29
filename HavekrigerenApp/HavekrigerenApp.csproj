@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 
@@ -79,13 +79,22 @@
 	<ItemGroup>
 	  <None Remove="config.json" />
 	  <None Remove="Resources\Icons\calendar.png" />
+	  <None Remove="Resources\Icons\calendar_1x.png" />
+	  <None Remove="Resources\Icons\calendar_64x.png" />
 	  <None Remove="Resources\Icons\create.png" />
+	  <None Remove="Resources\Icons\create_white.png" />
 	  <None Remove="Resources\Icons\delete.png" />
 	  <None Remove="Resources\Icons\home.png" />
+	  <None Remove="Resources\Icons\home_1x.png" />
 	  <None Remove="Resources\Icons\list.png" />
+	  <None Remove="Resources\Icons\list_1x.png" />
 	  <None Remove="Resources\Icons\phone.png" />
+	  <None Remove="Resources\Icons\plus-1x.png" />
+	  <None Remove="Resources\Icons\plus_1x.png" />
 	  <None Remove="Resources\Icons\reload.png" />
+	  <None Remove="Resources\Icons\trash_1x.png" />
 	  <None Remove="Resources\Icons\user.png" />
+	  <None Remove="Resources\Icons\user_1x.png" />
 	  <None Remove="resources\images\home.svg" />
 	</ItemGroup>
 
@@ -101,7 +110,6 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.91" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.91" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-		<PackageReference Include="Plugin.Maui.Calendar" Version="1.2.2" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -123,9 +131,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\AdminPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\CalendarPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -153,18 +158,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Include="Resources\Icons\calendar.png" />
-	  <MauiImage Include="Resources\Icons\create.png" />
+	  <MauiImage Include="Resources\Icons\calendar_1x.png" />
 	  <MauiImage Include="Resources\Icons\delete.png" />
-	  <MauiImage Include="Resources\Icons\home.png" />
-	  <MauiImage Include="Resources\Icons\list.png" />
+	  <MauiImage Include="Resources\Icons\home_1x.png" />
+	  <MauiImage Include="Resources\Icons\list_1x.png" />
 	  <MauiImage Include="Resources\Icons\phone.png" />
-	  <MauiImage Include="Resources\Icons\reload.png" />
-	  <MauiImage Include="Resources\Icons\user.png" />
+	  <MauiImage Include="Resources\Icons\plus_1x.png" />
+	  <MauiImage Include="Resources\Icons\trash_1x.png" />
+	  <MauiImage Include="Resources\Icons\user_1x.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\HavekrigerenLibrary\HavekrigerenLibrary.csproj" />
 	  <ProjectReference Include="..\Plugin.Maui.Calendar\Plugin.Maui.Calendar.csproj" />
 	</ItemGroup>
 
@@ -187,10 +191,6 @@
 	  <MauiImage Update="Resources\Images\havekrigeren_logo_3x.png">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </MauiImage>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="ViewModels\" />
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionHavekrigerenAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>

@@ -1,52 +1,24 @@
-using System.Runtime;
-using System.Text;
-using HavekrigerenApp.Models;
+using HavekrigerenApp.ViewModels;
+using HavekrigerenApp.Models.Classes;
 
-namespace HavekrigerenApp.Pages
+namespace HavekrigerenApp
 {
-
     public partial class ViewJobPage : ContentPage
     {
-        private Job jobInfo;
-        public ViewJobPage(Job jobInfo)
+        ViewJobViewModel vm;
+        public ViewJobPage(Job job)
         {
             InitializeComponent();
 
-            this.jobInfo = jobInfo;
-
-            DisplayJobInfo();
+            vm = new ViewJobViewModel(job);
+            BindingContext = vm;
         }
 
-        
-        private void DisplayJobInfo()
+        protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            int i = 0;
-            foreach (char c in jobInfo.PhoneNumber)
-            {
-                stringBuilder.AppendFormat("{0}{1}", c, (i++ & 1) == 0 ? "" : ' ');
-            }
-            jobInfo.PhoneNumber = stringBuilder.ToString().Trim();
-
-            contactNameEditor.Text = jobInfo.ContactName;
-            addressEditor.Text = jobInfo.Address;
-            phoneNumberEditor.Text = $"(+45) {jobInfo.PhoneNumber}";
-            categoryEditor.Text = jobInfo.Category;
-            startDateEditor.Text = jobInfo.StartDate.ToString("dd/MM-yyyy");
-            endDateEditor.Text = jobInfo.EndDate.ToString("dd/MM-yyyy");
-            notesEditor.Text = jobInfo.Notes;
+            base.OnNavigatedFrom(args);
+            Navigation.PopAsync();
         }
 
-        private void OnPhoneNumberClicked(object sender, EventArgs e)
-        {
-            if (PhoneDialer.Default.IsSupported)
-            {
-                PhoneDialer.Default.Open(jobInfo.PhoneNumber);
-            }
-            else
-            {
-                DisplayAlert("Fejl", "Din telefon understøtter ikke denne funktion.", "OK");
-            }
-        }
     }
 }

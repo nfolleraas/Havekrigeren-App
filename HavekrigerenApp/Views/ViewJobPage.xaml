@@ -1,125 +1,94 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HavekrigerenApp.Pages.ViewJobPage"
+             x:Class="HavekrigerenApp.ViewJobPage"
              Title="Vis Opgave"
              Shell.NavBarIsVisible="True">
 
     <ScrollView>
-        <VerticalStackLayout 
-            x:Name="jobLayout"
-            Padding="10"
-            Spacing="15" >
+        <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand">
 
-            <Label
-                Text="Kontaktperson"
-                FontAttributes="Bold"
-                FontSize="15"
-                Margin="0, 10, 0, -20" />
+            <!-- Contact Person -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Kontaktperson" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding JobVM.ContactName}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10"/>
+    
+            <!-- Address -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Addresse" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding JobVM.Address}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10" />
 
-            <Editor
-                x:Name="contactNameEditor"
-                Text=""
-                TextColor="{StaticResource PrimaryText}"
-                FontSize="20"
-                IsEnabled="False" />
-
-            <Label
-                Text="Adresse"
-                FontAttributes="Bold"
-                FontSize="15"
-                Margin="0, 10, 0, -20" />
-
-            <Editor
-                x:Name="addressEditor"
-                Text=""
-                TextColor="{StaticResource PrimaryText}"
-                FontSize="20"
-                IsEnabled="False" />
-
-            <Label
-                Text="Telefon"
-                FontAttributes="Bold"
-                FontSize="15"
-                Margin="0, 10, 0, -20" />
-
-            <Grid
-                Margin="0, -10, -30, -20">
+            <!-- Phone Number -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Telefonnummer" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Editor
-                    x:Name="phoneNumberEditor"
-                    Text=""
-                    TextColor="{StaticResource PrimaryText}"
-                    FontSize="20"
-                    IsEnabled="False"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Start"
-                    Grid.ColumnSpan="0" />
-                <Button
+                <Entry Text="{Binding JobVM.PhoneNumber}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Grid.ColumnSpan="0" Margin="0,0,0,10"/>
+                <Button Margin="0,-10,-20,0"
                     ImageSource="phone.png"
                     Scale="0.6"
                     BackgroundColor="Transparent"
-                    HorizontalOptions="Fill"
-                    Clicked="OnPhoneNumberClicked"
                     Grid.ColumnSpan="1" />
             </Grid>
+            
+            <!-- Category -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Kategori" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding JobVM.Category}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10"/>
 
-            <Label
-                Text="Kategori"
-                FontAttributes="Bold"
-                FontSize="15"
-                Margin="0, 10, 0, -20" />
+            <!-- Start Date -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Start Dato" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding JobVM.StartDate}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10"/>
+            
+            <!-- End Date -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Slut Dato" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding JobVM.EndDate}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10"/>
 
-            <Editor
-                x:Name="categoryEditor"
-                Text=""
-                TextColor="{StaticResource PrimaryText}"
-                FontSize="20"
-                IsEnabled="False" />
+            <!-- Notes -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Noter" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Editor Placeholder="Ingen noter..." Text="{Binding JobVM.Notes}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10" />
 
-            <Label
-                Text="Start Dato"
-                FontAttributes="Bold"
-                FontSize="15"
-                Margin="0, 10, 0, -20" />
-
-            <Editor
-                x:Name="startDateEditor"
-                Text=""
-                TextColor="{StaticResource PrimaryText}"
-                FontSize="20"
-                IsEnabled="False" />
-
-            <Label
-                Text="Slut Dato"
-                FontAttributes="Bold"
-                FontSize="15"
-                Margin="0, 10, 0, -20" />
-
-            <Editor
-                x:Name="endDateEditor"
-                Text=""
-                TextColor="{StaticResource PrimaryText}"
-                FontSize="20"
-                IsEnabled="False" />
-
-            <Label
-                Text="Noter"
-                FontAttributes="Bold"
-                FontSize="15"
-                Margin="0, 10, 0, -20" />
-
-            <Editor
-                x:Name="notesEditor"
-                Placeholder="Ingen noter..."
-                Text=""
-                TextColor="{StaticResource PrimaryText}"
-                FontSize="20"
-                IsEnabled="False" />
-
-        </VerticalStackLayout>
+        </StackLayout>
     </ScrollView>
 </ContentPage>
