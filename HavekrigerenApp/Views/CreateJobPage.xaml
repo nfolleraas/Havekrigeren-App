@@ -1,14 +1,112 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HavekrigerenApp.CreateJobPage"
-             Title="Opret Opgave"
-             Shell.NavBarIsVisible="True">
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="HavekrigerenApp.CreateJobPage">
 
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="0">
+                <Label Text="Opret Opgave" HeightRequest="50" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand"/>
+            </StackLayout>
+        
+            <!-- Main Content -->
+            <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="1">
+
+                <!-- Contact Person -->
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Kontaktperson " FontAttributes="Bold" FontSize="Medium"/>
+                            <Span Text="*" TextColor="{StaticResource Required}" FontAttributes="Bold" FontSize="Large"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Entry x:Name="contactNameEntry" Text="{Binding ContactName, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" IsSpellCheckEnabled="True" Margin="0,0,0,10"/>
+
+                <!-- Address -->
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Addresse " FontAttributes="Bold" FontSize="Medium"/>
+                            <Span Text="*" TextColor="{StaticResource Required}" FontAttributes="Bold" FontSize="Large"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Entry x:Name="addressEntry" Text="{Binding Address, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" IsSpellCheckEnabled="True" Margin="0,0,0,10"/>
+
+                <!-- Phone Number -->
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Telefonnummer " FontAttributes="Bold" FontSize="Medium"/>
+                            <Span Text="*" TextColor="{StaticResource Required}" FontAttributes="Bold" FontSize="Large"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Entry x:Name="phoneNumberEntry" Text="{Binding PhoneNumber, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" Keyboard="Numeric" MaxLength="8" Margin="0,0,0,10"/>
+
+                <!-- Category -->
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Kategori " FontAttributes="Bold" FontSize="Medium"/>
+                            <Span Text="*" TextColor="{StaticResource Required}" FontAttributes="Bold" FontSize="Large"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Picker x:Name="categoryPicker" 
+                        Title="Vælg kategori..." TitleColor="{StaticResource Placeholder}" 
+                        TextColor="{StaticResource PrimaryText}" FontSize="Medium" 
+                        ItemsSource="{Binding Categories}" SelectedItem="{Binding Category, Mode=TwoWay}" Margin="0,0,0,10"/>
+
+                <!-- Date Checkbox -->
+                <StackLayout Orientation="Horizontal" Padding="-10,0,0,0">
+                    <CheckBox x:Name="dateCheckBox" IsChecked="{Binding IsChecked}" HorizontalOptions="Center">
+                        <CheckBox.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="CheckedChanged"
+                                                                Command="{Binding ToggleDatesCmd}"
+                                                                CommandParameter="{Binding IsChecked, Source={x:Reference dateCheckBox}}"/>
+                        </CheckBox.Behaviors>
+                    </CheckBox>
+                
+                    <Label Text="Vælg start- og slutdato?" FontSize="Medium" VerticalOptions="Center"/>
+                </StackLayout>
+
+                <!-- Start Date -->
+                <Label Text="Start Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsChecked}"/>
+                <DatePicker x:Name="startDatePicker" Format="dd/MM-yyyy" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsChecked}">
+                    <DatePicker.Behaviors>
+                        <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding StartDateSelectedCmd}" CommandParameter="{Binding Date, Source={x:Reference startDatePicker}}"/>
+                    </DatePicker.Behaviors>
+                </DatePicker>
+
+                <!-- End Date -->
+                <Label Text="Slut Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsChecked}"/>
+                <DatePicker x:Name="endDatePicker" Format="dd/MM-yyyy" Date="{Binding EndDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsChecked}">
+                    <DatePicker.Behaviors>
+                        <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding EndDateSelectedCmd}" CommandParameter="{Binding Date, Source={x:Reference endDatePicker}}"/>
+                    </DatePicker.Behaviors>
+                </DatePicker>
+
+                <!-- Notes -->
+                <Label Text="Noter" FontAttributes="Bold" FontSize="Medium"/>
+                <Editor x:Name="notesEditor" Text="{Binding Notes, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" AutoSize="TextChanges" IsSpellCheckEnabled="True" Margin="0,0,0,10"/>
+
+                <!-- Create Job Button -->
+                <Button Text="Opret" HeightRequest="50" CornerRadius="25" IsEnabled="{Binding IsButtonEnabled, Mode=OneWay}" Command="{Binding CreateJobCmd}" CommandParameter="{Binding}">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
+                    </Button.ImageSource>
+                </Button>
+
+            </StackLayout>
+        </Grid>
+    </ScrollView>
 </ContentPage>

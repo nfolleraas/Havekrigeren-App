@@ -13,6 +13,8 @@
     <Color x:Key="SecondaryDark">#bfbe6f</Color>
     <Color x:Key="Background">#fefccf</Color>
     <Color x:Key="WeekendColor">#8b0000</Color>
+    <Color x:Key="Required">#8b0000</Color>
+    <Color x:Key="Placeholder">#C8C8C8</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>

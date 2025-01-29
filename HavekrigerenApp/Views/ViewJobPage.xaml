@@ -5,10 +5,90 @@
              Title="Vis Opgave"
              Shell.NavBarIsVisible="True">
 
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand">
+
+            <!-- Contact Person -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Kontaktperson" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding JobVM.ContactName}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10"/>
+    
+            <!-- Address -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Addresse" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding JobVM.Address}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10" />
+
+            <!-- Phone Number -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Telefonnummer" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Entry Text="{Binding JobVM.PhoneNumber}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Grid.ColumnSpan="0" Margin="0,0,0,10"/>
+                <Button Margin="0,-10,-20,0"
+                    ImageSource="phone.png"
+                    Scale="0.6"
+                    BackgroundColor="Transparent"
+                    Grid.ColumnSpan="1" />
+            </Grid>
+            
+            <!-- Category -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Kategori" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding JobVM.Category}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10"/>
+
+            <!-- Start Date -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Start Dato" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding JobVM.StartDate}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10"/>
+            
+            <!-- End Date -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Slut Dato" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Entry Text="{Binding JobVM.EndDate}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10"/>
+
+            <!-- Notes -->
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Noter" FontAttributes="Bold" FontSize="Medium"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Editor Placeholder="Ingen noter..." Text="{Binding JobVM.Notes}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Margin="0,0,0,10" />
+
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

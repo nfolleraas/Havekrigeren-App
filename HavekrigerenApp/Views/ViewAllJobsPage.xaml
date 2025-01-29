@@ -42,8 +42,13 @@
                                         
                                         <!-- Job Info -->
                                         <StackLayout Orientation="Vertical">
-                                            <Label Text="{Binding ContactName}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="TailTruncation" MaximumWidthRequest="300"/>
-                                            <Label Text="{Binding Address}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="TailTruncation" MaximumWidthRequest="300"/>
+                                            <Label Text="{Binding ContactName}" FontSize="Large" FontAttributes="Bold" 
+                                                   VerticalTextAlignment="Center" Grid.Column="0" 
+                                                   LineBreakMode="TailTruncation" MaximumWidthRequest="300"/>
+                                            
+                                            <Label Text="{Binding Address}" FontSize="Medium" FontAttributes="Italic" 
+                                                   VerticalTextAlignment="Center" Grid.Column="0" 
+                                                   LineBreakMode="TailTruncation" MaximumWidthRequest="300"/>
                                         </StackLayout>
 
                                         <!-- See More -->
