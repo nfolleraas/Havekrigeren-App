@@ -20,5 +20,10 @@ namespace HavekrigerenApp.Models.Classes
         public Category()
         {
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

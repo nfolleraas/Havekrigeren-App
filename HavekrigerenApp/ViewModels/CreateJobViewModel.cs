@@ -17,9 +17,9 @@ namespace HavekrigerenApp.ViewModels
         private NavigationService navigationService = new NavigationService();
         private DatabaseRepository databaseRepo = new DatabaseRepository();
 
-        private ObservableCollection<string> _categories;
+        private ObservableCollection<Category> _categories;
 
-        public ObservableCollection<string> Categories
+        public ObservableCollection<Category> Categories
         {
             get => _categories;
             set 
@@ -71,10 +71,11 @@ namespace HavekrigerenApp.ViewModels
             get => _category;
             set
             {
-                _category = value;
-                //EnableCreateButton();
-                OnPropertyChanged(nameof(Category));
-                Console.WriteLine(Category);
+                if (_category != value)
+                {
+                    _category = value;
+                    OnPropertyChanged(nameof(Category));
+                }
             }
         }
 
@@ -130,7 +131,7 @@ namespace HavekrigerenApp.ViewModels
 
         public CreateJobViewModel()
         {
-            _categories = new ObservableCollection<string>();
+            _categories = new ObservableCollection<Category>();
             _isButtonEnabled = false;
             LoadCategories();
 
@@ -146,7 +147,7 @@ namespace HavekrigerenApp.ViewModels
 
             foreach (Category category in categoryRepo.GetAll())
             {
-                _categories.Add(category.Name);
+                _categories.Add(category);
             }
         }
 
@@ -175,8 +176,8 @@ namespace HavekrigerenApp.ViewModels
             try
             {
                 await alertService.DisplayAlertAsync("Opret Opgave", $"Oprettede opgaven \"{_contactName}, {_address}\"");
-                Console.WriteLine(ContactName + " " + PhoneNumber + " " + Address + " " + Category + " " + StartDate + " " + EndDate + " " + Notes);
-                jobRepo.AddAsync(ContactName, PhoneNumber, Address, Category.Name, StartDate.ToString(), EndDate.ToString(), Notes);
+                Console.WriteLine($"ContactName: {_contactName} \nPhoneNumber: {_phoneNumber} \nAddress: {_address} \nCategory: {_category} \nStartDate: {_startDate} \nEndDate: {_endDate} \nNotes: {_notes}");
+                await jobRepo.AddAsync(_contactName, _phoneNumber, _address, _category, _startDate, _endDate, _notes);
             }
             catch (InvalidOperationException ex)
             {

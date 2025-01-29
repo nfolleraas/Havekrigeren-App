@@ -11,14 +11,15 @@
             databaseRepo = new DatabaseRepository();
         }
 
-        public async Task AddAsync(string contactName, string phoneNumber, string address, string category, string startDate, string endDate, string notes = "")
+        public async Task AddAsync(string contactName, string phoneNumber, string address, Category category, DateTime startDate, DateTime endDate, string notes = "")
         {
+            // Check if inputs have content
             if (!string.IsNullOrEmpty(contactName)
                 && !string.IsNullOrEmpty(phoneNumber)
                 && !string.IsNullOrEmpty(address)
-                && !string.IsNullOrEmpty(category)
-                && !string.IsNullOrEmpty(startDate)
-                && !string.IsNullOrEmpty(endDate))
+                && !string.IsNullOrEmpty(category.ToString())
+                && !string.IsNullOrEmpty(startDate.ToString())
+                && !string.IsNullOrEmpty(endDate.ToString()))
             {
                 int id = 0;
                 await LoadAllAsync();
@@ -26,7 +27,7 @@
                 {
                     id = GetHighestId() + 1;
                 }
-                Job newJob = new Job(id, contactName, phoneNumber, address, category, startDate, endDate, notes);
+                Job newJob = new Job(id, contactName, phoneNumber, address, category.ToString(), startDate.ToString(), endDate.ToString(), notes);
                 jobs.Add(newJob);
 
                 await databaseRepo.AddAsync(collectionName, newJob);
