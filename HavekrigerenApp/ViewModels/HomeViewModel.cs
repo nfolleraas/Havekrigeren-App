@@ -23,15 +23,34 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+
+        // Commands
+        public ICommand JobClickedCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
+
 
         public HomeViewModel()
         {
             _jobsVM = new ObservableCollection<JobViewModel>();
 
-            LoadJobs();
+            RefreshPage();
+
+            // Command registration
+            //JobClickedCommand = new Command<Job>(JobClicked);
+            RefreshCommand = new Command(async () => await RefreshPage());
         }
 
-        private async void LoadJobs()
+        private async Task LoadJobs()
         {
             await jobRepo.LoadAllAsync();
 
@@ -41,6 +60,32 @@ namespace HavekrigerenApp.ViewModels
             {
                 JobViewModel jobVM = new JobViewModel(job);
                 _jobsVM.Add(jobVM);
+            }
+        }
+
+        public void SearchJob(object input)
+        {
+            var foundJobs = new ObservableCollection<Job>(jobRepo.Search(((SearchBar)input).Text));
+
+            _jobsVM.Clear();
+            foreach (Job job in foundJobs)
+            {
+                JobViewModel jobVM = new JobViewModel(job);
+                _jobsVM.Add(jobVM);
+            }
+        }
+
+        // Commands
+        private async Task RefreshPage()
+        {
+            try
+            {
+                IsRefreshing = true;
+                await LoadJobs();
+            }
+            finally
+            {
+                IsRefreshing = false;
             }
         }
 

@@ -89,6 +89,40 @@ namespace HavekrigerenApp.Models.Classes
             return result;
         }
 
+        public List<Job> Search(string query)
+        {
+            var foundJobs = jobs.Where(job => !string.IsNullOrWhiteSpace(job.ContactName) && job.ContactName.StartsWith(query, StringComparison.OrdinalIgnoreCase))?.ToList();
+
+            if (foundJobs == null || foundJobs.Count <= 0)
+            {
+                foundJobs = jobs.Where(job => !string.IsNullOrWhiteSpace(job.Address) && job.Address.StartsWith(query, StringComparison.OrdinalIgnoreCase))?.ToList();
+            }
+            else
+            {
+                return foundJobs;
+            }
+
+            if (foundJobs == null || foundJobs.Count <= 0)
+            {
+                foundJobs = jobs.Where(job => !string.IsNullOrWhiteSpace(job.PhoneNumber) && job.PhoneNumber.StartsWith(query, StringComparison.OrdinalIgnoreCase))?.ToList();
+            }
+            else
+            {
+                return foundJobs;
+            }
+
+            if (foundJobs == null || foundJobs.Count <= 0)
+            {
+                foundJobs = jobs.Where(job => !string.IsNullOrWhiteSpace(job.Category) && job.Category.StartsWith(query, StringComparison.OrdinalIgnoreCase))?.ToList();
+            }
+            else
+            {
+                return foundJobs;
+            }
+
+            return foundJobs;
+        }
+
         public async Task DeleteAsync(Job job)
         {
             jobs.Remove(job);

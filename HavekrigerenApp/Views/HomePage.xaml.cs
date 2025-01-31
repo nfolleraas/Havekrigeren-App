@@ -13,5 +13,10 @@ namespace HavekrigerenApp
 			vm = new HomeViewModel();
 			BindingContext = vm;
         }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+			vm.SearchJob(sender);
+        }
     }
 }

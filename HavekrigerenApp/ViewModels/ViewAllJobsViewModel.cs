@@ -52,7 +52,7 @@ namespace HavekrigerenApp.ViewModels
 
         public ViewAllJobsViewModel(string categoryName)
         {
-            JobsVM = new ObservableCollection<JobViewModel>();
+            _jobsVM = new ObservableCollection<JobViewModel>();
 
             CategoryName = categoryName;
 
@@ -69,18 +69,19 @@ namespace HavekrigerenApp.ViewModels
         {
             await jobRepo.LoadAllAsync();
 
-            JobsVM.Clear();
+            _jobsVM.Clear();
             // Instatiate new JobViewModel for each job if the job is in the category
             foreach (Job job in jobRepo.GetAll())
             {
                 if (job.Category == CategoryName)
                 { 
                     JobViewModel jobVM = new JobViewModel(job);
-                    JobsVM.Add(jobVM);
+                    _jobsVM.Add(jobVM);
                 }
             }
         }
 
+        // Commands
         private async void JobClicked(Job job)
         {
             try

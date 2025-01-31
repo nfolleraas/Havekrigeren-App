@@ -7,16 +7,47 @@
         <Label Text="Hjem" Style="{StaticResource shellTitleStyle}"/>
     </Shell.TitleView>
 
-    <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
-        <RefreshView>
-            <CollectionView ItemsSource="{Binding JobsVM}">
+        <!--<RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}" RefreshColor="{StaticResource Primary}" Style="{StaticResource defaultStackLayoutStyle}">
+        <StackLayout>
+            --><!-- Search Bar --><!--
+            <Frame Padding="0" BackgroundColor="Transparent">
+                <SearchBar Placeholder="Søg..." TextChanged="SearchBar_TextChanged"/>
+            </Frame>
+
+            --><!-- Jobs List --><!--
+            <CollectionView ItemsSource="{Binding JobsVM}" MaximumHeightRequest="250">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Label Text="{Binding ContactName}"/>
+                        <Frame Padding="2" Margin="0,10,0,0">
+                            <Grid ColumnDefinitions="*, Auto">
+
+                                --><!-- Job Info --><!--
+                                <StackLayout>
+                                    <Label Text="{Binding Category}" FontSize="Medium" FontAttributes="Bold" 
+                                               VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
+                                               MaximumWidthRequest="300" 
+                                               Grid.Column="0"/>
+                                    <Label Text="{Binding ContactName}" FontSize="Medium" FontAttributes="None" 
+                                               VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
+                                               MaximumWidthRequest="300" 
+                                               Grid.Column="0"/>
+
+                                    <Label Text="{Binding Address}" FontSize="Small" FontAttributes="Italic" 
+                                               VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
+                                               MaximumWidthRequest="300" 
+                                               Grid.Column="0"/>
+                                </StackLayout>
+
+                                --><!-- See More --><!--
+                                <Label Text="Se mere ▶" FontSize="Header" VerticalTextAlignment="Center" Grid.Column="1" />
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </RefreshView>
-    </StackLayout>
+       
+            <Label Text="Kommende Opgaver"/>
+        </StackLayout>
+        </RefreshView>-->
 
 </ContentPage>

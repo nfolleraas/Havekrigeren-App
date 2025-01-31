@@ -46,7 +46,7 @@ namespace HavekrigerenApp.ViewModels
 
         public ViewAllCategoriesViewModel()
         {
-            CategoriesVM = new ObservableCollection<CategoryViewModel>();
+            _categoriesVM = new ObservableCollection<CategoryViewModel>();
             // Show the user that the page is loading
             RefreshPage(); // Could use LoadCategories() instead, but that doesnt show the reload animation
 

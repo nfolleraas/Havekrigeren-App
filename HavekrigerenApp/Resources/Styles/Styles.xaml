@@ -283,7 +283,7 @@
         <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
         <Setter Property="PlaceholderColor" Value="{StaticResource Placeholder}" />
         <Setter Property="CancelButtonColor" Value="{StaticResource Gray500}" />
-        <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
