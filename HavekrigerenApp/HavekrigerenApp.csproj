@@ -151,10 +151,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\MAUISamples\src\CustomizeHandlers\CustomizeHandlers.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiImage Update="Resources\Images\havekrigeren_logo.png">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </MauiImage>
