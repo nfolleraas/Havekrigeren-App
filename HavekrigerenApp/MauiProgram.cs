@@ -1,7 +1,4 @@
-﻿using Android.Widget;
-using Android.Graphics;
-using AndroidX.AppCompat.Widget;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 
 namespace HavekrigerenApp

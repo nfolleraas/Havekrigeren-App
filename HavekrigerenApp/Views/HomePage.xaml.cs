@@ -1,3 +1,4 @@
+using HavekrigerenApp.Models.Handlers;
 using HavekrigerenApp.ViewModels;
 
 namespace HavekrigerenApp

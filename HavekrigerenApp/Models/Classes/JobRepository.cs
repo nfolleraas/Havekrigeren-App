@@ -72,7 +72,7 @@ namespace HavekrigerenApp.Models.Classes
         public List<Job> GetAll()
         {
             return jobs;
-        }
+       }
 
         public List<string> Get(string contactName)
         {
