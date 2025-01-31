@@ -14,8 +14,6 @@ namespace HavekrigerenApp.ViewModels
         private CategoryRepository categoryRepo = new CategoryRepository();
         private JobRepository jobRepo = new JobRepository();
         private AlertService alertService = new AlertService();
-        private NavigationService navigationService = new NavigationService();
-        private DatabaseRepository databaseRepo = new DatabaseRepository();
 
         private ObservableCollection<Category> _categories;
         public ObservableCollection<Category> Categories
@@ -143,10 +141,10 @@ namespace HavekrigerenApp.ViewModels
         }
 
         // Commands
-        public ICommand CreateJobCmd { get; set; }
-        public ICommand StartDateSelectedCmd { get; set; }
-        public ICommand EndDateSelectedCmd { get; set; }
-        public ICommand ToggleDatesCmd { get; set; }
+        public ICommand CreateJobCommand { get; set; }
+        public ICommand StartDateSelectedCommand { get; set; }
+        public ICommand EndDateSelectedCommand { get; set; }
+        public ICommand ToggleDatesCommand { get; set; }
 
         public CreateJobViewModel()
         {
@@ -155,10 +153,10 @@ namespace HavekrigerenApp.ViewModels
             //LoadCategories();
 
             // Command registration
-            CreateJobCmd = new Command(CreateJob);
-            StartDateSelectedCmd = new Command<DateTime>(StartDateSelected);
-            EndDateSelectedCmd = new Command<DateTime>(EndDateSelected);
-            ToggleDatesCmd = new Command<bool>(ToggleDates);
+            CreateJobCommand = new Command(CreateJob);
+            StartDateSelectedCommand = new Command<DateTime>(StartDateSelected);
+            EndDateSelectedCommand = new Command<DateTime>(EndDateSelected);
+            ToggleDatesCommand = new Command<bool>(ToggleDates);
         }
 
         public async Task LoadCategories()
@@ -183,36 +181,7 @@ namespace HavekrigerenApp.ViewModels
             OnPropertyChanged(nameof(IsButtonEnabled));
         }
 
-        private void StartDateSelected(DateTime selectedDate)
-        {
-            _startDate = selectedDate;
-        }
-
-        private void EndDateSelected(DateTime selectedDate)
-        {
-            _endDate = selectedDate;
-        }
-
-        private async void CreateJob()
-        {
-            try
-            {
-                
-                await alertService.DisplayAlertAsync("Opret Opgave", $"Oprettede opgaven \"{_contactName}, {_address}\"");
-                _dateCreated = DateTime.Now;
-                await jobRepo.AddAsync(_contactName, _phoneNumber, _address, _category, _isChecked, _startDate, _endDate, _notes, _dateCreated);
-                ResetInputs();
-            }
-            catch (InvalidOperationException ex)
-            {
-                await alertService.DisplayAlertAsync("Fejl!", ex.Message);
-            }
-            catch (Exception ex)
-            {
-                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
-            }
-        }
-
+        // Resets the user inputs on the page
         private void ResetInputs()
         {
             ContactName = string.Empty;
@@ -225,6 +194,36 @@ namespace HavekrigerenApp.ViewModels
             Notes = string.Empty;
         }
 
+        // Commands
+
+        private async void CreateJob()
+        {
+            try
+            {
+
+                await alertService.DisplayAlertAsync("Opret Opgave", $"Oprettede opgaven \"{_contactName}, {_address}\"");
+                _dateCreated = DateTime.Now;
+                await jobRepo.AddAsync(_contactName, _address, _phoneNumber, _category, _isChecked, _startDate, _endDate, _notes, _dateCreated);
+                ResetInputs();
+            }
+            catch (InvalidOperationException ex)
+            {
+                await alertService.DisplayAlertAsync("Fejl!", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
+            }
+        }
+        private void StartDateSelected(DateTime selectedDate)
+        {
+            _startDate = selectedDate;
+        }
+
+        private void EndDateSelected(DateTime selectedDate)
+        {
+            _endDate = selectedDate;
+        }
         private void ToggleDates(bool isChecked)
         {
             if (isChecked)

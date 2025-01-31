@@ -3,22 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HavekrigerenApp.CalendarPage">
 
+    <Shell.TitleView>
+        <Label Text="Kalender" Style="{StaticResource shellTitleStyle}"/>
+    </Shell.TitleView>
+
     <ScrollView>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <!-- Header -->
-        <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="0">
-            <Label Text="Kalender" HeightRequest="50" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand"/>
-        </StackLayout>
-
-        <!-- Main Content -->
-        <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="1">
+        <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand">
             <Label Text="yo"/>
         </StackLayout>
-    </Grid>
     </ScrollView>
 </ContentPage>

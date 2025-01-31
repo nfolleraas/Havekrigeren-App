@@ -10,9 +10,9 @@ namespace HavekrigerenApp.Models.Classes
         [FirestoreProperty]
         public string ContactName { get; set; }
         [FirestoreProperty]
-        public string PhoneNumber { get; set; }
-        [FirestoreProperty]
         public string Address { get; set; }
+        [FirestoreProperty]
+        public string PhoneNumber { get; set; }
         [FirestoreProperty]
         public string Category { get; set; }
         [FirestoreProperty]
@@ -26,12 +26,12 @@ namespace HavekrigerenApp.Models.Classes
         [FirestoreProperty]
         public string DateCreated { get; set; }
 
-        public Job(int id, string contactName, string phoneNumber, string address, string category, bool hasDate, string startDate, string endDate, string notes, string dateCreated)
+        public Job(int id, string contactName, string address, string phoneNumber, string category, bool hasDate, string startDate, string endDate, string notes, string dateCreated)
         {
             Id = id;
             ContactName = contactName;
-            PhoneNumber = phoneNumber;
             Address = address;
+            PhoneNumber = phoneNumber;
             Category = category;
             HasDate = hasDate;
             StartDate = startDate;
@@ -43,6 +43,11 @@ namespace HavekrigerenApp.Models.Classes
         // Parameterless contructor for Firebase cus they stupid
         public Job()
         {
+        }
+
+        public override string ToString()
+        {
+            return $"{ContactName}, {Address}, {PhoneNumber}";
         }
     }
 }

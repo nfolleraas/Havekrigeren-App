@@ -4,24 +4,18 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="HavekrigerenApp.ViewAllCategoriesPage">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <!-- Header -->
-        <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="0">
-            <Label Text="Alle Kategorier" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
-            <Button Text="Ny Kategori" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCmd}">
+    <Shell.TitleView>
+        <StackLayout>
+            <Label Text="Alle Kategorier" Style="{StaticResource shellTitleStyle}"/>
+            <Button Text="Ny Kategori" Margin="0,-40,10,0" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCmd}">
                 <Button.ImageSource>
                     <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
                 </Button.ImageSource>
             </Button>
         </StackLayout>
+    </Shell.TitleView>
 
-        <!-- Main Content -->
-        <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="1">
+        <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand">
             <!-- No categories message -->
             <Label Text="Kunne ikke finde nogen kategorier." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
             <Label Text="Tryk på knappen til højre for at tilføje en ny." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,20,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
@@ -61,6 +55,5 @@
                 </CollectionView>
             </RefreshView>
         </StackLayout>
-    </Grid>
 
 </ContentPage>

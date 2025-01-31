@@ -13,12 +13,12 @@ namespace HavekrigerenApp.Models.Classes
             databaseRepo = new DatabaseRepository();
         }
 
-        public async Task AddAsync(string contactName, string phoneNumber, string address, Category category, bool hasDate, DateTime? startDate, DateTime? endDate, string notes, DateTime dateCreated)
+        public async Task AddAsync(string contactName, string address, string phoneNumber, Category category, bool hasDate, DateTime? startDate, DateTime? endDate, string notes, DateTime dateCreated)
         {
             // Check if inputs have content
             if (!string.IsNullOrEmpty(contactName)
-                && !string.IsNullOrEmpty(phoneNumber)
                 && !string.IsNullOrEmpty(address)
+                && !string.IsNullOrEmpty(phoneNumber)
                 && !string.IsNullOrEmpty(category.ToString()))
             {
                 // Set job id to highest id + 1
@@ -38,7 +38,7 @@ namespace HavekrigerenApp.Models.Classes
                 string formattedStartDate = startDate?.ToString("dd/MM-yyyy") ?? string.Empty;
                 string formattedEndDate = endDate?.ToString("dd/MM-yyyy") ?? string.Empty;
 
-                Job newJob = new Job(id, contactName, phoneNumber, address, category.ToString(), hasDate, formattedStartDate, formattedEndDate, notes, dateCreated.ToString("dd/MM-yyyy HH:mm:ss"));
+                Job newJob = new Job(id, contactName, address, phoneNumber, category.ToString(), hasDate, formattedStartDate, formattedEndDate, notes, dateCreated.ToString("dd/MM-yyyy HH:mm:ss"));
                 jobs.Add(newJob);
 
                 await databaseRepo.AddAsync(collectionName, newJob);
@@ -74,15 +74,15 @@ namespace HavekrigerenApp.Models.Classes
             return jobs;
         }
 
-        public Job Get(int id)
+        public List<string> Get(string contactName)
         {
-            Job? result = null;
+            List<string> result = new List<string>();
 
             foreach (Job job in jobs)
             {
-                if (job.Id == id)
+                if (job.ContactName == contactName)
                 {
-                    result = job;
+                    result.Add(job.ToString());
                     break;
                 }
             }

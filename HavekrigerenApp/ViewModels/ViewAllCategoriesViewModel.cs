@@ -61,12 +61,12 @@ namespace HavekrigerenApp.ViewModels
         {
             await categoryRepo.LoadAllAsync();
 
-            CategoriesVM.Clear();
+            _categoriesVM.Clear();
             // Instatiate new CategoryViewModel for each category
             foreach (Category category in categoryRepo.GetAll())
             {
                 CategoryViewModel categoryVM = new CategoryViewModel(category);
-                CategoriesVM.Add(categoryVM);
+                _categoriesVM.Add(categoryVM);
             }
         }
 

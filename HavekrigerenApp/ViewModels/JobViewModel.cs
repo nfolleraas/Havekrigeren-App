@@ -5,10 +5,10 @@ namespace HavekrigerenApp.ViewModels
     public class JobViewModel
     {
         // Properties to display
-        public Job Job { get; set; }
+        private Job job;
         public string ContactName { get; set; }
-        public string PhoneNumber { get; set; }
         public string Address { get; set; }
+        public string PhoneNumber { get; set; }
         public string Category { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
@@ -16,10 +16,10 @@ namespace HavekrigerenApp.ViewModels
 
         public JobViewModel(Job job)
         {
-            Job = job;
+            this.job = job;
             ContactName = job.ContactName;
-            PhoneNumber = job.PhoneNumber;
             Address = job.Address;
+            PhoneNumber = job.PhoneNumber;
             Category = job.Category;
             StartDate = job.StartDate;
             EndDate = job.EndDate;

@@ -2,8 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="HavekrigerenApp.ViewAllJobsPage"
-             Title="{Binding CategoryName}">
+             x:Class="HavekrigerenApp.ViewAllJobsPage">
+
+    <Shell.TitleView>
+        <Label Text="{Binding CategoryName}" Style="{StaticResource shellTitleStyle}"/>
+    </Shell.TitleView>
 
     <Grid>
         <Grid.RowDefinitions>

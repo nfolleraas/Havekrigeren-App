@@ -5,12 +5,12 @@ namespace HavekrigerenApp.ViewModels
     public class CategoryViewModel
     {
         // Properties to display
-        public Category Category { get; set; }
+        private Category category;
         public string Name { get; set; }
 
         public CategoryViewModel(Category category)
         {
-            Category = category;
+            this.category = category;
             Name = category.Name;
         }
     }
