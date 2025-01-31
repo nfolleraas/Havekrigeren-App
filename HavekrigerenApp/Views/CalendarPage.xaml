@@ -8,7 +8,7 @@
     </Shell.TitleView>
 
     <ScrollView>
-        <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand">
+        <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
             <Label Text="yo"/>
         </StackLayout>
     </ScrollView>

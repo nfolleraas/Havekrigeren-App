@@ -5,7 +5,7 @@
              Title="Informationer om opgave">
 
     <ScrollView>
-        <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand">
+        <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
 
             <!-- Contact Person -->
             <Label>
