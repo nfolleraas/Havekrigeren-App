@@ -24,5 +24,11 @@ namespace HavekrigerenApp
             base.OnNavigatedTo(args);
             await vm.LoadJobs();
         }
+
+        //protected override async void OnAppearing()
+        //{
+        //    base.OnAppearing();
+        //    await vm.LoadJobs();
+        //}
     }
 }

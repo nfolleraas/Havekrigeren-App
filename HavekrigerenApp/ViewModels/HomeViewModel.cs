@@ -1,8 +1,10 @@
 ﻿using HavekrigerenApp.Models.Classes;
+using HavekrigerenApp.Models.Misc;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Input;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HavekrigerenApp.ViewModels
 {
@@ -23,6 +25,21 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
+        private ObservableCollection<JobViewModel> _jobsVMSortedByDate;
+
+        public ObservableCollection<JobViewModel> JobsVMSortedByDate
+        {
+            get { return _jobsVMSortedByDate; }
+            set 
+            { 
+                _jobsVMSortedByDate = value; 
+                OnPropertyChanged(nameof(JobsVMSortedByDate));
+            }
+        }
+
+        private List<Job> jobsSortedByDate;
+
+
         private bool _isRefreshing;
         public bool IsRefreshing
         {
@@ -34,6 +51,19 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
+        private InvertableBool _showIncomingJobs = true;
+
+        public InvertableBool ShowIncomingJobs
+        {
+            get => _showIncomingJobs;
+            set 
+            {
+                _showIncomingJobs = value;
+                OnPropertyChanged(nameof(ShowIncomingJobs));
+            }
+        }
+
+
         // Commands
         public ICommand JobClickedCommand { get; set; }
         public ICommand RefreshCommand { get; set; }
@@ -42,8 +72,7 @@ namespace HavekrigerenApp.ViewModels
         public HomeViewModel()
         {
             _jobsVM = new ObservableCollection<JobViewModel>();
-
-            RefreshPage();
+            _jobsVMSortedByDate = new ObservableCollection<JobViewModel>();
 
             // Command registration
             //JobClickedCommand = new Command<Job>(JobClicked);
@@ -61,17 +90,42 @@ namespace HavekrigerenApp.ViewModels
                 JobViewModel jobVM = new JobViewModel(job);
                 _jobsVM.Add(jobVM);
             }
+
+            // Sort by date
+            jobsSortedByDate = jobRepo.SortJobsBy(job => job.StartDate);
+
+            _jobsVMSortedByDate.Clear();
+            foreach (Job job in jobsSortedByDate)
+            {
+                if (!string.IsNullOrEmpty(job.StartDate))
+                {
+                    JobViewModel jobVM = new JobViewModel(job);
+                    _jobsVMSortedByDate.Add(jobVM);
+                }
+            }
         }
 
         public void SearchJob(object input)
         {
-            ObservableCollection<Job> foundJobs = new ObservableCollection<Job>(jobRepo.PerformSearch(((SearchBar)input).Text));
+            string searchText = ((SearchBar)input).Text;
+            Console.WriteLine(searchText);
+
+            ObservableCollection<Job> foundJobs = new ObservableCollection<Job>(jobRepo.PerformSearch(searchText));
 
             _jobsVM.Clear();
             foreach (Job job in foundJobs)
             {
                 JobViewModel jobVM = new JobViewModel(job);
                 _jobsVM.Add(jobVM);
+            }
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                ShowIncomingJobs = true;
+            }
+            else
+            {
+                ShowIncomingJobs = false;
             }
         }
 

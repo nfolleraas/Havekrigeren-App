@@ -66,7 +66,13 @@ namespace HavekrigerenApp.Models.Classes
         public async Task LoadAllAsync()
         {
             jobs = await databaseRepo.GetAllAsync<Job>(collectionName);
-            jobs.Sort((x, y) => x.ContactName.CompareTo(y.ContactName));
+            jobs = SortJobsBy(job => job.ContactName);
+            
+        }
+
+        public List<Job> SortJobsBy(Func<Job, object> propertyName)
+        {
+            return jobs.OrderBy(propertyName).ToList();
         }
 
         public List<Job> GetAll()
@@ -74,19 +80,16 @@ namespace HavekrigerenApp.Models.Classes
             return jobs;
        }
 
-        public List<string> Get(string contactName)
+        public Job? Get(string contactName)
         {
-            List<string> result = new List<string>();
-
             foreach (Job job in jobs)
             {
                 if (job.ContactName == contactName)
                 {
-                    result.Add(job.ToString());
-                    break;
+                    return job;
                 }
             }
-            return result;
+            return null;
         }
 
         public List<Job> PerformSearch(string query)
