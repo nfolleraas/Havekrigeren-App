@@ -3,22 +3,106 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HavekrigerenApp.HomePage">
 
-    <ScrollView>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+    <Shell.TitleView>
+        <Label Text="Hjem" Style="{StaticResource shellTitleStyle}"/>
+    </Shell.TitleView>
 
-            <!-- Header -->
-            <StackLayout Orientation="Horizontal" Padding="10" Grid.Row="0">
-                <Label Text="Hjem" HeightRequest="50" FontSize="Title" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand"/>
-            </StackLayout>
+    <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}" RefreshColor="{StaticResource Primary}" Style="{StaticResource defaultStackLayoutStyle}" >
+        <ScrollView>
+            <StackLayout>
 
-            <!-- Main Content -->
-            <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="1">
-                <Label Text="yo"/>
+                <!-- Search Bar -->
+                <Border Padding="0" BackgroundColor="Transparent">
+                    <SearchBar Placeholder="Søg..." TextChanged="SearchBar_TextChanged"/>
+                </Border>
+
+                <Label Text="Alle Opgaver" FontSize="Medium" Margin="0,10,0,5" IsVisible="{Binding ShowIncomingJobs.Value}"/>
+
+                <Label Text="Søgeresultater" FontSize="Medium" Margin="0,10,0,5" IsVisible="{Binding ShowIncomingJobs.Invert}"/>
+
+                <!-- Search Jobs List -->
+                <CollectionView ItemsSource="{Binding JobsVM}" MaximumHeightRequest="400">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="5" Margin="0,10,0,0">
+                                <Grid ColumnDefinitions="*, Auto">
+
+                                    <!-- Job Info -->
+                                    <StackLayout>
+                                        <Label Text="{Binding Category}" FontSize="Medium" FontAttributes="Bold" 
+                                                    VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
+                                                    MaximumWidthRequest="300" 
+                                                    Grid.Column="0"/>
+                                        <Label Text="{Binding ContactName}" FontSize="Medium" FontAttributes="None" 
+                                                    VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
+                                                    MaximumWidthRequest="300" 
+                                                    Grid.Column="0"/>
+
+                                        <Label FontSize="Small" 
+                                                    VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
+                                                    MaximumWidthRequest="300" 
+                                                    Grid.Column="0">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Address}" FontAttributes="Italic"/>
+                                                    <Span Text=" , " FontAttributes="Italic"/>
+                                                    <Span Text="{Binding FormattedPhoneNumber}" FontAttributes="Italic"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+
+                                    <!-- See More -->
+                                    <Label Text="Se mere ▶" FontSize="Header" VerticalTextAlignment="Center" Grid.Column="1" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Incoming Jobs -->
+                <Label Text="Kommende Opgaver" FontSize="Medium" Margin="0,10,0,5" IsVisible="{Binding ShowIncomingJobs.Value}"/>
+
+                <CollectionView ItemsSource="{Binding JobsVMSortedByDate}" MaximumHeightRequest="200" IsVisible="{Binding ShowIncomingJobs.Value}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="5" Margin="0,10,0,0">
+                                <Grid ColumnDefinitions="*, Auto">
+
+                                    <!-- Job Info -->
+                                    <StackLayout>
+                                        <Label FontSize="Medium"
+                                               VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
+                                               MaximumWidthRequest="300" 
+                                               Grid.Column="0">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding StartDate}" FontAttributes="Italic"/>
+                                                    <Span Text=" til " FontAttributes="Italic"/>
+                                                    <Span Text="{Binding EndDate}" FontAttributes="Italic"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Label Text="{Binding ContactName}" FontSize="Small" FontAttributes="None" 
+                                        VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
+                                        MaximumWidthRequest="300" 
+                                        Grid.Column="0"/>
+                                        <Label Text="{Binding Address}" FontSize="Small" FontAttributes="Italic" 
+                                        VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
+                                        MaximumWidthRequest="300" 
+                                        Grid.Column="0"/>
+                                    </StackLayout>
+
+                                    <!-- See More -->
+                                    <Label Text="Se mere ▶" FontSize="Header" VerticalTextAlignment="Center" Grid.Column="1" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </StackLayout>
-        </Grid>
-    </ScrollView>
+        </ScrollView>
+    </RefreshView>
+
 </ContentPage>
