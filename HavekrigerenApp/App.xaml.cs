@@ -5,7 +5,6 @@ namespace HavekrigerenApp
 {
     public partial class App : Application
     {
-        public CultureInfo Culture { get; set; } = new CultureInfo("da-DK");
         private JobRepository jobRepo = new JobRepository();
 
         public App()
