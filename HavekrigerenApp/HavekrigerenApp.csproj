@@ -30,7 +30,7 @@
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.3</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">12.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
@@ -55,6 +55,10 @@
 	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -72,44 +76,23 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <MauiAsset Remove="Resources\Raw\AboutAssets.txt" />
-	</ItemGroup>
+    <ItemGroup>
+        <MauiAsset Include="Resources\Raw\config.json" />
+    </ItemGroup>
 
-	<ItemGroup>
-	  <None Remove="config.json" />
-	  <None Remove="Resources\Icons\calendar.png" />
-	  <None Remove="Resources\Icons\calendar_1x.png" />
-	  <None Remove="Resources\Icons\calendar_64x.png" />
-	  <None Remove="Resources\Icons\create.png" />
-	  <None Remove="Resources\Icons\create_white.png" />
-	  <None Remove="Resources\Icons\delete.png" />
-	  <None Remove="Resources\Icons\home.png" />
-	  <None Remove="Resources\Icons\home_1x.png" />
-	  <None Remove="Resources\Icons\list.png" />
-	  <None Remove="Resources\Icons\list_1x.png" />
-	  <None Remove="Resources\Icons\phone.png" />
-	  <None Remove="Resources\Icons\plus-1x.png" />
-	  <None Remove="Resources\Icons\plus_1x.png" />
-	  <None Remove="Resources\Icons\reload.png" />
-	  <None Remove="Resources\Icons\trash_1x.png" />
-	  <None Remove="Resources\Icons\user.png" />
-	  <None Remove="Resources\Icons\user_1x.png" />
-	  <None Remove="resources\images\home.svg" />
-	</ItemGroup>
-
-	<ItemGroup>
+    <ItemGroup>
 	  <EmbeddedResource Include="Resources\Raw\AboutAssets.txt" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
-		<PackageReference Include="FirebaseAdmin" Version="3.0.1" />
-		<PackageReference Include="Google.Apis.Auth" Version="1.68.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="11.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="FirebaseAdmin" Version="3.1.0" />
+		<PackageReference Include="Google.Apis.Auth" Version="1.69.0" />
 		<PackageReference Include="Google.Cloud.Firestore" Version="3.9.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.91" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.91" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.30" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.30" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -166,16 +149,6 @@
 	  <MauiImage Include="Resources\Icons\plus_1x.png" />
 	  <MauiImage Include="Resources\Icons\trash_1x.png" />
 	  <MauiImage Include="Resources\Icons\user_1x.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Plugin.Maui.Calendar\Plugin.Maui.Calendar.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiAsset Update="Resources\Raw\config.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
 	</ItemGroup>
 
 	<ItemGroup>

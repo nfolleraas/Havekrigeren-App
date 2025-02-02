@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
 
 namespace HavekrigerenApp
 {
@@ -7,6 +7,7 @@ namespace HavekrigerenApp
     {
         public static MauiApp CreateMauiApp()
         {
+
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>().UseMauiCommunityToolkit()
@@ -17,10 +18,11 @@ namespace HavekrigerenApp
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
         }
+
     }
 }

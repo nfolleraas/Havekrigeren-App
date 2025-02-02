@@ -2,11 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HavekrigerenApp.ViewJobPage"
-             Title="Vis Opgave"
-             Shell.NavBarIsVisible="True">
+             Title="Informationer om opgave">
 
     <ScrollView>
-        <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand">
+        <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
 
             <!-- Contact Person -->
             <Label>
@@ -22,7 +21,7 @@
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Addresse" FontAttributes="Bold" FontSize="Medium"/>
+                        <Span Text="Adresse" FontAttributes="Bold" FontSize="Medium"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
@@ -43,10 +42,12 @@
                 </Grid.ColumnDefinitions>
                 <Entry Text="{Binding JobVM.PhoneNumber}" TextColor="{StaticResource PrimaryText}" FontSize="Medium" IsEnabled="False" Grid.ColumnSpan="0" Margin="0,0,0,10"/>
                 <Button Margin="0,-10,-20,0"
-                    ImageSource="phone.png"
-                    Scale="0.6"
-                    BackgroundColor="Transparent"
-                    Grid.ColumnSpan="1" />
+                        ImageSource="phone.png"
+                        Scale="0.6"
+                        BackgroundColor="Transparent"
+                        Command="{Binding PhoneNumberClickedCommand}"
+                        CommandParameter="{Binding JobVM.PhoneNumber}"
+                        Grid.ColumnSpan="1" />
             </Grid>
             
             <!-- Category -->

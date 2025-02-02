@@ -2,8 +2,19 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar" >
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Style x:Key="defaultStackLayoutStyle" TargetType="StackLayout">
+        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        <Setter Property="Margin" Value="25,0,25,0"/>
+    </Style>
+
+    <Style x:Key="shellTitleStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="Title"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Padding" Value="0,10,0,0"/>
+    </Style>
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource Primary}" />
@@ -15,34 +26,14 @@
     </Style>
 
     <Style TargetType="Border">
-        <Setter Property="Stroke" Value="{StaticResource Gray200}" />
-        <Setter Property="StrokeShape" Value="Rectangle"/>
+        <Setter Property="Background" Value="{StaticResource Secondary}" />
+        <Setter Property="Stroke" Value="{StaticResource PrimaryDark}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
         <Setter Property="StrokeThickness" Value="1"/>
     </Style>
 
     <Style TargetType="BoxView">
         <Setter Property="BackgroundColor" Value="{StaticResource Gray950}" />
-    </Style>
-
-    <Style TargetType="controls:Calendar">
-        <Setter Property="DaysTitleColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="MonthLabelColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="YearLabelColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="WeekendDayColor" Value="{StaticResource WeekendColor}" />
-        <Setter Property="DaysTitleWeekendColor" Value="{StaticResource WeekendColor}" />
-        <Setter Property="SelectedDateColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="SelectedDayBackgroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="TodayOutlineColor" Value="{StaticResource PrimaryDark}" />
-        <Setter Property="ArrowsBackgroundColor" Value="Transparent" />
-        <Setter Property="ArrowsBorderColor" Value="Transparent" />
-        <Setter Property="ArrowsSymbolNext" Value="▶" />
-        <Setter Property="ArrowsSymbolPrev" Value="◀" />
-        <Setter Property="FooterArrowVisible" Value="True" />
-        <Setter Property="CalendarLayout" Value="Month" />
-        <Setter Property="FirstDayOfWeek" Value="Monday" />
-        <Setter Property="DaysTitleLabelFirstUpperRestLower" Value="True" />
-        <Setter Property="ArrowsFontSize" Value="20"/>
-        
     </Style>
 
     <Style TargetType="Button">
@@ -293,7 +284,7 @@
         <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
         <Setter Property="PlaceholderColor" Value="{StaticResource Placeholder}" />
         <Setter Property="CancelButtonColor" Value="{StaticResource Gray500}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
