@@ -21,7 +21,7 @@
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Addresse" FontAttributes="Bold" FontSize="Medium"/>
+                        <Span Text="Adresse" FontAttributes="Bold" FontSize="Medium"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>

@@ -45,9 +45,9 @@ namespace HavekrigerenApp.ViewModels
 
 
         // Commands
-        public ICommand JobClickedCmd { get; set; }
-        public ICommand RefreshCmd { get; set; }
-        public ICommand DeleteJobCmd { get; set; }
+        public ICommand JobClickedCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
+        public ICommand DeleteJobCommand { get; set; }
 
 
         public ViewAllJobsViewModel(string categoryName)
@@ -56,16 +56,14 @@ namespace HavekrigerenApp.ViewModels
 
             CategoryName = categoryName;
 
-            RefreshPage();
-
             // Command registration
-            JobClickedCmd = new Command<Job>(JobClicked);
-            RefreshCmd = new Command(async () => await RefreshPage());
-            DeleteJobCmd = new Command<Job>(DeleteJob);
+            JobClickedCommand = new Command<Job>(OnJobClicked);
+            RefreshCommand = new Command(async () => await RefreshPage());
+            DeleteJobCommand = new Command<Job>(DeleteJob);
 
         }
 
-        private async Task LoadJobs()
+        public async Task LoadJobs()
         {
             await jobRepo.LoadAllAsync();
 
@@ -82,7 +80,7 @@ namespace HavekrigerenApp.ViewModels
         }
 
         // Commands
-        private async void JobClicked(Job job)
+        private async void OnJobClicked(Job job)
         {
             try
             {
@@ -100,7 +98,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private async Task RefreshPage()
+        public async Task RefreshPage()
         {
             try
             {

@@ -18,5 +18,11 @@ namespace HavekrigerenApp
         {
 			vm.SearchJob(sender);
         }
+
+        protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+            await vm.LoadJobs();
+        }
     }
 }

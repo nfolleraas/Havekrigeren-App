@@ -3,7 +3,6 @@ using HavekrigerenApp.Models.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 
 namespace HavekrigerenApp.ViewModels
 {
@@ -107,16 +106,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private DateTime _dateCreated;
-        public DateTime DateCreated
-        {
-            get => _dateCreated;
-            set
-            {
-                _dateCreated = value;
-                OnPropertyChanged(nameof(DateCreated));
-            }
-        }
+        private DateTime dateCreated;
 
         private bool _isButtonEnabled;
         public bool IsButtonEnabled
@@ -129,14 +119,14 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private bool _isChecked;
-        public bool IsChecked
+        private bool _isCheckBoxChecked;
+        public bool IsCheckBoxChecked
         {
-            get => _isChecked;
+            get => _isCheckBoxChecked;
             set 
-            { 
-                _isChecked = value; 
-                OnPropertyChanged(nameof(IsChecked));
+            {
+                _isCheckBoxChecked = value; 
+                OnPropertyChanged(nameof(IsCheckBoxChecked));
             }
         }
 
@@ -144,19 +134,17 @@ namespace HavekrigerenApp.ViewModels
         public ICommand CreateJobCommand { get; set; }
         public ICommand StartDateSelectedCommand { get; set; }
         public ICommand EndDateSelectedCommand { get; set; }
-        public ICommand ToggleDatesCommand { get; set; }
 
         public CreateJobViewModel()
         {
             _categories = new ObservableCollection<Category>();
-            _isButtonEnabled = false;
+            IsButtonEnabled = false;
             //LoadCategories();
 
             // Command registration
-            CreateJobCommand = new Command(CreateJob);
-            StartDateSelectedCommand = new Command<DateTime>(StartDateSelected);
-            EndDateSelectedCommand = new Command<DateTime>(EndDateSelected);
-            ToggleDatesCommand = new Command<bool>(ToggleDates);
+            CreateJobCommand = new Command(OnCreateJob);
+            StartDateSelectedCommand = new Command<DateTime>(OnStartDateSelected);
+            EndDateSelectedCommand = new Command<DateTime>(OnEndDateSelected);
         }
 
         public async Task LoadCategories()
@@ -173,12 +161,10 @@ namespace HavekrigerenApp.ViewModels
 
         private void EnableCreateButton()
         {
-            _isButtonEnabled = !string.IsNullOrWhiteSpace(_contactName)
+            IsButtonEnabled = !string.IsNullOrWhiteSpace(_contactName)
                 && !string.IsNullOrWhiteSpace(_address)
                 && !string.IsNullOrWhiteSpace(_phoneNumber)
                 && _category != null;
-
-            OnPropertyChanged(nameof(IsButtonEnabled));
         }
 
         // Resets the user inputs on the page
@@ -188,22 +174,36 @@ namespace HavekrigerenApp.ViewModels
             PhoneNumber = string.Empty;
             Address = string.Empty;
             Category = null;
-            IsChecked = false;
+            IsCheckBoxChecked = false;
             StartDate = null;
             EndDate = null;
             Notes = string.Empty;
         }
 
-        // Commands
+        public void OnToggledDates(bool isChecked)
+        {
+            IsCheckBoxChecked = isChecked;
+            if (isChecked)
+            {
+                StartDate = DateTime.Now;
+                EndDate = DateTime.Now;
+            }
+            else
+            
+                StartDate = null;
+                EndDate = null;
+            }
+        }
 
-        private async void CreateJob()
+        // Commands
+        private async void OnCreateJob()
         {
             try
             {
 
                 await alertService.DisplayAlertAsync("Opret Opgave", $"Oprettede opgaven \"{_contactName}, {_address}\"");
-                _dateCreated = DateTime.Now;
-                await jobRepo.AddAsync(_contactName, _address, _phoneNumber, _category, _isChecked, _startDate, _endDate, _notes, _dateCreated);
+                dateCreated = DateTime.Now;
+                await jobRepo.AddAsync(_contactName, _address, _phoneNumber, _category, _isCheckBoxChecked, _startDate, _endDate, _notes, dateCreated);
                 ResetInputs();
             }
             catch (InvalidOperationException ex)
@@ -215,29 +215,14 @@ namespace HavekrigerenApp.ViewModels
                 await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
-        private void StartDateSelected(DateTime selectedDate)
+        private void OnStartDateSelected(DateTime selectedDate)
         {
-            _startDate = selectedDate;
+            StartDate = selectedDate;
         }
 
-        private void EndDateSelected(DateTime selectedDate)
+        private void OnEndDateSelected(DateTime selectedDate)
         {
-            _endDate = selectedDate;
-        }
-        private void ToggleDates(bool isChecked)
-        {
-            if (isChecked)
-            {
-                Console.WriteLine("yay");
-                _startDate = DateTime.Now;
-                _endDate = DateTime.Now;
-            }
-            else
-            {
-                Console.WriteLine("nay");
-                _startDate = null;
-                _endDate = null;
-            }
+            EndDate = selectedDate;
         }
 
         // Method for updating the UI on changes

@@ -50,7 +50,7 @@ namespace HavekrigerenApp.ViewModels
             RefreshCommand = new Command(async () => await RefreshPage());
         }
 
-        private async Task LoadJobs()
+        public async Task LoadJobs()
         {
             await jobRepo.LoadAllAsync();
 
@@ -65,7 +65,7 @@ namespace HavekrigerenApp.ViewModels
 
         public void SearchJob(object input)
         {
-            var foundJobs = new ObservableCollection<Job>(jobRepo.Search(((SearchBar)input).Text));
+            ObservableCollection<Job> foundJobs = new ObservableCollection<Job>(jobRepo.PerformSearch(((SearchBar)input).Text));
 
             _jobsVM.Clear();
             foreach (Job job in foundJobs)

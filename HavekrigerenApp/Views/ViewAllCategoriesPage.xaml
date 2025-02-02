@@ -7,7 +7,7 @@
     <Shell.TitleView>
         <StackLayout>
             <Label Text="Alle Kategorier" Style="{StaticResource shellTitleStyle}"/>
-            <Button Text="Ny Kategori" Margin="0,-40,10,0" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCmd}">
+            <Button Text="Ny Kategori" Margin="0,-40,10,0" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCommand}">
                 <Button.ImageSource>
                     <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
                 </Button.ImageSource>
@@ -23,18 +23,18 @@
         <Label Text="Kan du ikke se dine oprettede kategorier? Prøv at luk appen helt og start den op igen, så burde de gerne komme." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,0,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
 
         <!-- CollectionView for categories -->
-        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCmd}" Margin="0,20,0,0">
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}" Margin="0,20,0,0">
             <CollectionView ItemsSource="{Binding CategoriesVM}" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <SwipeView>
                             <SwipeView.RightItems>
                                 <SwipeItems>
-                                    <SwipeItem IconImageSource="trash_1x.png" BackgroundColor="Red" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCategoryCmd}" CommandParameter="{Binding Category}"/>
+                                    <SwipeItem IconImageSource="trash_1x.png" BackgroundColor="Red" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCategoryCommand}" CommandParameter="{Binding Category}"/>
                                 </SwipeItems>
                             </SwipeView.RightItems>
 
-                            <Frame Padding="10" Margin="0,10,0,0">
+                            <Border Padding="10" Margin="0,10,0,0">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
@@ -45,10 +45,10 @@
                                     <Label Text="Se mere ▶" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1" />
                                 </Grid>
 
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCmd}" CommandParameter="{Binding Category}"/>
-                                </Frame.GestureRecognizers>
-                            </Frame>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCommand}" CommandParameter="{Binding Category}"/>
+                                </Border.GestureRecognizers>
+                            </Border>
                         </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
