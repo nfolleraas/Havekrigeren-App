@@ -139,7 +139,6 @@ namespace HavekrigerenApp.ViewModels
         {
             _categories = new ObservableCollection<Category>();
             IsButtonEnabled = false;
-            //LoadCategories();
 
             // Command registration
             CreateJobCommand = new Command(OnCreateJob);
