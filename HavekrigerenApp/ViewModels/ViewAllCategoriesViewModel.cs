@@ -16,8 +16,8 @@ namespace HavekrigerenApp.ViewModels
         private AlertService alertService = new AlertService();
         private NavigationService navigationService = new NavigationService();
 
-        private ObservableCollection<CategoryViewModel>? _categoriesVM;
-        public ObservableCollection<CategoryViewModel>? CategoriesVM 
+        private ObservableCollection<CategoryViewModel> _categoriesVM;
+        public ObservableCollection<CategoryViewModel> CategoriesVM 
         {
             get => _categoriesVM;
             set
@@ -39,25 +39,23 @@ namespace HavekrigerenApp.ViewModels
         }
 
         // Commands
-        public ICommand CategoryClickedCmd { get; set; }
-        public ICommand CreateCategoryCmd { get; set; }
-        public ICommand RefreshCmd { get; set; }
-        public ICommand DeleteCategoryCmd { get; set; }
+        public ICommand CategoryClickedCommand { get; set; }
+        public ICommand CreateCategoryCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
+        public ICommand DeleteCategoryCommand { get; set; }
 
         public ViewAllCategoriesViewModel()
         {
-            CategoriesVM = new ObservableCollection<CategoryViewModel>();
-            // Show the user that the page is loading
-            RefreshPage(); // Could use LoadCategories() instead, but that doesnt show the reload animation
+            _categoriesVM = new ObservableCollection<CategoryViewModel>();
 
             // Command registration
-            CategoryClickedCmd = new Command<Category>(CategoryClicked);
-            CreateCategoryCmd = new Command(CreateCategory);
-            RefreshCmd = new Command(async () => await RefreshPage());
-            DeleteCategoryCmd = new Command<Category>(DeleteCategory);
+            CategoryClickedCommand = new Command<Category>(OnCategoryClicked);
+            CreateCategoryCommand = new Command(CreateCategory);
+            RefreshCommand = new Command(async () => await RefreshPage());
+            DeleteCategoryCommand = new Command<Category>(DeleteCategory);
         }
 
-        private async Task LoadCategories()
+        public async Task LoadCategories()
         {
             await categoryRepo.LoadAllAsync();
 
@@ -70,7 +68,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private async void CategoryClicked(Category category)
+        private async void OnCategoryClicked(Category category)
         {
             try
             {
@@ -125,7 +123,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private async Task RefreshPage()
+        public async Task RefreshPage()
         {
             try
             {

@@ -1,5 +1,4 @@
 ﻿using HavekrigerenApp.Models.Classes;
-using HavekrigerenApp.Models.Handlers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
@@ -12,65 +11,82 @@ namespace HavekrigerenApp.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private JobRepository jobRepo = new JobRepository();
-        private JobSearchHandler jobSearchHandler;
 
-        private ObservableCollection<Job> _jobs;
-        public ObservableCollection<Job> Jobs
+        private ObservableCollection<JobViewModel> _jobsVM;
+        public ObservableCollection<JobViewModel> JobsVM
         {
-            get { return _jobs; }
+            get => _jobsVM;
             set 
             { 
-                _jobs = value;
-                OnPropertyChanged(nameof(Jobs));
+                _jobsVM = value;
+                OnPropertyChanged(nameof(JobsVM));
             }
         }
 
-        private ObservableCollection<Job> _filteredJobs = new ObservableCollection<Job>();
-
-        public ObservableCollection<Job> FilteredJobs
+        private bool _isRefreshing;
+        public bool IsRefreshing
         {
-            get { return _filteredJobs; }
-            set 
-            { 
-                _filteredJobs = value; 
-                OnPropertyChanged(nameof(FilteredJobs));   
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
             }
         }
+
+        // Commands
+        public ICommand JobClickedCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
 
 
         public HomeViewModel()
         {
-            _jobs = new ObservableCollection<Job>();
-            jobSearchHandler = new JobSearchHandler();
+            _jobsVM = new ObservableCollection<JobViewModel>();
 
-            LoadJobs();
+            RefreshPage();
 
-            
-
-            jobSearchHandler.FilteredJobsUpdated += (_jobs) =>
-            {
-                Console.WriteLine($"FilteredJobsUpdated triggered with {_jobs.Count} items");
-                FilteredJobs.Clear();
-                foreach (var job in _jobs)
-                {
-                    FilteredJobs.Add(job);
-                }
-            };
+            // Command registration
+            //JobClickedCommand = new Command<Job>(JobClicked);
+            RefreshCommand = new Command(async () => await RefreshPage());
         }
 
-        private async void LoadJobs()
+        public async Task LoadJobs()
         {
             await jobRepo.LoadAllAsync();
 
-            _jobs.Clear();
+            _jobsVM.Clear();
             // Instatiate new JobViewModel for each job
             foreach (Job job in jobRepo.GetAll())
             {
-                //JobViewModel jobVM = new JobViewModel(job);
-                _jobs.Add(job);
+                JobViewModel jobVM = new JobViewModel(job);
+                _jobsVM.Add(jobVM);
             }
+        }
 
-            jobSearchHandler.Jobs = _jobs.ToList();
+        public void SearchJob(object input)
+        {
+            ObservableCollection<Job> foundJobs = new ObservableCollection<Job>(jobRepo.PerformSearch(((SearchBar)input).Text));
+
+            _jobsVM.Clear();
+            foreach (Job job in foundJobs)
+            {
+                JobViewModel jobVM = new JobViewModel(job);
+                _jobsVM.Add(jobVM);
+            }
+        }
+
+        // Commands
+        private async Task RefreshPage()
+        {
+            try
+            {
+                IsRefreshing = true;
+                await LoadJobs();
+            }
+            finally
+            {
+                IsRefreshing = false;
+            }
         }
 
         // Method for updating the UI on changes

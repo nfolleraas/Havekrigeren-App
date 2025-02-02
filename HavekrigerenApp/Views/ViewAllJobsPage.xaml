@@ -8,66 +8,55 @@
         <Label Text="{Binding CategoryName}" Style="{StaticResource shellTitleStyle}"/>
     </Shell.TitleView>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <!-- Main Content -->
+    <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
+        <!-- No jobs message -->
+        <Label Text="Kunne ikke finde nogen opgaver." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding JobsVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+        <Label Text="Tryk på plusset i navigationsbaren for at oprette en ny." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,20,0,0" IsVisible="{Binding JobsVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
 
-        <!-- Path -->
-        <Label Text="{Binding Path}" Grid.Row="0"/>
+        <!-- CollectionView for jobs -->
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}" RefreshColor="{StaticResource Primary}" Margin="0,20,0,0">
+            <CollectionView ItemsSource="{Binding JobsVM}" IsVisible="{Binding JobsVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem IconImageSource="trash_1x.png" BackgroundColor="Red" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteJobCommand}" CommandParameter="{Binding Job}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
 
-        <!-- Main Content -->
-        <StackLayout Margin="25,0,25,0" VerticalOptions="FillAndExpand" Grid.Row="2">
-            <!-- No jobs message -->
-            <Label Text="Kunne ikke finde nogen opgaver." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding JobsVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
-            <Label Text="Tryk på plusset i navigationsbaren for at oprette en ny." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,20,0,0" IsVisible="{Binding JobsVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+                            <Border Padding="10" Margin="0,10,0,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-            <!-- CollectionView for jobs -->
-            <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCmd}" RefreshColor="{StaticResource Primary}" Margin="0,20,0,0">
-                <CollectionView ItemsSource="{Binding JobsVM}" IsVisible="{Binding JobsVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <SwipeView>
-                                <SwipeView.RightItems>
-                                    <SwipeItems>
-                                        <SwipeItem IconImageSource="trash_1x.png" BackgroundColor="Red" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteJobCmd}" CommandParameter="{Binding Job}"/>
-                                    </SwipeItems>
-                                </SwipeView.RightItems>
-
-                                <Frame Padding="10" Margin="0,10,0,0">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <!-- Job Info -->
-                                        <StackLayout Orientation="Vertical">
-                                            <Label Text="{Binding ContactName}" FontSize="Large" FontAttributes="Bold" 
+                                    <!-- Job Info -->
+                                    <StackLayout Orientation="Vertical">
+                                        <Label Text="{Binding ContactName}" FontSize="Large" FontAttributes="Bold" 
                                                    VerticalTextAlignment="Center" Grid.Column="0" 
                                                    LineBreakMode="TailTruncation" MaximumWidthRequest="300"/>
-                                            
-                                            <Label Text="{Binding Address}" FontSize="Medium" FontAttributes="Italic" 
+
+                                        <Label Text="{Binding Address}" FontSize="Medium" FontAttributes="Italic" 
                                                    VerticalTextAlignment="Center" Grid.Column="0" 
                                                    LineBreakMode="TailTruncation" MaximumWidthRequest="300"/>
-                                        </StackLayout>
+                                    </StackLayout>
 
-                                        <!-- See More -->
-                                        <Label Text="Se mere ▶" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1" />
-                                    </Grid>
+                                    <!-- See More -->
+                                    <Label Text="Se mere ▶" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1" />
+                                </Grid>
 
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.JobClickedCmd}" CommandParameter="{Binding Job}"/>
-                                    </Frame.GestureRecognizers>
-                                </Frame>
-                            </SwipeView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </RefreshView>
-        </StackLayout>
-    </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.JobClickedCommand}" CommandParameter="{Binding Job}"/>
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
 
 </ContentPage>

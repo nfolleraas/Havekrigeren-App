@@ -47,7 +47,7 @@ namespace HavekrigerenApp.Models.Classes
 
         public override string ToString()
         {
-            return $"{ContactName}, {Address}, {PhoneNumber}";
+            return $"{ContactName} {Address} {PhoneNumber} {Category}";
         }
     }
 }

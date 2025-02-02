@@ -89,6 +89,16 @@ namespace HavekrigerenApp.Models.Classes
             return result;
         }
 
+        public List<Job> PerformSearch(string query)
+        {
+            List<Job> filteredJobs = jobs
+                                    .Where(job => job.ToString().ToLower()
+                                    .Contains(query?.ToLower() ?? ""))
+                                    .ToList();
+
+            return filteredJobs;
+        }
+
         public async Task DeleteAsync(Job job)
         {
             jobs.Remove(job);

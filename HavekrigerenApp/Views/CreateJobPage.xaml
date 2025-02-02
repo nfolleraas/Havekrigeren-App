@@ -9,7 +9,7 @@
     </Shell.TitleView>
 
     <ScrollView>
-        <StackLayout Orientation="Vertical" Margin="25,0,25,0" VerticalOptions="FillAndExpand">
+        <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
 
             <!-- Contact Person -->
             <Label>
@@ -26,7 +26,7 @@
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Addresse " FontAttributes="Bold" FontSize="Medium"/>
+                        <Span Text="Adresse " FontAttributes="Bold" FontSize="Medium"/>
                         <Span Text="*" TextColor="{StaticResource Required}" FontAttributes="Bold" FontSize="Large"/>
                     </FormattedString>
                 </Label.FormattedText>
@@ -60,30 +60,27 @@
 
             <!-- Date Checkbox -->
             <StackLayout Orientation="Horizontal" Padding="-10,0,0,0">
-                <CheckBox x:Name="dateCheckBox" IsChecked="{Binding IsChecked}" HorizontalOptions="Center">
-                    <CheckBox.Behaviors>
-                        <toolkit:EventToCommandBehavior EventName="CheckedChanged"
-                                                                Command="{Binding ToggleDatesCmd}"
-                                                                CommandParameter="{Binding IsChecked, Source={x:Reference dateCheckBox}}"/>
-                    </CheckBox.Behaviors>
-                </CheckBox>
+                <CheckBox x:Name="dateCheckBox" IsChecked="{Binding IsCheckBoxChecked}" 
+                          HorizontalOptions="Center" CheckedChanged="dateCheckBox_CheckedChanged"/>
 
                 <Label Text="Vælg start- og slutdato?" FontSize="Medium" VerticalOptions="Center"/>
             </StackLayout>
 
             <!-- Start Date -->
-            <Label Text="Start Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsChecked}"/>
-            <DatePicker x:Name="startDatePicker" Format="dd/MM-yyyy" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsChecked}">
+            <Label Text="Start Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsCheckBoxChecked}"/>
+            <DatePicker x:Name="startDatePicker" Format="dd/MM-yyyy" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsCheckBoxChecked}">
                 <DatePicker.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding StartDateSelectedCmd}" CommandParameter="{Binding Date, Source={x:Reference startDatePicker}}"/>
+                    <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding StartDateSelectedCommand}" 
+                                                    CommandParameter="{Binding Date, Source={x:Reference startDatePicker}}"/>
                 </DatePicker.Behaviors>
             </DatePicker>
 
             <!-- End Date -->
-            <Label Text="Slut Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsChecked}"/>
-            <DatePicker x:Name="endDatePicker" Format="dd/MM-yyyy" Date="{Binding EndDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsChecked}">
+            <Label Text="Slut Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsCheckBoxChecked}"/>
+            <DatePicker x:Name="endDatePicker" Format="dd/MM-yyyy" Date="{Binding EndDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsCheckBoxChecked}">
                 <DatePicker.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding EndDateSelectedCmd}" CommandParameter="{Binding Date, Source={x:Reference endDatePicker}}"/>
+                    <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding EndDateSelectedCommand}" 
+                                                    CommandParameter="{Binding Date, Source={x:Reference endDatePicker}}"/>
                 </DatePicker.Behaviors>
             </DatePicker>
 
@@ -92,7 +89,7 @@
             <Editor x:Name="notesEditor" Text="{Binding Notes, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" AutoSize="TextChanges" IsSpellCheckEnabled="True" Margin="0,0,0,10"/>
 
             <!-- Create Job Button -->
-            <Button Text="Opret" HeightRequest="50" CornerRadius="25" IsEnabled="{Binding IsButtonEnabled, Mode=OneWay}" Command="{Binding CreateJobCmd}" CommandParameter="{Binding}">
+            <Button Text="Opret" HeightRequest="50" CornerRadius="25" IsEnabled="{Binding IsButtonEnabled, Mode=OneWay}" Command="{Binding CreateJobCommand}" CommandParameter="{Binding}">
                 <Button.ImageSource>
                     <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
                 </Button.ImageSource>
