@@ -189,7 +189,7 @@ namespace HavekrigerenApp.ViewModels
                 EndDate = DateTime.Now;
             }
             else
-            
+            { 
                 StartDate = null;
                 EndDate = null;
             }
