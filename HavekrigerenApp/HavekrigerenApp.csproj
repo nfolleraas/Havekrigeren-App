@@ -76,6 +76,11 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="Resources\Icons\arrow_left_1x.png" />
+	  <None Remove="Resources\Icons\arrow_right_1x.png" />
+	</ItemGroup>
+
     <ItemGroup>
         <MauiAsset Include="Resources\Raw\config.json" />
     </ItemGroup>
@@ -93,9 +98,13 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.30" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.30" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.1" />
+		<PackageReference Include="Plugin.Maui.Calendar" Version="1.2.6" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Controls\CalendarHeader.xaml.cs">
+	    <DependentUpon>CalendarHeader.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\CreateJobPage.xaml.cs">
 	    <DependentUpon>CreateJobPage.xaml</DependentUpon>
 	  </Compile>
@@ -114,6 +123,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Controls\CalendarFooter.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\CalendarHeader.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CalendarPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -141,6 +156,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Include="Resources\Icons\arrow_left_1x.png" />
+	  <MauiImage Include="Resources\Icons\arrow_right_1x.png" />
 	  <MauiImage Include="Resources\Icons\calendar_1x.png" />
 	  <MauiImage Include="Resources\Icons\delete.png" />
 	  <MauiImage Include="Resources\Icons\home_1x.png" />
