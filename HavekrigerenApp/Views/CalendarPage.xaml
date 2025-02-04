@@ -13,29 +13,35 @@
         <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
             <Label Text="yo"/>
 
-            <calendar:Calendar Culture="{Binding Culture}" FirstDayOfWeek="Monday"
-                               DaysTitleColor="{StaticResource PrimaryText}" DeselectedDayTextColor="{StaticResource PrimaryText}"
-                               DaysTitleWeekendColor="Red" WeekendDayColor="Red"
-                               SelectedDayTextColor="{StaticResource Gray500}" SelectedDayBackgroundColor="{StaticResource SecondaryDark}"
-                               OtherMonthDayColor="{StaticResource Placeholder}"
-                               Events="{Binding Events}">
+            <calendar:Calendar Culture="{Binding Culture}" 
+                                DayViewCornerRadius="16"
+                                DayViewSize="40"
+                                DaysTitleColor="{StaticResource PrimaryText}"
+                                DeselectedDayTextColor="{StaticResource PrimaryText}"
+                                EventIndicatorSelectedTextColor="{StaticResource Gray400}"
+                                EventIndicatorTextColor="{StaticResource Primary}"
+                                EventIndicatorType="BottomDot"
+                                HorizontalOptions="Fill"
+                                OtherMonthDayIsVisible="True"
+                                SelectedDateColor="{StaticResource PrimaryText}"
+                                SelectedDateTextFormat="dddd, dd MMM yyyy"
+                                SelectedDayTextColor="{StaticResource Gray500}"
+                                SelectedTodayTextColor="{StaticResource Gray500}"
+                                TodayOutlineColor="{StaticResource SecondaryDark}"
+                                TodayTextColor="{StaticResource PrimaryText}"
+                                Events="{Binding Events}" EventsScrollViewVisible="True">
 
                 <calendar:Calendar.EventTemplate>
                     <DataTemplate>
-                        <StackLayout
-                Padding="15,0,0,0">
-                            <Label
-                    Text="{Binding ContactName}"
-                    FontAttributes="Bold"
-                    FontSize="Medium" />
-                            <Label
-                    Text="{Binding Address}"
-                    FontSize="Small"
-                    LineBreakMode="WordWrap" />
-                            <Label
-Text="{Binding PhoneNumber}"
-FontSize="Small"
-LineBreakMode="WordWrap" />
+                        <StackLayout Padding="15,0,0,0">
+                            <Label Text="{Binding ContactName}"
+                                   FontAttributes="Bold" FontSize="Medium" />
+                            
+                            <Label Text="{Binding Address}" 
+                                   FontSize="Small" LineBreakMode="WordWrap" />
+                            
+                            <Label Text="{Binding FormattedPhoneNumber}" 
+                                   FontSize="Small" LineBreakMode="WordWrap" />
                         </StackLayout>
                     </DataTemplate>
                 </calendar:Calendar.EventTemplate>
@@ -43,8 +49,8 @@ LineBreakMode="WordWrap" />
                 <calendar:Calendar.HeaderSectionTemplate>
                     <controls:CalendarHeader/>
                 </calendar:Calendar.HeaderSectionTemplate>
-
             </calendar:Calendar>
+
         </StackLayout>
     </ScrollView>
 </ContentPage>

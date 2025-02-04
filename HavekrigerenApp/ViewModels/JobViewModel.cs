@@ -11,7 +11,6 @@ namespace HavekrigerenApp.ViewModels
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
         public string Category { get; set; }
-        public bool HasDate { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string Notes { get; set; }
@@ -21,7 +20,7 @@ namespace HavekrigerenApp.ViewModels
 
         public string FormattedPhoneNumber
         {
-            get { return FormatPhoneNumber(_formattedPhoneNumber); }
+            get => FormatPhoneNumber(_formattedPhoneNumber);
         }
 
 
@@ -32,7 +31,6 @@ namespace HavekrigerenApp.ViewModels
             Address = job.Address;
             PhoneNumber = job.PhoneNumber;
             Category = job.Category;
-            HasDate = job.HasDate;
             StartDate = job.StartDate;
             EndDate = job.EndDate;
             Notes = job.Notes;

@@ -4,7 +4,6 @@ using System.Globalization;
 using HavekrigerenApp.Models.Classes;
 using HavekrigerenApp.ViewModels;
 using Plugin.Maui.Calendar.Models;
-using HavekrigerenApp.Models.Misc;
 
 namespace HavekrigerenApp.ViewModels
 {
@@ -28,37 +27,23 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
+        /*private List<Job> _jobs;
+        public List<Job> Jobs
+        {
+            get => _jobs;
+            set
+            {
+                _jobs = value;
+                OnPropertyChanged(nameof(Jobs));
+            }
+        }*/
+
+
         public CalendarViewModel()
         {
             _jobsVM = new ObservableCollection<JobViewModel>();
+            Events = new EventCollection();
 
-            Events = new EventCollection
-            {
-                [DateTime.Now] = new List<Job>
-                {
-                    new() { ContactName = "Cool event1", Address = "vfdba", PhoneNumber = "35316" },
-                    new() { ContactName = "Cool event1", Address = "vfdba", PhoneNumber = "35316" }
-                },
-
-                // 5 days from today
-                [DateTime.Now.AddDays(5)] = new List<Job>
-                {
-                    new() { ContactName = "Cool event1", Address = "vfdba", PhoneNumber = "35316" },
-                    new() {ContactName = "Cool event1", Address = "vfdba", PhoneNumber = "35316"}
-                },
-
-                // 3 days ago
-                [DateTime.Now.AddDays(-3)] = new List<Job>
-                {
-                    new() {ContactName = "Cool event1", Address = "vfdba", PhoneNumber = "35316"}
-                },
-
-                // custom date
-                [new DateTime(2024, 3, 16)] = new List<Job>
-                {
-                    new() { ContactName = "Cool event1", Address = "vfdba", PhoneNumber = "35316" }
-                }
-            };
         }
 
         public async Task LoadJobs()
@@ -66,6 +51,7 @@ namespace HavekrigerenApp.ViewModels
             await jobRepo.LoadAllAsync();
 
             _jobsVM.Clear();
+            Events.Clear();
 
             foreach (Job job in jobRepo.GetAll())
             {
@@ -73,22 +59,20 @@ namespace HavekrigerenApp.ViewModels
                 {
                     JobViewModel jobVM = new JobViewModel(job);
                     _jobsVM.Add(jobVM);
-                    
-                    /*Events.Add
-                    (
-                        DateTime.ParseExact(job.StartDate, "dd/MM-yyyy", CultureInfo.InvariantCulture),
-                        new List<JobViewModel>
-                        {
-                            new(job)
-                        }
-                    );
-                    */
                 }
             }
-
-            foreach (var item in Events)
+            
+            foreach (JobViewModel jobVM in _jobsVM)
             {
-                Console.WriteLine(item);
+                if (DateTime.TryParseExact(jobVM.StartDate, "dd/MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDate))
+                {
+                    Events.Add(startDate, new List<JobViewModel>() { jobVM });
+                }
+                else
+                {
+                    Console.WriteLine($"The date {jobVM.StartDate} failed to parse as a DateTime");
+                }
+
             }
         }
 
