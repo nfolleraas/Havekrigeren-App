@@ -36,10 +36,10 @@
                         <StackLayout Padding="15,0,0,0">
                             <Label Text="{Binding ContactName}"
                                    FontAttributes="Bold" FontSize="Medium" />
-
+                            
                             <Label Text="{Binding Address}" 
                                    FontSize="Small" LineBreakMode="WordWrap" />
-
+                            
                             <Label Text="{Binding FormattedPhoneNumber}" 
                                    FontSize="Small" LineBreakMode="WordWrap" />
                         </StackLayout>
