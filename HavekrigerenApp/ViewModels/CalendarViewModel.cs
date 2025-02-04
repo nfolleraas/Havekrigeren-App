@@ -61,7 +61,7 @@ namespace HavekrigerenApp.ViewModels
                     _jobsVM.Add(jobVM);
                 }
             }
-            
+
             foreach (JobViewModel jobVM in _jobsVM)
             {
                 if (DateTime.TryParseExact(jobVM.StartDate, "dd/MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDate))
