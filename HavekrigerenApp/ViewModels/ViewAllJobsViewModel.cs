@@ -20,8 +20,8 @@ namespace HavekrigerenApp.ViewModels
         private AlertService alertService = new AlertService();
         private NavigationService navigationService = new NavigationService();
 
-        private ObservableCollection<JobViewModel> _jobsVM;
-        public ObservableCollection<JobViewModel> JobsVM
+        private ObservableCollection<JobViewModel>? _jobsVM;
+        public ObservableCollection<JobViewModel>? JobsVM
         {
             get => _jobsVM;
             set 
@@ -30,7 +30,6 @@ namespace HavekrigerenApp.ViewModels
                 OnPropertyChanged(nameof(JobsVM));
             }
         }
-
         private bool _isRefreshing;
         public bool IsRefreshing
         {
