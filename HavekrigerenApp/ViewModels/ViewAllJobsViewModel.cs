@@ -12,24 +12,10 @@ using System.Windows.Input;
 
 namespace HavekrigerenApp.ViewModels
 {
-    public class ViewAllJobsViewModel : INotifyPropertyChanged
+    public class ViewAllJobsViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public ObservableCollection<JobViewModel> JobsVM { get; set; }
 
-        private JobRepository jobRepo = new JobRepository();
-        private AlertService alertService = new AlertService();
-        private NavigationService navigationService = new NavigationService();
-
-        private ObservableCollection<JobViewModel>? _jobsVM;
-        public ObservableCollection<JobViewModel>? JobsVM
-        {
-            get => _jobsVM;
-            set 
-            { 
-                _jobsVM = value;
-                OnPropertyChanged(nameof(JobsVM));
-            }
-        }
         private bool _isRefreshing;
         public bool IsRefreshing
         {
@@ -37,27 +23,26 @@ namespace HavekrigerenApp.ViewModels
             set 
             { 
                 _isRefreshing = value;
-                OnPropertyChanged(nameof(IsRefreshing));
+                OnPropertyChanged();
             }
         }
 
-        public string CategoryName { get; set; }
-
+        public string SelectedCategoryName { get; set; }
 
         // Commands
-        public ICommand JobClickedCommand { get; set; }
-        public ICommand RefreshCommand { get; set; }
-        public ICommand DeleteJobCommand { get; set; }
+        public ICommand JobClickedCommand { get; }
+        public ICommand RefreshCommand { get; }
+        public ICommand DeleteJobCommand { get; }
 
 
-        public ViewAllJobsViewModel(string categoryName)
+        public ViewAllJobsViewModel(string selectedCategoryName)
         {
-            _jobsVM = new ObservableCollection<JobViewModel>();
+            JobsVM = new ObservableCollection<JobViewModel>();
 
-            CategoryName = categoryName;
+            SelectedCategoryName = selectedCategoryName;
 
             // Command registration
-            JobClickedCommand = new Command<Job>(OnJobClicked);
+            JobClickedCommand = new Command<Job>(JobClicked);
             RefreshCommand = new Command(async () => await RefreshPage());
             DeleteJobCommand = new Command<Job>(DeleteJob);
 
@@ -65,36 +50,17 @@ namespace HavekrigerenApp.ViewModels
 
         public async Task LoadJobs()
         {
-            await jobRepo.LoadAllAsync();
+            await _jobRepo.LoadAllAsync();
 
-            _jobsVM.Clear();
+            JobsVM.Clear();
             // Instatiate new JobViewModel for each job if the job is in the category
-            foreach (Job job in jobRepo.GetAll())
+            foreach (Job job in _jobRepo.GetAll())
             {
-                if (job.Category == CategoryName)
+                if (job.Category.ToString() == SelectedCategoryName)
                 { 
                     JobViewModel jobVM = new JobViewModel(job);
-                    _jobsVM.Add(jobVM);
+                    JobsVM.Add(jobVM);
                 }
-            }
-        }
-
-        // Commands
-        private async void OnJobClicked(Job job)
-        {
-            try
-            {
-                await navigationService.PushAsync(new ViewJobPage(job));
-                //await alertService.DisplayAlertAsync("Opgave", $"Trykkede på {job.ContactName}, {job.Address}");
-            }
-            catch (InvalidOperationException ex)
-            {
-                await alertService.DisplayAlertAsync("Fejl!", ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
 
@@ -111,29 +77,42 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
+        private async void JobClicked(Job job)
+        {
+            try
+            {
+                await _navigationService.PushAsync(new ViewJobPage(job));
+                //await alertService.DisplayAlertAsync("Opgave", $"Trykkede på {job.ContactName}, {job.Address}");
+            }
+            catch (InvalidOperationException ex)
+            {
+                await _alertService.DisplayAlertAsync("Fejl!", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                await _alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
+            }
+        }
+
         private async void DeleteJob(Job job)
         {
             try
             {
-                bool answer = await alertService.DisplayAlertAsync("Slet Opgave", $"Er du sikker på, du vil slette opgaven \"{job.ContactName}, {job.Address}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
+                bool answer = await _alertService.DisplayAlertAsync("Slet Opgave", $"Er du sikker på, du vil slette opgaven \"{job.ContactName}, {job.Address}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
 
                 if (answer)
                 {
                     // Delete the job
-                    await jobRepo.DeleteAsync(job);
-                    await alertService.DisplayAlertAsync("Slet Opgave", $"Opgaven \"{job.ContactName}, {job.Address}\" blev slettet.");
+                    await _jobRepo.DeleteAsync(job);
+                    await _alertService.DisplayAlertAsync("Slet Opgave", $"Opgaven \"{job.ContactName}, {job.Address}\" blev slettet.");
                     await RefreshPage();
                 }
             }
             catch (ArgumentException ex)
             {
-                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
+                await _alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -61,7 +61,7 @@
             <!-- Date Checkbox -->
             <StackLayout Orientation="Horizontal" Padding="-10,0,0,0">
                 <CheckBox x:Name="dateCheckBox" IsChecked="{Binding IsCheckBoxChecked}" 
-                          HorizontalOptions="Center" CheckedChanged="dateCheckBox_CheckedChanged"/>
+                          HorizontalOptions="Center"/>
 
                 <Label Text="Vælg start- og slutdato?" FontSize="Medium" VerticalOptions="Center"/>
             </StackLayout>

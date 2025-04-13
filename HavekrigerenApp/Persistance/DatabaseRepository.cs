@@ -5,19 +5,20 @@ namespace HavekrigerenApp.Models.Classes
 {
     public class DatabaseRepository
     {
-        private FirestoreDb db;
-        private AlertService alertService;
+        private FirestoreDb _db;
+        private AlertService _alertService;
         public DatabaseRepository()
         {
-            Database.InitializeDatabase();
-            db = Database.Db;
-            alertService = new AlertService();
+            Task task = Database.InitializeDatabase();
+            _db = Database.Db;
+            _alertService = new AlertService();
         }
+
         public async Task AddAsync<T>(string collectionName, T item) where T : class
         {
             try
             {
-                var collection = db.Collection(collectionName);
+                var collection = _db.Collection(collectionName);
                 await collection.AddAsync(item);
             }
             catch (Exception ex)
@@ -30,7 +31,7 @@ namespace HavekrigerenApp.Models.Classes
         {
             try
             {
-                var collection = db.Collection(collectionName);
+                var collection = _db.Collection(collectionName);
                 var snapshot = await collection.GetSnapshotAsync();
                 var items = snapshot.Documents.Select(doc => doc.ConvertTo<T>()).ToList();
                 return items;
@@ -47,7 +48,7 @@ namespace HavekrigerenApp.Models.Classes
         {
             try
             {
-                var document = db.Collection(collectionName).Document(documentId);
+                var document = _db.Collection(collectionName).Document(documentId);
                 await document.SetAsync(item, SetOptions.Overwrite);
             }
             catch (Exception ex)
@@ -60,7 +61,7 @@ namespace HavekrigerenApp.Models.Classes
         {
             try
             {
-                var querySnapshot = await db.Collection(collectionName).WhereEqualTo(fieldName, fieldValue).GetSnapshotAsync();
+                var querySnapshot = await _db.Collection(collectionName).WhereEqualTo(fieldName, fieldValue).GetSnapshotAsync();
 
                 foreach (var document in querySnapshot.Documents)
                 {
@@ -69,12 +70,12 @@ namespace HavekrigerenApp.Models.Classes
 
                 if (querySnapshot.Documents.Count == 0)
                 {
-                    await alertService.DisplayAlertAsync("Fejl!", $"Kunne ikke finde den efterspurgte kategori \"{fieldValue}\".");
+                    await _alertService.DisplayAlertAsync("Fejl!", $"Kunne ikke finde den efterspurgte kategori \"{fieldValue}\".");
                 }
             }
             catch (Exception ex)
             {
-                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked: {ex.Message}");
+                await _alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked: {ex.Message}");
             }
         }
     }

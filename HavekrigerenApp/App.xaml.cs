@@ -5,8 +5,6 @@ namespace HavekrigerenApp
 {
     public partial class App : Application
     {
-        private JobRepository jobRepo = new JobRepository();
-
         public App()
         {
             InitializeComponent();

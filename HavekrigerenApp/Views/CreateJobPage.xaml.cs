@@ -19,10 +19,5 @@ namespace HavekrigerenApp
             base.OnNavigatedTo(args);
             await vm.LoadCategories();
         }
-
-        private void dateCheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-        {
-            vm.OnToggledDates(e.Value);
-        }
     }
 }

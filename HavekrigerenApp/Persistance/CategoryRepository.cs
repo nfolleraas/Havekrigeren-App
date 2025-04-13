@@ -4,13 +4,13 @@ namespace HavekrigerenApp.Models.Classes
 {
     public class CategoryRepository
     {
-        private static List<Category> categories = new List<Category>();
-        private DatabaseRepository databaseRepo;
-        private string collectionName = "Categories";
+        private List<Category> _categories = new List<Category>();
+        private DatabaseRepository _databaseRepo;
+        private string _collectionName = "Categories";
 
-        public CategoryRepository()
+        public CategoryRepository(DatabaseRepository databaseRepo)
         {
-            databaseRepo = new DatabaseRepository();
+            _databaseRepo = databaseRepo;
         }
 
         public async Task AddAsync(string name)
@@ -19,14 +19,14 @@ namespace HavekrigerenApp.Models.Classes
             {
                 int id = 0;
                 await LoadAllAsync();
-                if (categories.Count != 0)
+                if (_categories.Count != 0)
                 {
                     id = GetHighestId() + 1;
                 }
                 Category newCategory = new Category(id, name);
-                categories.Add(newCategory);
+                _categories.Add(newCategory);
 
-                await databaseRepo.AddAsync(collectionName, newCategory);
+                await _databaseRepo.AddAsync(_collectionName, newCategory);
             }
             else
             {
@@ -38,7 +38,7 @@ namespace HavekrigerenApp.Models.Classes
         {
             int highestId = 0;
 
-            foreach (Category category in categories)
+            foreach (Category category in _categories)
             {
                 if (category.Id > highestId)
                 {
@@ -50,20 +50,20 @@ namespace HavekrigerenApp.Models.Classes
 
         public async Task LoadAllAsync()
         {
-            categories = await databaseRepo.GetAllAsync<Category>(collectionName);
-            categories.Sort((x, y) => x.Name.CompareTo(y.Name));
+            _categories = await _databaseRepo.GetAllAsync<Category>(_collectionName);
+            _categories.Sort((x, y) => x.Name.CompareTo(y.Name));
         }
 
         public List<Category> GetAll()
         {
-            return categories;
+            return _categories;
         }
 
         public Category Get(int id)
         {
             Category? result = null;
 
-            foreach (Category category in categories)
+            foreach (Category category in _categories)
             {
                 if (category.Id == id)
                 {
@@ -76,8 +76,8 @@ namespace HavekrigerenApp.Models.Classes
 
         public async Task DeleteAsync(Category category)
         {
-            categories.Remove(category);
-            await databaseRepo.DeleteAsync(collectionName, "Id", category.Id);
+            _categories.Remove(category);
+            await _databaseRepo.DeleteAsync(_collectionName, "Id", category.Id);
         }
 
     }

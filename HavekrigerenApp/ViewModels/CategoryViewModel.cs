@@ -2,11 +2,30 @@
 
 namespace HavekrigerenApp.ViewModels
 {
-    public class CategoryViewModel
+    public class CategoryViewModel : BaseViewModel
     {
-        // Properties to display
-        public Category Category { get; set; }
-        public string Name { get; set; }
+        private Category _category;
+        public Category Category
+        {
+            get { return _category; }
+            set
+            {
+                _category = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public CategoryViewModel(Category category)
         {

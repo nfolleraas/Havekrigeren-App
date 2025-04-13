@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HavekrigerenApp.Models.Classes
 {
-    public class Database
+    public static class Database
     {
         private static FirestoreDb _db;
 

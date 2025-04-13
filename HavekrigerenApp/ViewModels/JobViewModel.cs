@@ -1,28 +1,109 @@
-﻿using HavekrigerenApp.Models.Classes;
+﻿using Google.Protobuf.Reflection;
+using HavekrigerenApp.Models.Classes;
 using System.Text;
 
 namespace HavekrigerenApp.ViewModels
 {
-    public class JobViewModel
+    public class JobViewModel : BaseViewModel
     {
-        // Properties to display
-        public Job Job { get; set; }
-        public string ContactName { get; set; }
-        public string Address { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Category { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
-        public string Notes { get; set; }
-        public string DateCreated { get; set; }
-
-        private string _formattedPhoneNumber;
-
-        public string FormattedPhoneNumber
+        private Job _job;
+        public Job Job
         {
-            get => FormatPhoneNumber(_formattedPhoneNumber);
+            get { return _job; }
+            set
+            {
+                _job = value;
+                OnPropertyChanged();
+            }
         }
 
+        private string _contactName;
+        public string ContactName
+        {
+            get { return _contactName; }
+            set
+            {
+                _contactName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _address;
+        public string Address
+        {
+            get { return _address; }
+            set
+            {
+                _address = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _phoneNumber;
+        public string PhoneNumber
+        {
+            get { return FormatPhoneNumber(_phoneNumber); }
+            set
+            {
+                _phoneNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Category _category;
+        public Category Category
+        {
+            get { return _category; }
+            set
+            {
+                _category = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime? _startDate;
+        public DateTime? StartDate
+        {
+            get { return _startDate; }
+            set
+            {
+                _startDate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime? _endDate;
+        public DateTime? EndDate
+        {
+            get { return _endDate; }
+            set
+            {
+                _endDate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _notes;
+        public string Notes
+        {
+            get { return _notes; }
+            set
+            {
+                _notes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime _dateCreated;
+        public DateTime DateCreated
+        {
+            get { return _dateCreated; }
+            set
+            {
+                _dateCreated = value;
+                OnPropertyChanged();
+            }
+        }
 
         public JobViewModel(Job job)
         {
@@ -35,8 +116,6 @@ namespace HavekrigerenApp.ViewModels
             EndDate = job.EndDate;
             Notes = job.Notes;
             DateCreated = job.DateCreated;
-
-            _formattedPhoneNumber = job.PhoneNumber;
         }
 
         private string FormatPhoneNumber(string phoneNumber)

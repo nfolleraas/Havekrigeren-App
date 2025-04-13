@@ -11,12 +11,8 @@ using System.Windows.Input;
 
 namespace HavekrigerenApp.ViewModels
 {
-    public class ViewJobViewModel : INotifyPropertyChanged
+    public class ViewJobViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private AlertService alertService = new AlertService();
-
         private JobViewModel _jobVM;
         public JobViewModel JobVM
         {
@@ -24,37 +20,20 @@ namespace HavekrigerenApp.ViewModels
             set
             {
                 _jobVM = value;
-                OnPropertyChanged(nameof(JobVM));
+                OnPropertyChanged();
             }
         }
 
         // Commands
-        public ICommand PhoneNumberClickedCommand { get; set; }
+        public ICommand PhoneNumberClickedCommand { get; }
 
         public ViewJobViewModel(Job job)
         {
-            _jobVM = new JobViewModel(job);
-
-            JobVM.PhoneNumber = FormatPhoneNumber(job.PhoneNumber);
+            JobVM = new JobViewModel(job);
 
             // Command registration
             PhoneNumberClickedCommand = new Command<string>(PhoneNumberClicked);
         }
-
-        private string FormatPhoneNumber(string phoneNumber)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            int i = 0;
-            foreach (char c in phoneNumber)
-            {
-                stringBuilder.AppendFormat("{0}{1}", c, (i++ & 1) == 0 ? "" : ' ');
-            }
-            phoneNumber = "(+45) " + stringBuilder.ToString().Trim();
-
-            return phoneNumber;
-        }
-
-        // Commands
         private async void PhoneNumberClicked(string phoneNumber)
         {
             if (PhoneDialer.Default.IsSupported)
@@ -65,18 +44,13 @@ namespace HavekrigerenApp.ViewModels
                 }
                 catch (ArgumentNullException ex)
                 {
-                    await alertService.DisplayAlertAsync("Fejl!", $"Telefonnummeret \"{phoneNumber}\" er ikke gyldigt", "OK");
+                    await _alertService.DisplayAlertAsync("Fejl!", $"Telefonnummeret \"{phoneNumber}\" er ikke gyldigt", "OK");
                 }
             }
             else
             {
-                await alertService.DisplayAlertAsync("Fejl!", "Din telefon understøtter ikke denne funktion.", "OK");
+                await _alertService.DisplayAlertAsync("Fejl!", "Din telefon understøtter ikke denne funktion.", "OK");
             }
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

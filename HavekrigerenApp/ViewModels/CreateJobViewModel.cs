@@ -6,24 +6,9 @@ using System.Windows.Input;
 
 namespace HavekrigerenApp.ViewModels
 {
-    public class CreateJobViewModel : INotifyPropertyChanged
+    public class CreateJobViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private CategoryRepository categoryRepo = new CategoryRepository();
-        private JobRepository jobRepo = new JobRepository();
-        private AlertService alertService = new AlertService();
-
-        private ObservableCollection<Category> _categories;
-        public ObservableCollection<Category> Categories
-        {
-            get => _categories;
-            set 
-            { 
-                _categories = value;
-                OnPropertyChanged(nameof(Categories));
-            }
-        }
+        private DateTime dateCreated;
 
         private string _contactName;
         public string ContactName
@@ -33,7 +18,7 @@ namespace HavekrigerenApp.ViewModels
             {
                 _contactName = value;
                 EnableCreateButton();
-                OnPropertyChanged(nameof(ContactName));
+                OnPropertyChanged();
             }
         }
 
@@ -45,7 +30,7 @@ namespace HavekrigerenApp.ViewModels
             {
                 _address = value;
                 EnableCreateButton();
-                OnPropertyChanged(nameof(Address));
+                OnPropertyChanged();
             }
         }
 
@@ -57,19 +42,19 @@ namespace HavekrigerenApp.ViewModels
             {
                 _phoneNumber = value;
                 EnableCreateButton();
-                OnPropertyChanged(nameof(PhoneNumber));
+                OnPropertyChanged();
             }
         }
 
-        private Category? _category;
-        public Category? Category
+        private Category _category;
+        public Category Category
         {
             get => _category;
             set
             {
                 _category = value;
                 EnableCreateButton();
-                OnPropertyChanged(nameof(Category));
+                OnPropertyChanged();
             }
         }
 
@@ -80,7 +65,7 @@ namespace HavekrigerenApp.ViewModels
             set
             {
                 _startDate = value;
-                OnPropertyChanged(nameof(StartDate));
+                OnPropertyChanged();
             }
         }
 
@@ -91,7 +76,7 @@ namespace HavekrigerenApp.ViewModels
             set
             {
                 _endDate = value;
-                OnPropertyChanged(nameof(EndDate));
+                OnPropertyChanged();
             }
         }
         
@@ -102,86 +87,66 @@ namespace HavekrigerenApp.ViewModels
             set
             {
                 _notes = value;
-                OnPropertyChanged(nameof(Notes));
+                OnPropertyChanged();
             }
         }
 
-        private DateTime dateCreated;
-
-        private bool _isButtonEnabled;
-        public bool IsButtonEnabled
+        private bool _isCreateButtonEnabled;
+        public bool IsCreateButtonEnabled
         {
-            get => _isButtonEnabled;
-            set 
-            { 
-                _isButtonEnabled = value; 
-                OnPropertyChanged(nameof(IsButtonEnabled));
-            }
-        }
-
-        private bool _isCheckBoxChecked;
-        public bool IsCheckBoxChecked
-        {
-            get => _isCheckBoxChecked;
+            get => _isCreateButtonEnabled;
             set 
             {
-                _isCheckBoxChecked = value; 
-                OnPropertyChanged(nameof(IsCheckBoxChecked));
+                _isCreateButtonEnabled = value; 
+                OnPropertyChanged();
             }
         }
 
+        private bool _isDateCheckBoxChecked;
+        public bool IsDateCheckBoxChecked
+        {
+            get => _isDateCheckBoxChecked;
+            set 
+            {
+                _isDateCheckBoxChecked = value;
+                DatesToggled(_isDateCheckBoxChecked);
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Category> Categories { get; set; }
+
         // Commands
-        public ICommand CreateJobCommand { get; set; }
-        public ICommand StartDateSelectedCommand { get; set; }
-        public ICommand EndDateSelectedCommand { get; set; }
+        public ICommand CreateJobCommand { get; }
+        public ICommand StartDateSelectedCommand { get; }
+        public ICommand EndDateSelectedCommand { get; }
 
         public CreateJobViewModel()
         {
-            _categories = new ObservableCollection<Category>();
-            IsButtonEnabled = false;
+            Categories = new ObservableCollection<Category>();
+            IsCreateButtonEnabled = false;
 
             // Command registration
-            CreateJobCommand = new Command(OnCreateJob);
-            StartDateSelectedCommand = new Command<DateTime>(OnStartDateSelected);
-            EndDateSelectedCommand = new Command<DateTime>(OnEndDateSelected);
+            CreateJobCommand = new Command(CreateJob);
+            StartDateSelectedCommand = new Command<DateTime>(StartDateSelected);
+            EndDateSelectedCommand = new Command<DateTime>(EndDateSelected);
         }
 
         public async Task LoadCategories()
         {
             Categories.Clear();
 
-            await categoryRepo.LoadAllAsync();
+            await _categoryRepo.LoadAllAsync();
 
-            foreach (Category category in categoryRepo.GetAll())
+            foreach (Category category in _categoryRepo.GetAll())
             {
-                _categories.Add(category);
+                Categories.Add(category);
             }
         }
 
-        private void EnableCreateButton()
+        public void DatesToggled(bool isChecked)
         {
-            IsButtonEnabled = !string.IsNullOrWhiteSpace(_contactName)
-                && !string.IsNullOrWhiteSpace(_address)
-                && !string.IsNullOrWhiteSpace(_phoneNumber)
-                && _category != null;
-        }
-
-        // Resets the user inputs on the page
-        private void ResetInputs()
-        {
-            ContactName = string.Empty;
-            PhoneNumber = string.Empty;
-            Address = string.Empty;
-            Category = null;
-            IsCheckBoxChecked = false;
-            StartDate = null;
-            EndDate = null;
-            Notes = string.Empty;
-        }
-
-        public void OnToggledDates(bool isChecked)
-        {
-            IsCheckBoxChecked = isChecked;
+            IsDateCheckBoxChecked = isChecked;
             if (isChecked)
             {
                 StartDate = DateTime.Now;
@@ -194,40 +159,53 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        // Commands
-        private async void OnCreateJob()
+        private void EnableCreateButton()
+        {
+            IsCreateButtonEnabled = !string.IsNullOrWhiteSpace(ContactName)
+                && !string.IsNullOrWhiteSpace(Address)
+                && !string.IsNullOrWhiteSpace(PhoneNumber)
+                && Category != null;
+        }
+
+        // Resets the user inputs on the page
+        private void ResetInputs()
+        {
+            ContactName = string.Empty;
+            PhoneNumber = string.Empty;
+            Address = string.Empty;
+            Category = null;
+            IsDateCheckBoxChecked = false;
+            StartDate = null;
+            EndDate = null;
+            Notes = string.Empty;
+        }
+
+        private async void CreateJob()
         {
             try
             {
-
-                await alertService.DisplayAlertAsync("Opret Opgave", $"Oprettede opgaven \"{_contactName}, {_address}\"");
+                await _alertService.DisplayAlertAsync("Opret Opgave", $"Oprettede opgaven \"{_contactName}, {_address}\"");
                 dateCreated = DateTime.Now;
-                await jobRepo.AddAsync(_contactName, _address, _phoneNumber, _category, _isCheckBoxChecked, _startDate, _endDate, _notes, dateCreated);
+                await _jobRepo.AddAsync(ContactName, Address, PhoneNumber, Category, IsDateCheckBoxChecked, StartDate, EndDate, Notes, dateCreated);
                 ResetInputs();
             }
             catch (InvalidOperationException ex)
             {
-                await alertService.DisplayAlertAsync("Fejl!", ex.Message);
+                await _alertService.DisplayAlertAsync("Fejl!", ex.Message);
             }
             catch (Exception ex)
             {
-                await alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
+                await _alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
-        private void OnStartDateSelected(DateTime selectedDate)
+        private void StartDateSelected(DateTime selectedDate)
         {
             StartDate = selectedDate;
         }
 
-        private void OnEndDateSelected(DateTime selectedDate)
+        private void EndDateSelected(DateTime selectedDate)
         {
             EndDate = selectedDate;
-        }
-
-        // Method for updating the UI on changes
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

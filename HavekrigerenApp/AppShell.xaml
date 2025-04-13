@@ -52,9 +52,4 @@
         ContentTemplate="{DataTemplate local:ViewJobPage}"
         Route="ViewJobPage" />
 
-    <ShellContent
-        Title="CreateCategoryPage"
-        ContentTemplate="{DataTemplate local:CreateCategoryPage}"
-        Route="CreateCategoryPage" />
-
 </Shell>

@@ -14,19 +14,19 @@ namespace HavekrigerenApp.Models.Classes
         [FirestoreProperty]
         public string PhoneNumber { get; set; }
         [FirestoreProperty]
-        public string Category { get; set; }
+        public Category Category { get; set; }
         [FirestoreProperty]
         public bool HasDate { get; set; }
         [FirestoreProperty]
-        public string StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         [FirestoreProperty]
-        public string EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [FirestoreProperty]
         public string Notes { get; set; }
         [FirestoreProperty]
-        public string DateCreated { get; set; }
+        public DateTime DateCreated { get; set; }
 
-        public Job(int id, string contactName, string address, string phoneNumber, string category, bool hasDate, string startDate, string endDate, string notes, string dateCreated)
+        public Job(int id, string contactName, string address, string phoneNumber, Category category, bool hasDate, DateTime? startDate, DateTime? endDate, string notes, DateTime dateCreated)
         {
             Id = id;
             ContactName = contactName;

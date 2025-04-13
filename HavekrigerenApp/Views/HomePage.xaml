@@ -13,7 +13,7 @@
 
                 <!-- Search Bar -->
                 <Border Padding="0" BackgroundColor="Transparent">
-                    <SearchBar Placeholder="Søg..." TextChanged="SearchBar_TextChanged"/>
+                    <SearchBar Placeholder="Søg..." Text="{Binding SearchBoxInput}"/>
                 </Border>
 
                 <Label Text="Alle Opgaver" FontSize="Medium" Margin="0,10,0,5" IsVisible="{Binding ShowIncomingJobs.Value}"/>

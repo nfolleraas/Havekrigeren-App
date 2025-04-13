@@ -19,6 +19,7 @@ namespace HavekrigerenApp.Models.Services
                 throw new InvalidOperationException("Siden du prøver at tilgå er ikke tilgængelig.");
             }
         }
+
         public async Task<bool> DisplayAlertAsync(string title, string message, string accept, string cancel)
         {
             Page currentPage = Shell.Current.CurrentPage;

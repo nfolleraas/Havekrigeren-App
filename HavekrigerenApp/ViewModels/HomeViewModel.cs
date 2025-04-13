@@ -3,42 +3,18 @@ using HavekrigerenApp.Models.Misc;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
 using System.Windows.Input;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace HavekrigerenApp.ViewModels
 {
-    public class HomeViewModel : INotifyPropertyChanged
+    public class HomeViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        private List<Job> _jobsSortedByDate;
+        public ObservableCollection<JobViewModel> JobsVM { get; set; }
 
-        private JobRepository jobRepo = new JobRepository();
-
-        private ObservableCollection<JobViewModel> _jobsVM;
-        public ObservableCollection<JobViewModel> JobsVM
-        {
-            get => _jobsVM;
-            set 
-            { 
-                _jobsVM = value;
-                OnPropertyChanged(nameof(JobsVM));
-            }
-        }
-
-        private ObservableCollection<JobViewModel> _jobsVMSortedByDate;
-
-        public ObservableCollection<JobViewModel> JobsVMSortedByDate
-        {
-            get { return _jobsVMSortedByDate; }
-            set 
-            { 
-                _jobsVMSortedByDate = value; 
-                OnPropertyChanged(nameof(JobsVMSortedByDate));
-            }
-        }
-
-        private List<Job> jobsSortedByDate;
-
+        public ObservableCollection<JobViewModel> JobsVMSortedByDate { get; set; }
 
         private bool _isRefreshing;
         public bool IsRefreshing
@@ -47,79 +23,87 @@ namespace HavekrigerenApp.ViewModels
             set
             {
                 _isRefreshing = value;
-                OnPropertyChanged(nameof(IsRefreshing));
+                OnPropertyChanged();
             }
         }
 
-        private InvertableBool _showIncomingJobs = true;
-
-        public InvertableBool ShowIncomingJobs
+        private bool _showIncomingJobs = true;
+        public bool ShowIncomingJobs
         {
             get => _showIncomingJobs;
-            set 
+            set
             {
                 _showIncomingJobs = value;
-                OnPropertyChanged(nameof(ShowIncomingJobs));
+                OnPropertyChanged();
             }
         }
+
+        private string _searchBoxInput;
+        public string SearchBoxInput
+        {
+            get { return _searchBoxInput; }
+            set
+            {
+                _searchBoxInput = value;
+                SearchJob(_searchBoxInput);
+                OnPropertyChanged();
+            }
+        }
+
 
 
         // Commands
-        public ICommand JobClickedCommand { get; set; }
-        public ICommand RefreshCommand { get; set; }
+        public ICommand RefreshCommand { get; }
 
 
         public HomeViewModel()
         {
-            _jobsVM = new ObservableCollection<JobViewModel>();
-            _jobsVMSortedByDate = new ObservableCollection<JobViewModel>();
+            JobsVM = new ObservableCollection<JobViewModel>();
+            JobsVMSortedByDate = new ObservableCollection<JobViewModel>();
 
             // Command registration
-            //JobClickedCommand = new Command<Job>(JobClicked);
             RefreshCommand = new Command(async () => await RefreshPage());
         }
 
         public async Task LoadJobs()
         {
-            await jobRepo.LoadAllAsync();
+            await _jobRepo.LoadAllAsync();
 
-            _jobsVM.Clear();
+            JobsVM.Clear();
             // Instatiate new JobViewModel for each job
-            foreach (Job job in jobRepo.GetAll())
+            foreach (Job job in _jobRepo.GetAll())
             {
                 JobViewModel jobVM = new JobViewModel(job);
-                _jobsVM.Add(jobVM);
+                JobsVM.Add(jobVM);
             }
 
             // Sort by date
-            jobsSortedByDate = jobRepo.SortJobsBy(job => job.StartDate);
+            _jobsSortedByDate = _jobRepo.SortJobsBy(job => job.StartDate);
 
-            _jobsVMSortedByDate.Clear();
-            foreach (Job job in jobsSortedByDate)
+            JobsVMSortedByDate.Clear();
+            foreach (Job job in _jobsSortedByDate)
             {
-                if (!string.IsNullOrEmpty(job.StartDate))
+                if (!string.IsNullOrEmpty(job.StartDate.ToString()))
                 {
                     JobViewModel jobVM = new JobViewModel(job);
-                    _jobsVMSortedByDate.Add(jobVM);
+                    JobsVMSortedByDate.Add(jobVM);
                 }
             }
         }
 
-        public void SearchJob(object input)
+        public void SearchJob(string input)
         {
-            string searchText = ((SearchBar)input).Text;
-            Console.WriteLine(searchText);
 
-            ObservableCollection<Job> foundJobs = new ObservableCollection<Job>(jobRepo.PerformSearch(searchText));
+            ObservableCollection<Job> foundJobs = new ObservableCollection<Job>(_jobRepo.PerformSearch(input));
 
-            _jobsVM.Clear();
+            JobsVM.Clear();
             foreach (Job job in foundJobs)
             {
                 JobViewModel jobVM = new JobViewModel(job);
-                _jobsVM.Add(jobVM);
+                JobsVM.Add(jobVM);
             }
 
-            if (string.IsNullOrEmpty(searchText))
+            if (string.IsNullOrEmpty(input))
             {
                 ShowIncomingJobs = true;
             }
@@ -142,12 +126,5 @@ namespace HavekrigerenApp.ViewModels
                 IsRefreshing = false;
             }
         }
-
-        // Method for updating the UI on changes
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
     }
 }

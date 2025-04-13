@@ -7,64 +7,39 @@ using Plugin.Maui.Calendar.Models;
 
 namespace HavekrigerenApp.ViewModels
 {
-    public class CalendarViewModel : INotifyPropertyChanged
+    public class CalendarViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
+        public ObservableCollection<JobViewModel> JobsVM { get; set; }
         public CultureInfo Culture { get; set; } = new CultureInfo("da-DK");
         public EventCollection Events { get; set; }
 
-        private JobRepository jobRepo = new JobRepository();
-
-        private ObservableCollection<JobViewModel> _jobsVM;
-        public ObservableCollection<JobViewModel> JobsVM
-        {
-            get => _jobsVM;
-            set
-            {
-                _jobsVM = value;
-                OnPropertyChanged(nameof(JobsVM));
-            }
-        }
-
-        /*private List<Job> _jobs;
-        public List<Job> Jobs
-        {
-            get => _jobs;
-            set
-            {
-                _jobs = value;
-                OnPropertyChanged(nameof(Jobs));
-            }
-        }*/
-
-
         public CalendarViewModel()
         {
-            _jobsVM = new ObservableCollection<JobViewModel>();
+            JobsVM = new ObservableCollection<JobViewModel>();
             Events = new EventCollection();
 
         }
 
         public async Task LoadJobs()
         {
-            await jobRepo.LoadAllAsync();
+            await _jobRepo.LoadAllAsync();
 
-            _jobsVM.Clear();
+            JobsVM.Clear();
             Events.Clear();
 
-            foreach (Job job in jobRepo.GetAll())
+            foreach (Job job in _jobRepo.GetAll())
             {
-                if (!string.IsNullOrEmpty(job.StartDate))
+                if (!string.IsNullOrEmpty(job.StartDate.ToString()))
                 {
                     JobViewModel jobVM = new JobViewModel(job);
-                    _jobsVM.Add(jobVM);
+                    JobsVM.Add(jobVM);
                 }
             }
-            
-            foreach (JobViewModel jobVM in _jobsVM)
+
+            foreach (JobViewModel jobVM in JobsVM)
             {
-                if (DateTime.TryParseExact(jobVM.StartDate, "dd/MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDate))
+                string? formattedDate = jobVM.StartDate.ToString();
+                if (DateTime.TryParseExact(formattedDate, "dd/MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDate))
                 {
                     Events.Add(startDate, new List<JobViewModel>() { jobVM });
                 }
@@ -74,12 +49,6 @@ namespace HavekrigerenApp.ViewModels
                 }
 
             }
-        }
-
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
