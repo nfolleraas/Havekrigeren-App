@@ -1,55 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="HavekrigerenApp.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:HavekrigerenApp"
-    Shell.FlyoutBehavior="Disabled"
-    Title="HavekrigerenApp">
+<Shell x:Class="HavekrigerenApp.AppShell" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:HavekrigerenApp"
+       Title="HavekrigerenApp" Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
-        <ShellContent
-            Icon="home_1x.png"
-            ContentTemplate="{DataTemplate local:HomePage}"
-            Route="HomePage" />
+        <ShellContent ContentTemplate="{DataTemplate local:HomePage}"
+                      Icon="home_1x.png" Route="HomePage" />
 
-        <ShellContent
-            Icon="list_1x.png"
-            ContentTemplate="{DataTemplate local:ViewAllCategoriesPage}"
-            Route="ViewAllCategoriesPage" />
+        <ShellContent ContentTemplate="{DataTemplate local:ViewAllCategoriesPage}"
+                      Icon="list_1x.png" Route="ViewAllCategoriesPage" />
 
-        <ShellContent
-            Icon="plus_1x.png"
-            ContentTemplate="{DataTemplate local:CreateJobPage}"
-            Route="CreateJobPage" />
+        <ShellContent ContentTemplate="{DataTemplate local:CreateJobPage}"
+                      Icon="plus_1x.png" Route="CreateJobPage" />
 
-        <ShellContent
-            Icon="calendar_1x.png"
-            ContentTemplate="{DataTemplate local:CalendarPage}"
-            Route="CalendarPage" />
-
-        <!--
-        <ShellContent
-            Icon="user_1x.png"
-            ContentTemplate="{DataTemplate local:UserPage}"
-            Route="UserPage" />
-        -->
-
+        <ShellContent ContentTemplate="{DataTemplate local:CalendarPage}"
+                      Icon="calendar_1x.png" Route="CalendarPage" />
     </TabBar>
 
-    <ShellContent
-        Title="LoginPage"
-        ContentTemplate="{DataTemplate local:LoginPage}"
-        Route="LoginPage" />
+    <ShellContent Title="LoginPage"
+                  ContentTemplate="{DataTemplate local:LoginPage}"
+                  Route="LoginPage" />
 
-    <ShellContent
-            Title="ViewAllJobsPage"
-            ContentTemplate="{DataTemplate local:ViewAllJobsPage}"
-            Route="ViewAllJobsPage" />
+    <ShellContent Title="ViewAllJobsPage"
+                  ContentTemplate="{DataTemplate local:ViewAllJobsPage}"
+                  Route="ViewAllJobsPage" />
 
-    <ShellContent
-        Title="ViewJobPage"
-        ContentTemplate="{DataTemplate local:ViewJobPage}"
-        Route="ViewJobPage" />
+    <ShellContent Title="ViewJobPage"
+                  ContentTemplate="{DataTemplate local:ViewJobPage}"
+                  Route="ViewJobPage" />
 
 </Shell>

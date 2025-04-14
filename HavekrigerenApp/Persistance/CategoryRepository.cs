@@ -1,84 +1,122 @@
-﻿using HavekrigerenApp.Models.Interfaces;
+﻿using HavekrigerenApp.Exceptions;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace HavekrigerenApp.Models.Classes
 {
     public class CategoryRepository
     {
         private List<Category> _categories = new List<Category>();
-        private DatabaseRepository _databaseRepo;
-        private string _collectionName = "Categories";
+        private string? _connectionString;
 
-        public CategoryRepository(DatabaseRepository databaseRepo)
+        public CategoryRepository()
         {
-            _databaseRepo = databaseRepo;
+            IConfigurationRoot config = new ConfigurationBuilder()
+                .AddJsonFile("config.json")
+                .Build();
+
+            _connectionString = config.GetConnectionString("DBConnection");
         }
 
-        public async Task AddAsync(string name)
+        public void Add(Category category)
         {
-            if (!string.IsNullOrEmpty(name))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                int id = 0;
-                await LoadAllAsync();
-                if (_categories.Count != 0)
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("sp_InsertCategory", connection))
                 {
-                    id = GetHighestId() + 1;
-                }
-                Category newCategory = new Category(id, name);
-                _categories.Add(newCategory);
+                    command.CommandType = CommandType.StoredProcedure;
 
-                await _databaseRepo.AddAsync(_collectionName, newCategory);
-            }
-            else
-            {
-                throw new ArgumentException($"Category arguments cannot be null or empty!");
-            }
-        }
-
-        public int GetHighestId()
-        {
-            int highestId = 0;
-
-            foreach (Category category in _categories)
-            {
-                if (category.Id > highestId)
-                {
-                    highestId = category.Id;
+                    command.Parameters.AddWithValue("@Name", category.Name);
+                    category.Id = (int)command.ExecuteScalar();
                 }
             }
-            return highestId;
-        }
-
-        public async Task LoadAllAsync()
-        {
-            _categories = await _databaseRepo.GetAllAsync<Category>(_collectionName);
-            _categories.Sort((x, y) => x.Name.CompareTo(y.Name));
         }
 
         public List<Category> GetAll()
         {
-            return _categories;
+            List<Category> foundCategories = new List<Category>();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("sp_SelectAllCategories", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    using SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        int categoryId = (int)reader["Id"];
+                        string? categoryName = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
+
+                        Category category = new Category(categoryName) { Id = categoryId };
+
+                        foundCategories.Add(category);
+                        _categories.Add(category);
+                    }
+                }
+            }
+            return foundCategories;
         }
 
         public Category Get(int id)
         {
-            Category? result = null;
+            Category? foundCategory = null;
 
-            foreach (Category category in _categories)
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                if (category.Id == id)
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("sp_SelectAllCategories", connection))
                 {
-                    result = category;
-                    break;
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    using SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        int categoryId = (int)reader["Id"];
+                        string? categoryName = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
+
+                        foundCategory = new Category(categoryName) { Id = categoryId };
+                    }
                 }
             }
-            return result;
+
+            if (foundCategory == null)
+            {
+                throw new NotFoundException($"Category with the id '{id}' was not found in the database.");
+            }
+
+            return foundCategory;
         }
 
-        public async Task DeleteAsync(Category category)
+        public void Update(Category category)
         {
-            _categories.Remove(category);
-            await _databaseRepo.DeleteAsync(_collectionName, "Id", category.Id);
+            throw new NotImplementedException();
         }
 
+        public void Delete(int id)
+        {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("The parameter id cannot be less than 0");
+            }
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("sp_DeleteCategory", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@Id", id);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
