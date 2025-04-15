@@ -35,14 +35,12 @@ namespace HavekrigerenApp.ViewModels
             // Command registration
             CategoryClickedCommand = new Command<Category>(CategoryClicked);
             CreateCategoryCommand = new Command(CreateCategory);
-            RefreshCommand = new Command(async () => await RefreshPage());
+            RefreshCommand = new Command(RefreshPage);
             DeleteCategoryCommand = new Command<Category>(DeleteCategory);
         }
 
-        public async Task LoadCategories()
+        public void LoadCategories()
         {
-            await _categoryRepo.LoadAllAsync();
-
             CategoriesVM.Clear();
             // Instatiate new CategoryViewModel for each category
             foreach (Category category in _categoryRepo.GetAll())
@@ -52,12 +50,12 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        public async Task RefreshPage()
+        public void RefreshPage()
         {
             try
             {
                 IsRefreshing = true;
-                await LoadCategories();
+                LoadCategories();
             }
             finally
             {
@@ -106,8 +104,9 @@ namespace HavekrigerenApp.ViewModels
                         }
                     }
                     // Successfully add category
-                    await _categoryRepo.AddAsync(result);
-                    await RefreshPage();
+                    Category newCategory = new Category(result);
+                    _categoryRepo.Add(newCategory);
+                    RefreshPage();
                 }
             }
             catch (InvalidOperationException ex)
@@ -134,13 +133,13 @@ namespace HavekrigerenApp.ViewModels
                     {
                         if (category.Name == job.Category.ToString())
                         {
-                            await _jobRepo.DeleteAsync(job); // Delete job in the real jobs list
+                            _jobRepo.Delete(job.Id); // Delete job in the real jobs list
                         }
                     }
                     // Then delete the category
-                    await _categoryRepo.DeleteAsync(category);
+                    _categoryRepo.Delete(category.Id);
                     await _alertService.DisplayAlertAsync("Slet Kategori", $"Kategorien \"{category.Name}\" blev slettet.");
-                    await RefreshPage();
+                    RefreshPage();
                 }
             }
             catch (ArgumentException ex)

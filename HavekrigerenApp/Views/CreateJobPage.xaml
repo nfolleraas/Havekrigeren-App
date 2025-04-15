@@ -60,15 +60,15 @@
 
             <!-- Date Checkbox -->
             <StackLayout Orientation="Horizontal" Padding="-10,0,0,0">
-                <CheckBox x:Name="dateCheckBox" IsChecked="{Binding IsCheckBoxChecked}" 
+                <CheckBox x:Name="dateCheckBox" IsChecked="{Binding IsDateCheckBoxChecked}" 
                           HorizontalOptions="Center"/>
 
                 <Label Text="Vælg start- og slutdato?" FontSize="Medium" VerticalOptions="Center"/>
             </StackLayout>
 
             <!-- Start Date -->
-            <Label Text="Start Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsCheckBoxChecked}"/>
-            <DatePicker x:Name="startDatePicker" Format="dd/MM-yyyy" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsCheckBoxChecked}">
+            <Label Text="Start Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsDateCheckBoxChecked}"/>
+            <DatePicker x:Name="startDatePicker" Format="dd/MM-yyyy" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsDateCheckBoxChecked}">
                 <DatePicker.Behaviors>
                     <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding StartDateSelectedCommand}" 
                                                     CommandParameter="{Binding Date, Source={x:Reference startDatePicker}}"/>
@@ -76,8 +76,8 @@
             </DatePicker>
 
             <!-- End Date -->
-            <Label Text="Slut Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsCheckBoxChecked}"/>
-            <DatePicker x:Name="endDatePicker" Format="dd/MM-yyyy" Date="{Binding EndDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsCheckBoxChecked}">
+            <Label Text="Slut Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsDateCheckBoxChecked}"/>
+            <DatePicker x:Name="endDatePicker" Format="dd/MM-yyyy" Date="{Binding EndDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsDateCheckBoxChecked}">
                 <DatePicker.Behaviors>
                     <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding EndDateSelectedCommand}" 
                                                     CommandParameter="{Binding Date, Source={x:Reference endDatePicker}}"/>

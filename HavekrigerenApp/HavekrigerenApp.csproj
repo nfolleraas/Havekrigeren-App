@@ -59,7 +59,11 @@
 	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 
-	<ItemGroup>
+    <ItemGroup>
+        <MauiAsset Include="config.json" />
+    </ItemGroup>
+
+    <ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
@@ -82,11 +86,9 @@
 	</ItemGroup>
 
     <ItemGroup>
-        <MauiAsset Include="Resources\Raw\config.json" />
-    </ItemGroup>
-
-    <ItemGroup>
-	  <EmbeddedResource Include="Resources\Raw\AboutAssets.txt" />
+	  <EmbeddedResource Include="Resources\Raw\AboutAssets.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -167,7 +169,14 @@
 	  <MauiImage Include="Resources\Icons\user_1x.png" />
 	</ItemGroup>
 
-	<ItemGroup>
+    <ItemGroup>
+        <Content Update="config.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+
+    <ItemGroup>
 	  <MauiImage Update="Resources\Images\havekrigeren_logo.png">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </MauiImage>

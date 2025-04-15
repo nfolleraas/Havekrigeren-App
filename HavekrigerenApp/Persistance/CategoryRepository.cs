@@ -2,6 +2,8 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
+using System.Text.Json;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace HavekrigerenApp.Models.Classes
 {
@@ -12,11 +14,7 @@ namespace HavekrigerenApp.Models.Classes
 
         public CategoryRepository()
         {
-            IConfigurationRoot config = new ConfigurationBuilder()
-                .AddJsonFile("config.json")
-                .Build();
-
-            _connectionString = config.GetConnectionString("DBConnection");
+            _connectionString = App.ConnectionString;
         }
 
         public void Add(Category category)
@@ -29,13 +27,18 @@ namespace HavekrigerenApp.Models.Classes
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.AddWithValue("@Name", category.Name);
-                    category.Id = (int)command.ExecuteScalar();
+                    command.ExecuteNonQuery();
                 }
             }
         }
 
         public List<Category> GetAll()
         {
+            if (_categories.Count > 0)
+            {
+                return _categories;
+            }
+
             List<Category> foundCategories = new List<Category>();
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -49,7 +52,7 @@ namespace HavekrigerenApp.Models.Classes
                     while (reader.Read())
                     {
                         int categoryId = (int)reader["Id"];
-                        string? categoryName = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
+                        string? categoryName = (string)reader["Name"];
 
                         Category category = new Category(categoryName) { Id = categoryId };
 
@@ -63,12 +66,16 @@ namespace HavekrigerenApp.Models.Classes
 
         public Category Get(int id)
         {
-            Category? foundCategory = null;
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("The parameter id cannot be less than 0");
+            }
 
+            Category? foundCategory = null;
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand("sp_SelectAllCategories", connection))
+                using (SqlCommand command = new SqlCommand("sp_SelectCategory", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
@@ -79,7 +86,7 @@ namespace HavekrigerenApp.Models.Classes
                     while (reader.Read())
                     {
                         int categoryId = (int)reader["Id"];
-                        string? categoryName = reader["Name"] != DBNull.Value ? (string)reader["Name"] : null;
+                        string? categoryName = (string)reader["Name"];
 
                         foundCategory = new Category(categoryName) { Id = categoryId };
                     }
@@ -115,6 +122,14 @@ namespace HavekrigerenApp.Models.Classes
 
                     command.Parameters.AddWithValue("@Id", id);
                     command.ExecuteNonQuery();
+                }
+            }
+            List<Category> copy = new List<Category>(_categories);
+            foreach (Category category in copy)
+            {
+                if (category.Id == id)
+                {
+                    _categories.Remove(category);
                 }
             }
         }

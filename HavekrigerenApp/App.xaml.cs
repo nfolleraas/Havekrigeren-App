@@ -1,15 +1,35 @@
 ﻿using HavekrigerenApp.Models.Classes;
+using System.Diagnostics;
 using System.Globalization;
+using System.Text.Json;
 
 namespace HavekrigerenApp
 {
     public partial class App : Application
     {
+        public static string? ConnectionString { get; private set; }
+
         public App()
         {
             InitializeComponent();
+            LoadConfig();
 
             MainPage = new AppShell();
+
+        }
+
+        private async void LoadConfig()
+        {
+            using var stream = await FileSystem.OpenAppPackageFileAsync("config.json");
+            using var reader = new StreamReader(stream);
+            string json = await reader.ReadToEndAsync();
+
+            var jsonDoc = JsonDocument.Parse(json);
+            ConnectionString = jsonDoc
+                .RootElement
+                .GetProperty("ConnectionStrings")
+                .GetProperty("DBConnection")
+                .GetString();
         }
 
 

@@ -19,6 +19,5 @@ namespace HavekrigerenApp
             base.OnNavigatedFrom(args);
             Navigation.PopAsync();
         }
-
     }
 }

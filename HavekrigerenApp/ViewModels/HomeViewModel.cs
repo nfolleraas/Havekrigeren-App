@@ -11,9 +11,7 @@ namespace HavekrigerenApp.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
-        private List<Job> _jobsSortedByDate;
         public ObservableCollection<JobViewModel> JobsVM { get; set; }
-
         public ObservableCollection<JobViewModel> JobsVMSortedByDate { get; set; }
 
         private bool _isRefreshing;
@@ -23,6 +21,17 @@ namespace HavekrigerenApp.ViewModels
             set
             {
                 _isRefreshing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _showSearchResults = false;
+        public bool ShowSearchResults
+        {
+            get { return _showSearchResults; }
+            set
+            {
+                _showSearchResults = value;
                 OnPropertyChanged();
             }
         }
@@ -50,25 +59,19 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-
-
         // Commands
         public ICommand RefreshCommand { get; }
-
 
         public HomeViewModel()
         {
             JobsVM = new ObservableCollection<JobViewModel>();
-            JobsVMSortedByDate = new ObservableCollection<JobViewModel>();
 
             // Command registration
-            RefreshCommand = new Command(async () => await RefreshPage());
+            RefreshCommand = new Command(RefreshPage);
         }
 
-        public async Task LoadJobs()
+        public void LoadJobs()
         {
-            await _jobRepo.LoadAllAsync();
-
             JobsVM.Clear();
             // Instatiate new JobViewModel for each job
             foreach (Job job in _jobRepo.GetAll())
@@ -78,22 +81,13 @@ namespace HavekrigerenApp.ViewModels
             }
 
             // Sort by date
-            _jobsSortedByDate = _jobRepo.SortJobsBy(job => job.StartDate);
-
-            JobsVMSortedByDate.Clear();
-            foreach (Job job in _jobsSortedByDate)
-            {
-                if (!string.IsNullOrEmpty(job.StartDate.ToString()))
-                {
-                    JobViewModel jobVM = new JobViewModel(job);
-                    JobsVMSortedByDate.Add(jobVM);
-                }
-            }
+            JobsVMSortedByDate = new ObservableCollection<JobViewModel>(
+                JobsVM.OrderBy(job => job.StartDate)
+                );
         }
 
         public void SearchJob(string input)
         {
-
             ObservableCollection<Job> foundJobs = new ObservableCollection<Job>(_jobRepo.PerformSearch(input));
 
             JobsVM.Clear();
@@ -114,12 +108,12 @@ namespace HavekrigerenApp.ViewModels
         }
 
         // Commands
-        private async Task RefreshPage()
+        private void RefreshPage()
         {
             try
             {
                 IsRefreshing = true;
-                await LoadJobs();
+                LoadJobs();
             }
             finally
             {

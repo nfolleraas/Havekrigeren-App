@@ -12,7 +12,6 @@ namespace HavekrigerenApp.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        protected readonly DatabaseRepository _databaseRepo;
         protected readonly CategoryRepository _categoryRepo;
         protected readonly JobRepository _jobRepo;
         protected readonly AlertService _alertService;
@@ -20,9 +19,8 @@ namespace HavekrigerenApp.ViewModels
 
         public BaseViewModel()
         {
-            _databaseRepo = new DatabaseRepository();
-            _categoryRepo = new CategoryRepository(_databaseRepo);
-            _jobRepo = new JobRepository(_databaseRepo);
+            _categoryRepo = new CategoryRepository();
+            _jobRepo = new JobRepository();
             _alertService = new AlertService();
             _navigationService = new NavigationService();
         }

@@ -17,7 +17,7 @@ namespace HavekrigerenApp
         protected override async void OnNavigatedTo(NavigatedToEventArgs args)
         {
             base.OnNavigatedTo(args);
-            await vm.LoadJobs();
+            vm.LoadJobs();
         }
     }
 }

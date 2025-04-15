@@ -132,11 +132,9 @@ namespace HavekrigerenApp.ViewModels
             EndDateSelectedCommand = new Command<DateTime>(EndDateSelected);
         }
 
-        public async Task LoadCategories()
+        public void LoadCategories()
         {
             Categories.Clear();
-
-            await _categoryRepo.LoadAllAsync();
 
             foreach (Category category in _categoryRepo.GetAll())
             {
@@ -146,11 +144,10 @@ namespace HavekrigerenApp.ViewModels
 
         public void DatesToggled(bool isChecked)
         {
-            IsDateCheckBoxChecked = isChecked;
             if (isChecked)
             {
-                StartDate = DateTime.Now;
-                EndDate = DateTime.Now;
+                StartDate = DateTime.Today;
+                EndDate = DateTime.Today;
             }
             else
             { 
@@ -185,8 +182,9 @@ namespace HavekrigerenApp.ViewModels
             try
             {
                 await _alertService.DisplayAlertAsync("Opret Opgave", $"Oprettede opgaven \"{_contactName}, {_address}\"");
-                dateCreated = DateTime.Now;
-                await _jobRepo.AddAsync(ContactName, Address, PhoneNumber, Category, IsDateCheckBoxChecked, StartDate, EndDate, Notes, dateCreated);
+
+                Job newJob = new Job(ContactName, Address, PhoneNumber, Category, IsDateCheckBoxChecked, StartDate, EndDate, Notes, DateTime.Now);
+                _jobRepo.Add(newJob);
                 ResetInputs();
             }
             catch (InvalidOperationException ex)

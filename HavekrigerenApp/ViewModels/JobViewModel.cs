@@ -42,13 +42,26 @@ namespace HavekrigerenApp.ViewModels
         private string _phoneNumber;
         public string PhoneNumber
         {
-            get { return FormatPhoneNumber(_phoneNumber); }
+            get { return _phoneNumber; }
             set
             {
                 _phoneNumber = value;
                 OnPropertyChanged();
             }
         }
+
+        private string _formattedPhoneNumber;
+
+        public string FormattedPhoneNumber
+        {
+            get { return _formattedPhoneNumber; }
+            set
+            {
+                _formattedPhoneNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         private Category _category;
         public Category Category
@@ -111,6 +124,7 @@ namespace HavekrigerenApp.ViewModels
             ContactName = job.ContactName;
             Address = job.Address;
             PhoneNumber = job.PhoneNumber;
+            FormattedPhoneNumber = FormatPhoneNumber(PhoneNumber);
             Category = job.Category;
             StartDate = job.StartDate;
             EndDate = job.EndDate;
@@ -122,13 +136,23 @@ namespace HavekrigerenApp.ViewModels
         {
             StringBuilder stringBuilder = new StringBuilder();
             int i = 0;
+
+            // Loop through each character in the phone number
             foreach (char c in phoneNumber)
             {
-                stringBuilder.AppendFormat("{0}{1}", c, (i++ & 1) == 0 ? "" : ' ');
-            }
-            phoneNumber = "(+45) " + stringBuilder.ToString().Trim();
+                // Add the character to the StringBuilder
+                stringBuilder.Append(c);
 
-            return phoneNumber;
+                // Add a space after every two digits (excluding the last pair)
+                if (++i % 2 == 0 && i < phoneNumber.Length)
+                {
+                    stringBuilder.Append(' ');
+                }
+            }
+
+            // Prepend the country code (+45) and return the formatted phone number
+            return "(+45) " + stringBuilder.ToString();
         }
+
     }
 }

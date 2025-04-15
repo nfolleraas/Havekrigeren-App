@@ -43,15 +43,12 @@ namespace HavekrigerenApp.ViewModels
 
             // Command registration
             JobClickedCommand = new Command<Job>(JobClicked);
-            RefreshCommand = new Command(async () => await RefreshPage());
+            RefreshCommand = new Command(RefreshPage);
             DeleteJobCommand = new Command<Job>(DeleteJob);
-
         }
 
-        public async Task LoadJobs()
+        public void LoadJobs()
         {
-            await _jobRepo.LoadAllAsync();
-
             JobsVM.Clear();
             // Instatiate new JobViewModel for each job if the job is in the category
             foreach (Job job in _jobRepo.GetAll())
@@ -64,12 +61,12 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        public async Task RefreshPage()
+        public void RefreshPage()
         {
             try
             {
                 IsRefreshing = true;
-                await LoadJobs();
+                LoadJobs();
             }
             finally
             {
@@ -82,7 +79,6 @@ namespace HavekrigerenApp.ViewModels
             try
             {
                 await _navigationService.PushAsync(new ViewJobPage(job));
-                //await alertService.DisplayAlertAsync("Opgave", $"Trykkede på {job.ContactName}, {job.Address}");
             }
             catch (InvalidOperationException ex)
             {
@@ -104,9 +100,9 @@ namespace HavekrigerenApp.ViewModels
                 if (answer)
                 {
                     // Delete the job
-                    await _jobRepo.DeleteAsync(job);
+                    _jobRepo.Delete(job.Id);
                     await _alertService.DisplayAlertAsync("Slet Opgave", $"Opgaven \"{job.ContactName}, {job.Address}\" blev slettet.");
-                    await RefreshPage();
+                    RefreshPage();
                 }
             }
             catch (ArgumentException ex)

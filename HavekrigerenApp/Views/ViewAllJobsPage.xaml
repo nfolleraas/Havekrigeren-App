@@ -5,7 +5,7 @@
              x:Class="HavekrigerenApp.ViewAllJobsPage">
 
     <Shell.TitleView>
-        <Label Text="{Binding CategoryName}" Style="{StaticResource shellTitleStyle}"/>
+        <Label Text="{Binding SelectedCategoryName}" Style="{StaticResource shellTitleStyle}"/>
     </Shell.TitleView>
 
     <!-- Main Content -->

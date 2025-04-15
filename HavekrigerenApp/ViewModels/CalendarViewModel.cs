@@ -17,13 +17,10 @@ namespace HavekrigerenApp.ViewModels
         {
             JobsVM = new ObservableCollection<JobViewModel>();
             Events = new EventCollection();
-
         }
 
-        public async Task LoadJobs()
+        public void LoadJobs()
         {
-            await _jobRepo.LoadAllAsync();
-
             JobsVM.Clear();
             Events.Clear();
 
@@ -34,8 +31,12 @@ namespace HavekrigerenApp.ViewModels
                     JobViewModel jobVM = new JobViewModel(job);
                     JobsVM.Add(jobVM);
                 }
+                AddJobsToEvents();
             }
+        }
 
+        private void AddJobsToEvents()
+        {
             foreach (JobViewModel jobVM in JobsVM)
             {
                 string? formattedDate = jobVM.StartDate.ToString();
