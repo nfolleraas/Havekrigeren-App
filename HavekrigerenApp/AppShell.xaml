@@ -17,10 +17,6 @@
                       Icon="calendar_1x.png" Route="CalendarPage" />
     </TabBar>
 
-    <ShellContent Title="LoginPage"
-                  ContentTemplate="{DataTemplate local:LoginPage}"
-                  Route="LoginPage" />
-
     <ShellContent Title="ViewAllJobsPage"
                   ContentTemplate="{DataTemplate local:ViewAllJobsPage}"
                   Route="ViewAllJobsPage" />

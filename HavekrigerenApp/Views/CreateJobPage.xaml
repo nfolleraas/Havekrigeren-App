@@ -1,97 +1,142 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="HavekrigerenApp.CreateJobPage">
+<ContentPage x:Class="HavekrigerenApp.CreateJobPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <Shell.TitleView>
-        <Label Text="Opret Opgave" Style="{StaticResource shellTitleStyle}"/>
+        <Label Style="{StaticResource shellTitleStyle}" Text="Opret Opgave" />
     </Shell.TitleView>
 
     <ScrollView>
         <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
 
-            <!-- Contact Person -->
+            <!--  Contact Person  -->
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Kontaktperson " FontAttributes="Bold" FontSize="Medium"/>
-                        <Span Text="*" TextColor="{StaticResource Required}" FontAttributes="Bold" FontSize="Large"/>
+                        <Span FontAttributes="Bold" FontSize="Medium"
+                              Text="Kontaktperson " />
+                        <Span FontAttributes="Bold" FontSize="Large"
+                              Text="*"
+                              TextColor="{StaticResource Required}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry x:Name="contactNameEntry" Text="{Binding ContactName, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" IsSpellCheckEnabled="True" Margin="0,0,0,10"/>
+            <Entry x:Name="contactNameEntry" Margin="0,0,0,10"
+                   FontSize="Medium" IsSpellCheckEnabled="True"
+                   Placeholder="Indtast..."
+                   Text="{Binding ContactName, Mode=TwoWay}" />
 
-            <!-- Address -->
+            <!--  Address  -->
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Adresse " FontAttributes="Bold" FontSize="Medium"/>
-                        <Span Text="*" TextColor="{StaticResource Required}" FontAttributes="Bold" FontSize="Large"/>
+                        <Span FontAttributes="Bold" FontSize="Medium"
+                              Text="Adresse " />
+                        <Span FontAttributes="Bold" FontSize="Large"
+                              Text="*"
+                              TextColor="{StaticResource Required}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry x:Name="addressEntry" Text="{Binding Address, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" IsSpellCheckEnabled="True" Margin="0,0,0,10"/>
+            <Entry x:Name="addressEntry" Margin="0,0,0,10"
+                   FontSize="Medium" IsSpellCheckEnabled="True"
+                   Placeholder="Indtast..."
+                   Text="{Binding Address, Mode=TwoWay}" />
 
-            <!-- Phone Number -->
+            <!--  Phone Number  -->
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Telefonnummer " FontAttributes="Bold" FontSize="Medium"/>
-                        <Span Text="*" TextColor="{StaticResource Required}" FontAttributes="Bold" FontSize="Large"/>
+                        <Span FontAttributes="Bold" FontSize="Medium"
+                              Text="Telefonnummer " />
+                        <Span FontAttributes="Bold" FontSize="Large"
+                              Text="*"
+                              TextColor="{StaticResource Required}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Entry x:Name="phoneNumberEntry" Text="{Binding PhoneNumber, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" Keyboard="Numeric" MaxLength="8" Margin="0,0,0,10"/>
+            <Entry x:Name="phoneNumberEntry" Margin="0,0,0,10"
+                   FontSize="Medium" Keyboard="Numeric"
+                   MaxLength="8" Placeholder="Indtast..."
+                   Text="{Binding PhoneNumber, Mode=TwoWay}" />
 
-            <!-- Category -->
+            <!--  Category  -->
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Kategori " FontAttributes="Bold" FontSize="Medium"/>
-                        <Span Text="*" TextColor="{StaticResource Required}" FontAttributes="Bold" FontSize="Large"/>
+                        <Span FontAttributes="Bold" FontSize="Medium"
+                              Text="Kategori " />
+                        <Span FontAttributes="Bold" FontSize="Large"
+                              Text="*"
+                              TextColor="{StaticResource Required}" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Picker x:Name="categoryPicker" 
-                        Title="Vælg kategori..." TitleColor="{StaticResource Placeholder}" 
-                        TextColor="{StaticResource PrimaryText}" FontSize="Medium" 
-                        ItemsSource="{Binding Categories}" SelectedItem="{Binding Category, Mode=TwoWay}" Margin="0,0,0,10"/>
+            <Picker x:Name="categoryPicker" Title="Vælg kategori..."
+                    Margin="0,0,0,10" FontSize="Medium"
+                    ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding Category, Mode=TwoWay}"
+                    TextColor="{StaticResource PrimaryText}"
+                    TitleColor="{StaticResource Placeholder}" />
 
-            <!-- Date Checkbox -->
-            <StackLayout Orientation="Horizontal" Padding="-10,0,0,0">
-                <CheckBox x:Name="dateCheckBox" IsChecked="{Binding IsDateCheckBoxChecked}" 
-                          HorizontalOptions="Center"/>
+            <!--  Date Checkbox  -->
+            <StackLayout Padding="-10,0,0,0" Orientation="Horizontal">
+                <CheckBox x:Name="dateCheckBox" HorizontalOptions="Center"
+                          IsChecked="{Binding IsDateCheckBoxChecked}" />
 
-                <Label Text="Vælg start- og slutdato?" FontSize="Medium" VerticalOptions="Center"/>
+                <Label FontSize="Medium" Text="Vælg start- og slutdato?"
+                       VerticalOptions="Center" />
             </StackLayout>
 
-            <!-- Start Date -->
-            <Label Text="Start Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsDateCheckBoxChecked}"/>
-            <DatePicker x:Name="startDatePicker" Format="dd/MM-yyyy" Date="{Binding StartDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsDateCheckBoxChecked}">
+            <!--  Start Date  -->
+            <Label FontAttributes="Bold" FontSize="Medium"
+                   IsVisible="{Binding IsDateCheckBoxChecked}"
+                   Text="Start Dato" />
+            <DatePicker x:Name="startDatePicker" Margin="0,0,0,10"
+                        Date="{Binding StartDate, Mode=TwoWay}"
+                        FontSize="Medium" Format="dd/MM-yyyy"
+                        IsVisible="{Binding IsDateCheckBoxChecked}">
                 <DatePicker.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding StartDateSelectedCommand}" 
-                                                    CommandParameter="{Binding Date, Source={x:Reference startDatePicker}}"/>
+                    <toolkit:EventToCommandBehavior Command="{Binding StartDateSelectedCommand}"
+                                                    CommandParameter="{Binding Date, Source={x:Reference startDatePicker}}"
+                                                    EventName="DateSelected" />
                 </DatePicker.Behaviors>
             </DatePicker>
 
-            <!-- End Date -->
-            <Label Text="Slut Dato" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsDateCheckBoxChecked}"/>
-            <DatePicker x:Name="endDatePicker" Format="dd/MM-yyyy" Date="{Binding EndDate, Mode=TwoWay}" FontSize="Medium" Margin="0,0,0,10" IsVisible="{Binding IsDateCheckBoxChecked}">
+            <!--  End Date  -->
+            <Label FontAttributes="Bold" FontSize="Medium"
+                   IsVisible="{Binding IsDateCheckBoxChecked}"
+                   Text="Slut Dato" />
+            <DatePicker x:Name="endDatePicker" Margin="0,0,0,10"
+                        Date="{Binding EndDate, Mode=TwoWay}"
+                        FontSize="Medium" Format="dd/MM-yyyy"
+                        IsVisible="{Binding IsDateCheckBoxChecked}">
                 <DatePicker.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding EndDateSelectedCommand}" 
-                                                    CommandParameter="{Binding Date, Source={x:Reference endDatePicker}}"/>
+                    <toolkit:EventToCommandBehavior Command="{Binding EndDateSelectedCommand}"
+                                                    CommandParameter="{Binding Date, Source={x:Reference endDatePicker}}"
+                                                    EventName="DateSelected" />
                 </DatePicker.Behaviors>
             </DatePicker>
 
-            <!-- Notes -->
-            <Label Text="Noter" FontAttributes="Bold" FontSize="Medium"/>
-            <Editor x:Name="notesEditor" Text="{Binding Notes, Mode=TwoWay}" Placeholder="Indtast..." FontSize="Medium" AutoSize="TextChanges" IsSpellCheckEnabled="True" Margin="0,0,0,10"/>
+            <!--  Notes  -->
+            <Label FontAttributes="Bold" FontSize="Medium"
+                   Text="Noter" />
+            <Editor x:Name="notesEditor" Margin="0,0,0,10"
+                    AutoSize="TextChanges" FontSize="Medium"
+                    IsSpellCheckEnabled="True" Placeholder="Indtast..."
+                    Text="{Binding Notes, Mode=TwoWay}" />
 
-            <!-- Create Job Button -->
-            <Button Text="Opret" HeightRequest="50" CornerRadius="25" IsEnabled="{Binding IsButtonEnabled, Mode=OneWay}" Command="{Binding CreateJobCommand}" CommandParameter="{Binding}">
+            <!--  Create Job Button  -->
+            <Button Margin="10" Padding="25,10,25,10"
+                    Command="{Binding CreateJobCommand}"
+                    CommandParameter="{Binding}"
+                    CornerRadius="25" HeightRequest="50"
+                    HorizontalOptions="Center"
+                    IsEnabled="{Binding IsButtonEnabled, Mode=OneWay}"
+                    Text="Opret" FontSize="16">
                 <Button.ImageSource>
-                    <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
+                    <FontImageSource FontFamily="MaterialIcons-Regular" Glyph="+"
+                                     Size="30" Color="White" />
                 </Button.ImageSource>
             </Button>
 

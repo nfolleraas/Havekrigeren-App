@@ -35,7 +35,7 @@ namespace HavekrigerenApp.ViewModels
             // Command registration
             CategoryClickedCommand = new Command<Category>(CategoryClicked);
             CreateCategoryCommand = new Command(CreateCategory);
-            RefreshCommand = new Command(RefreshPage);
+            RefreshCommand = new Command(async () => await RefreshPage());
             DeleteCategoryCommand = new Command<Category>(DeleteCategory);
         }
 
@@ -50,7 +50,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        public void RefreshPage()
+        public async Task RefreshPage()
         {
             try
             {
@@ -106,7 +106,7 @@ namespace HavekrigerenApp.ViewModels
                     // Successfully add category
                     Category newCategory = new Category(result);
                     _categoryRepo.Add(newCategory);
-                    RefreshPage();
+                    await RefreshPage();
                 }
             }
             catch (InvalidOperationException ex)

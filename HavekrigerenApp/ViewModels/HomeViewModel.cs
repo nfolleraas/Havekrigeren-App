@@ -36,10 +36,21 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private bool _showIncomingJobs = true;
+        private bool _showAllJobs = true;
+        public bool ShowAllJobs
+        {
+            get => _showAllJobs;
+            set
+            {
+                _showAllJobs = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _showIncomingJobs = false;
         public bool ShowIncomingJobs
         {
-            get => _showIncomingJobs;
+            get { return _showIncomingJobs; }
             set
             {
                 _showIncomingJobs = value;
@@ -54,6 +65,8 @@ namespace HavekrigerenApp.ViewModels
             set
             {
                 _searchBoxInput = value;
+                ShowAllJobs = true;
+                ShowIncomingJobs = false;
                 SearchJob(_searchBoxInput);
                 OnPropertyChanged();
             }
@@ -61,18 +74,24 @@ namespace HavekrigerenApp.ViewModels
 
         // Commands
         public ICommand RefreshCommand { get; }
+        public ICommand ToggleAllJobsCommand { get; }
+        public ICommand ToggleIncomingJobsCommand { get; }
 
         public HomeViewModel()
         {
             JobsVM = new ObservableCollection<JobViewModel>();
+            JobsVMSortedByDate = new ObservableCollection<JobViewModel>();
 
             // Command registration
             RefreshCommand = new Command(RefreshPage);
+            ToggleAllJobsCommand = new Command(ToggleAllJobs);
+            ToggleIncomingJobsCommand = new Command(ToggleIncomingJobs);
         }
 
         public void LoadJobs()
         {
             JobsVM.Clear();
+            
             // Instatiate new JobViewModel for each job
             foreach (Job job in _jobRepo.GetAll())
             {
@@ -80,10 +99,21 @@ namespace HavekrigerenApp.ViewModels
                 JobsVM.Add(jobVM);
             }
 
-            // Sort by date
-            JobsVMSortedByDate = new ObservableCollection<JobViewModel>(
-                JobsVM.OrderBy(job => job.StartDate)
-                );
+            SortByDate();
+
+            JobsVM.ToList().ForEach(n => Console.WriteLine("JobsVM " + n.ToString()));
+            JobsVMSortedByDate.ToList().ForEach(n => Console.WriteLine("JobsVMSortedByDate " + n.ToString()));
+        }
+
+        private void SortByDate()
+        {
+            JobsVMSortedByDate.Clear();
+            JobsVM
+                .Where(jobVM => jobVM.StartDate != null)
+                .OrderBy(jobVM => jobVM.StartDate)
+                .ToList()
+                .ForEach(jobVM => JobsVMSortedByDate.Add(jobVM)
+            );
         }
 
         public void SearchJob(string input)
@@ -97,14 +127,7 @@ namespace HavekrigerenApp.ViewModels
                 JobsVM.Add(jobVM);
             }
 
-            if (string.IsNullOrEmpty(input))
-            {
-                ShowIncomingJobs = true;
-            }
-            else
-            {
-                ShowIncomingJobs = false;
-            }
+            ShowSearchResults = string.IsNullOrEmpty(input) ? false : true;
         }
 
         // Commands
@@ -120,5 +143,17 @@ namespace HavekrigerenApp.ViewModels
                 IsRefreshing = false;
             }
         }
+        private void ToggleAllJobs()
+        {
+            ShowAllJobs = true;
+            ShowIncomingJobs = false;
+        }
+
+        private void ToggleIncomingJobs()
+        {
+            ShowAllJobs = false;
+            ShowIncomingJobs = true;
+        }
+
     }
 }

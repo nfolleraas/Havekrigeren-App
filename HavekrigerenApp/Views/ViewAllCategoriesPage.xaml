@@ -1,59 +1,84 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="HavekrigerenApp.ViewAllCategoriesPage">
+<ContentPage x:Class="HavekrigerenApp.ViewAllCategoriesPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <Shell.TitleView>
         <StackLayout>
-            <Label Text="Alle Kategorier" Style="{StaticResource shellTitleStyle}"/>
-            <Button Text="Ny Kategori" Margin="0,-40,10,0" HorizontalOptions="End" HeightRequest="50" CornerRadius="25" Command="{Binding CreateCategoryCommand}">
+            <Label Style="{StaticResource shellTitleStyle}" Text="Alle Kategorier" />
+            <Button Margin="0,-40,10,0"
+                    Command="{Binding CreateCategoryCommand}"
+                    CornerRadius="25" HeightRequest="50"
+                    HorizontalOptions="End" Text="Ny Kategori">
                 <Button.ImageSource>
-                    <FontImageSource Glyph="+" FontFamily="MaterialIcons-Regular" Size="30" Color="White" />
+                    <FontImageSource FontFamily="MaterialIcons-Regular" Glyph="+"
+                                     Size="30" Color="White" />
                 </Button.ImageSource>
             </Button>
         </StackLayout>
     </Shell.TitleView>
 
-    <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
-        <!-- No categories message -->
-        <Label Text="Kunne ikke finde nogen kategorier." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,50,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
-        <Label Text="Tryk på knappen til højre for at tilføje en ny." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,20,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
-        <Label Text="OBS!" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Italic" Margin="0,50,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
-        <Label Text="Kan du ikke se dine oprettede kategorier? Prøv at luk appen helt og start den op igen, så burde de gerne komme." HorizontalTextAlignment="Center" FontSize="Medium" Margin="0,0,0,0" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"/>
+    <RefreshView Command="{Binding RefreshCommand}"
+                 IsRefreshing="{Binding IsRefreshing}"
+                 Style="{StaticResource defaultStackLayoutStyle}">
+        <StackLayout>
 
-        <!-- CollectionView for categories -->
-        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}" Margin="0,20,0,0">
-            <CollectionView ItemsSource="{Binding CategoriesVM}" IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource GreaterThanZeroConverter}}">
+            <!--  No categories message  -->
+            <Label Margin="0,50,0,0" FontSize="Medium"
+                   HorizontalTextAlignment="Center"
+                   IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"
+                   Text="Kunne ikke finde nogen kategorier." />
+            <Label Margin="0,20,0,0" FontSize="Medium"
+                   HorizontalTextAlignment="Center"
+                   IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"
+                   Text="Tryk på knappen til højre for at tilføje en ny." />
+            <Label Margin="0,50,0,0" FontAttributes="Italic"
+                   FontSize="Medium" HorizontalTextAlignment="Center"
+                   IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"
+                   Text="OBS!" />
+            <Label Margin="0,0,0,0" FontSize="Medium"
+                   HorizontalTextAlignment="Center"
+                   IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"
+                   Text="Kan du ikke se dine oprettede kategorier? Prøv at luk appen helt og start den op igen, så burde de gerne komme." />
+
+            <!--  CollectionView for categories  -->
+
+            <CollectionView IsVisible="{Binding CategoriesVM.Count, Converter={StaticResource GreaterThanZeroConverter}}" ItemsSource="{Binding CategoriesVM}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <SwipeView>
                             <SwipeView.RightItems>
                                 <SwipeItems>
-                                    <SwipeItem IconImageSource="trash_1x.png" BackgroundColor="Red" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCategoryCommand}" CommandParameter="{Binding Category}"/>
+                                    <SwipeItem BackgroundColor="Red"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCategoryCommand}"
+                                               CommandParameter="{Binding Category}"
+                                               IconImageSource="trash_1x.png" />
                                 </SwipeItems>
                             </SwipeView.RightItems>
 
-                            <Border Padding="10" Margin="0,10,0,0">
+                            <Border Margin="0,10,0,0" Padding="10">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Text="{Binding Name}" FontSize="Large" VerticalTextAlignment="Center" Grid.Column="0" LineBreakMode="CharacterWrap" MaximumWidthRequest="300" />
-                                    <Label Text="Se mere ▶" FontSize="Small" VerticalTextAlignment="Center" Grid.Column="1" />
+                                    <Label Grid.Column="0" FontSize="Large"
+                                           LineBreakMode="CharacterWrap" MaximumWidthRequest="300"
+                                           Text="{Binding Name}"
+                                           VerticalTextAlignment="Center" />
+                                    <Label Grid.Column="1" FontSize="Small"
+                                           Text="Se mere ▶" VerticalTextAlignment="Center" />
                                 </Grid>
 
                                 <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCommand}" CommandParameter="{Binding Category}"/>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCommand}" CommandParameter="{Binding Category}" />
                                 </Border.GestureRecognizers>
                             </Border>
                         </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </RefreshView>
-    </StackLayout>
+        </StackLayout>
+    </RefreshView>
 
 </ContentPage>

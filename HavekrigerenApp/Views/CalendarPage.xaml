@@ -1,53 +1,48 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:calendar="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
-             xmlns:controls="clr-namespace:HavekrigerenApp.Controls;assembly=HavekrigerenApp"
-             x:Class="HavekrigerenApp.CalendarPage">
+<ContentPage x:Class="HavekrigerenApp.CalendarPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:calendar="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
+             xmlns:controls="clr-namespace:HavekrigerenApp.Controls;assembly=HavekrigerenApp">
 
     <Shell.TitleView>
-        <Label Text="Kalender" Style="{StaticResource shellTitleStyle}"/>
+        <Label Style="{StaticResource shellTitleStyle}" Text="Kalender" />
     </Shell.TitleView>
 
     <ScrollView>
         <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
-            <Label Text="yo"/>
-
-            <calendar:Calendar Culture="{Binding Culture}" 
-                                DayViewCornerRadius="16"
-                                DayViewSize="40"
-                                DaysTitleColor="{StaticResource PrimaryText}"
-                                DeselectedDayTextColor="{StaticResource PrimaryText}"
-                                EventIndicatorSelectedTextColor="{StaticResource Gray400}"
-                                EventIndicatorTextColor="{StaticResource Primary}"
-                                EventIndicatorType="BottomDot"
-                                HorizontalOptions="Fill"
-                                OtherMonthDayIsVisible="True"
-                                SelectedDateColor="{StaticResource PrimaryText}"
-                                SelectedDateTextFormat="dddd, dd MMM yyyy"
-                                SelectedDayTextColor="{StaticResource Gray500}"
-                                SelectedTodayTextColor="{StaticResource Gray500}"
-                                TodayOutlineColor="{StaticResource SecondaryDark}"
-                                TodayTextColor="{StaticResource PrimaryText}"
-                                Events="{Binding Events}" EventsScrollViewVisible="True">
+            <calendar:Calendar Culture="{Binding Culture}"
+                               DayViewCornerRadius="16" DayViewSize="40"
+                               DaysTitleColor="{StaticResource PrimaryText}"
+                               DeselectedDayTextColor="{StaticResource PrimaryText}"
+                               EventIndicatorSelectedTextColor="{StaticResource Gray400}"
+                               EventIndicatorTextColor="{StaticResource Primary}"
+                               EventIndicatorType="BottomDot"
+                               Events="{Binding Events}"
+                               EventsScrollViewVisible="True" HorizontalOptions="Fill"
+                               OtherMonthDayIsVisible="True"
+                               SelectedDateColor="{StaticResource PrimaryText}"
+                               SelectedDateTextFormat="dddd, dd MMM yyyy"
+                               SelectedDayTextColor="{StaticResource Gray500}"
+                               SelectedTodayTextColor="{StaticResource Gray500}"
+                               TodayOutlineColor="{StaticResource SecondaryDark}"
+                               TodayTextColor="{StaticResource PrimaryText}">
 
                 <calendar:Calendar.EventTemplate>
                     <DataTemplate>
                         <StackLayout Padding="15,0,0,0">
-                            <Label Text="{Binding ContactName}"
-                                   FontAttributes="Bold" FontSize="Medium" />
-                            
-                            <Label Text="{Binding Address}" 
-                                   FontSize="Small" LineBreakMode="WordWrap" />
-                            
-                            <Label Text="{Binding FormattedPhoneNumber}" 
-                                   FontSize="Small" LineBreakMode="WordWrap" />
+                            <Label FontAttributes="Bold" FontSize="Medium"
+                                   Text="{Binding ContactName}" />
+
+                            <Label FontSize="Small" LineBreakMode="WordWrap"
+                                   Text="{Binding Address}" />
+
+                            <Label FontSize="Small" LineBreakMode="WordWrap"
+                                   Text="{Binding FormattedPhoneNumber}" />
                         </StackLayout>
                     </DataTemplate>
                 </calendar:Calendar.EventTemplate>
 
                 <calendar:Calendar.HeaderSectionTemplate>
-                    <controls:CalendarHeader/>
+                    <controls:CalendarHeader />
                 </calendar:Calendar.HeaderSectionTemplate>
             </calendar:Calendar>
 

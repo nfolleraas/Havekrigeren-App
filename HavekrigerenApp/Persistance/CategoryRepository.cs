@@ -27,17 +27,15 @@ namespace HavekrigerenApp.Models.Classes
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.AddWithValue("@Name", category.Name);
-                    command.ExecuteNonQuery();
+                    category.Id = (int)command.ExecuteScalar();
                 }
             }
+            _categories.Add(category);
         }
 
         public List<Category> GetAll()
         {
-            if (_categories.Count > 0)
-            {
-                return _categories;
-            }
+            _categories.Clear();
 
             List<Category> foundCategories = new List<Category>();
             using (SqlConnection connection = new SqlConnection(_connectionString))

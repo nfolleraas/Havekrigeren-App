@@ -7,8 +7,7 @@
 
     <Style x:Key="defaultStackLayoutStyle" TargetType="StackLayout">
         <Setter Property="Orientation" Value="Vertical"/>
-        <Setter Property="VerticalOptions" Value="FillAndExpand"/>
-        <Setter Property="Margin" Value="25,0,25,0"/>
+        <Setter Property="Margin" Value="10,0,10,0"/>
     </Style>
 
     <Style x:Key="shellTitleStyle" TargetType="Label">

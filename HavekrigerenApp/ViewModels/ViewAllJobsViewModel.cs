@@ -43,7 +43,7 @@ namespace HavekrigerenApp.ViewModels
 
             // Command registration
             JobClickedCommand = new Command<Job>(JobClicked);
-            RefreshCommand = new Command(RefreshPage);
+            RefreshCommand = new Command(async () => await RefreshPage());
             DeleteJobCommand = new Command<Job>(DeleteJob);
         }
 
@@ -61,7 +61,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        public void RefreshPage()
+        public async Task RefreshPage()
         {
             try
             {
@@ -102,7 +102,7 @@ namespace HavekrigerenApp.ViewModels
                     // Delete the job
                     _jobRepo.Delete(job.Id);
                     await _alertService.DisplayAlertAsync("Slet Opgave", $"Opgaven \"{job.ContactName}, {job.Address}\" blev slettet.");
-                    RefreshPage();
+                    await RefreshPage();
                 }
             }
             catch (ArgumentException ex)

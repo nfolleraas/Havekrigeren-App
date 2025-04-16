@@ -151,7 +151,12 @@ namespace HavekrigerenApp.ViewModels
             }
 
             // Prepend the country code (+45) and return the formatted phone number
-            return "(+45) " + stringBuilder.ToString();
+            return stringBuilder.ToString();
+        }
+
+        public override string ToString()
+        {
+            return Job.ToString();
         }
 
     }

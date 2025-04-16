@@ -37,14 +37,11 @@ namespace HavekrigerenApp.Models.Classes
                     job.Id = (int)command.ExecuteScalar();
                 }
             }
+            _jobs.Add(job);
         }
 
         public List<Job> GetAll()
         {
-            if (_jobs.Count > 0)
-            {
-                return _jobs;
-            }
             _jobs.Clear();
 
             List<Job> foundJobs = new List<Job>();
@@ -177,7 +174,9 @@ namespace HavekrigerenApp.Models.Classes
             List<Job> filteredJobs = _jobs
                 .Where(job => (job.ContactName?.ToLower().StartsWith(query) ?? false) ||
                               (job.Address?.ToLower().StartsWith(query) ?? false) ||
-                              (job.PhoneNumber?.ToLower().StartsWith(query) ?? false))
+                              (job.PhoneNumber?.ToLower().StartsWith(query) ?? false) ||
+                              (job.Category?.ToString().ToLower().StartsWith(query) ?? false )
+                )
                 .ToList();
 
             return filteredJobs;
