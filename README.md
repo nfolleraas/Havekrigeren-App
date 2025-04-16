@@ -3,6 +3,9 @@
 Havekrigeren is a danish privately owned company who specializes in gardening.  
 The app is used internally to keep an overview of jobs in different categories of work.
 
+
+Icons by <a target="_blank" href="https://icons8.com">Icons8</a>
+
 ## Framework
 
 The app is developed using a C# cross-platform framework called .NET MAUI using .NET 9
