@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Globalization;
-using HavekrigerenApp.Models.Classes;
-using HavekrigerenApp.ViewModels;
+using System.Windows.Input;
+using HavekrigerenApp.Models;
+using HavekrigerenApp.Persistance;
+using HavekrigerenApp.Services;
 using Plugin.Maui.Calendar.Models;
 
 namespace HavekrigerenApp.ViewModels
@@ -13,10 +15,14 @@ namespace HavekrigerenApp.ViewModels
         public CultureInfo Culture { get; set; } = new CultureInfo("da-DK");
         public EventCollection Events { get; set; }
 
+        public ICommand JobClickedCommand { get; }
+
         public CalendarViewModel()
         {
             JobsVM = new ObservableCollection<JobViewModel>();
             Events = new EventCollection();
+
+            JobClickedCommand = new Command<Job>(JobClicked);
         }
 
         public void LoadJobs()
@@ -24,31 +30,47 @@ namespace HavekrigerenApp.ViewModels
             JobsVM.Clear();
             Events.Clear();
 
-            foreach (Job job in _jobRepo.GetAll())
+            foreach (Job job in JobRepository.GetAll())
             {
-                if (!string.IsNullOrEmpty(job.StartDate.ToString()))
+                if (job.HasDate)
                 {
                     JobViewModel jobVM = new JobViewModel(job);
                     JobsVM.Add(jobVM);
+                    AddJobsToEvents(jobVM);
                 }
-                AddJobsToEvents();
             }
         }
 
-        private void AddJobsToEvents()
+        private void AddJobsToEvents(JobViewModel jobVM)
         {
-            foreach (JobViewModel jobVM in JobsVM)
+            DateTime startDate = (DateTime)jobVM.StartDate;
+            DateTime endDate = (DateTime)jobVM.EndDate;
+
+            for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
-                string? formattedDate = jobVM.StartDate.ToString();
-                if (DateTime.TryParseExact(formattedDate, "dd/MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDate))
+
+                if (!Events.ContainsKey(date))
                 {
-                    Events.Add(startDate, new List<JobViewModel>() { jobVM });
-                }
-                else
-                {
-                    Console.WriteLine($"The date {jobVM.StartDate} failed to parse as a DateTime");
+                    Events.Add(date, new ArrayList());
                 }
 
+                ((ArrayList)Events[date]).Add(jobVM);
+            }
+        }
+
+        private async void JobClicked(Job job)
+        {
+            try
+            {
+                await NavigationService.PushAsync(new ViewJobPage(job));
+            }
+            catch (InvalidOperationException ex)
+            {
+                await AlertService.DisplayAlertAsync("Fejl!", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                await AlertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
     }

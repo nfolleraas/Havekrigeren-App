@@ -4,53 +4,62 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HavekrigerenApp.Models.Services
+namespace HavekrigerenApp.Services
 {
-    public class NavigationService : INavigation
+    public static class NavigationService
     {
         // Service for page navigation
 
-        public IReadOnlyList<Page> ModalStack => throw new NotImplementedException();
+        public static IReadOnlyList<Page> ModalStack => throw new NotImplementedException();
 
-        public IReadOnlyList<Page> NavigationStack => throw new NotImplementedException();
+        public static IReadOnlyList<Page> NavigationStack => throw new NotImplementedException();
 
-        public void InsertPageBefore(Page page, Page before)
+        public static void InsertPageBefore(Page page, Page before)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Page> PopAsync()
+        public static async Task<Page> PopAsync()
+        {
+            Page currentPage = Shell.Current.CurrentPage;
+
+            if (currentPage != null)
+            {
+                return await currentPage.Navigation.PopAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("Siden du prøver at tilgå er ikke tilgængelig.");
+            }
+        }
+
+        public static Task<Page> PopAsync(bool animated)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Page> PopAsync(bool animated)
+        public static Task<Page> PopModalAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Page> PopModalAsync()
+        public static Task<Page> PopModalAsync(bool animated)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Page> PopModalAsync(bool animated)
+        public static Task PopToRootAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task PopToRootAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task PopToRootAsync(bool animated)
+        public static Task PopToRootAsync(bool animated)
         {
             throw new NotImplementedException();
         }
 
         // Navigate to a page
-        public async Task PushAsync(Page page)
+        public static async Task PushAsync(Page page)
         {
             Page currentPage = Shell.Current.CurrentPage;
 
@@ -64,22 +73,22 @@ namespace HavekrigerenApp.Models.Services
             }
         }
 
-        public Task PushAsync(Page page, bool animated)
+        public static Task PushAsync(Page page, bool animated)
         {
             throw new NotImplementedException();
         }
 
-        public Task PushModalAsync(Page page)
+        public static Task PushModalAsync(Page page)
         {
             throw new NotImplementedException();
         }
 
-        public Task PushModalAsync(Page page, bool animated)
+        public static Task PushModalAsync(Page page, bool animated)
         {
             throw new NotImplementedException();
         }
 
-        public void RemovePage(Page page)
+        public static void RemovePage(Page page)
         {
             throw new NotImplementedException();
         }

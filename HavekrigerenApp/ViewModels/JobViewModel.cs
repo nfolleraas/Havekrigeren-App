@@ -1,5 +1,5 @@
 ﻿using Google.Protobuf.Reflection;
-using HavekrigerenApp.Models.Classes;
+using HavekrigerenApp.Models;
 using System.Text;
 
 namespace HavekrigerenApp.ViewModels
@@ -10,122 +10,167 @@ namespace HavekrigerenApp.ViewModels
         public Job Job
         {
             get { return _job; }
-            set
+            private set
             {
                 _job = value;
                 OnPropertyChanged();
             }
         }
 
-        private string _contactName;
+        public int Id
+        {
+            get => Job.Id;
+            set
+            {
+                if (Job.Id != value)
+                {
+                    Job.Id = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public string ContactName
         {
-            get { return _contactName; }
+            get => Job.ContactName;
             set
             {
-                _contactName = value;
-                OnPropertyChanged();
+                if (Job.ContactName != value)
+                {
+                    Job.ContactName = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        private string _address;
         public string Address
         {
-            get { return _address; }
+            get => Job.Address;
             set
             {
-                _address = value;
-                OnPropertyChanged();
+                if (Job.Address != value)
+                {
+                    Job.Address = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        private string _phoneNumber;
         public string PhoneNumber
         {
-            get { return _phoneNumber; }
+            get => Job.PhoneNumber;
             set
             {
-                _phoneNumber = value;
-                OnPropertyChanged();
+                if (Job.PhoneNumber != value)
+                {
+                    Job.PhoneNumber = value;
+                    OnPropertyChanged();
+                }
             }
         }
-
-        private string _formattedPhoneNumber;
 
         public string FormattedPhoneNumber
         {
-            get { return _formattedPhoneNumber; }
+            get => _formattedPhoneNumber;
             set
             {
-                _formattedPhoneNumber = value;
-                OnPropertyChanged();
+                if (_formattedPhoneNumber != value)
+                {
+                    _formattedPhoneNumber = value;
+                    OnPropertyChanged();
+                }
             }
         }
+        private string _formattedPhoneNumber; // Still local to the view model
 
-
-        private Category _category;
         public Category Category
         {
-            get { return _category; }
+            get => Job.Category;
             set
             {
-                _category = value;
-                OnPropertyChanged();
+                if (Job.Category != value)
+                {
+                    Job.Category = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        private DateTime? _startDate;
+        public bool HasDate
+        {
+            get => Job.HasDate;
+            set
+            {
+                if (Job.HasDate != value)
+                {
+                    Job.HasDate = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public DateTime? StartDate
         {
-            get { return _startDate; }
+            get => Job.StartDate;
             set
             {
-                _startDate = value;
-                OnPropertyChanged();
+                if (Job.StartDate != value)
+                {
+                    Job.StartDate = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        private DateTime? _endDate;
         public DateTime? EndDate
         {
-            get { return _endDate; }
+            get => Job.EndDate;
             set
             {
-                _endDate = value;
-                OnPropertyChanged();
+                if (Job.EndDate != value)
+                {
+                    Job.EndDate = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        private string _notes;
         public string Notes
         {
-            get { return _notes; }
+            get => Job.Notes;
             set
             {
-                _notes = value;
-                OnPropertyChanged();
+                if (Job.Notes != value)
+                {
+                    Job.Notes = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        private DateTime _dateCreated;
         public DateTime DateCreated
         {
-            get { return _dateCreated; }
+            get => Job.DateCreated;
             set
             {
-                _dateCreated = value;
-                OnPropertyChanged();
+                if (Job.DateCreated != value)
+                {
+                    Job.DateCreated = value;
+                    OnPropertyChanged();
+                }
             }
         }
+
 
         public JobViewModel(Job job)
         {
             Job = job;
+            Id = job.Id;
             ContactName = job.ContactName;
             Address = job.Address;
-            PhoneNumber = job.PhoneNumber;
-            FormattedPhoneNumber = FormatPhoneNumber(PhoneNumber);
+            PhoneNumber = FormatPhoneNumber(job.PhoneNumber);
             Category = job.Category;
+            HasDate = job.HasDate;
             StartDate = job.StartDate;
             EndDate = job.EndDate;
             Notes = job.Notes;

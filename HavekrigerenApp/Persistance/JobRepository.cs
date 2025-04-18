@@ -1,24 +1,19 @@
 ﻿using HavekrigerenApp.Exceptions;
+using HavekrigerenApp.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Text.Json;
 
-namespace HavekrigerenApp.Models.Classes
+namespace HavekrigerenApp.Persistance
 {
-    public class JobRepository
+    public static class JobRepository
     {
-        private List<Job> _jobs = new List<Job>();
-        private string? _connectionString;
+        private static List<Job> _jobs = new List<Job>();
 
-        public JobRepository()
+        public static void Add(Job job)
         {
-            _connectionString = App.ConnectionString;
-        }
-
-        public void Add(Job job)
-        {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(App.ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand("sp_InsertJob", connection))
@@ -40,12 +35,12 @@ namespace HavekrigerenApp.Models.Classes
             _jobs.Add(job);
         }
 
-        public List<Job> GetAll()
+        public static List<Job> GetAll()
         {
             _jobs.Clear();
 
             List<Job> foundJobs = new List<Job>();
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(App.ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand("sp_SelectAllJobs", connection))
@@ -81,10 +76,14 @@ namespace HavekrigerenApp.Models.Classes
                     }
                 }
             }
+            foundJobs = foundJobs
+                .OrderByDescending(job => job.DateCreated)
+                .ToList();
+
             return foundJobs;
         }
 
-        public Job Get(int id)
+        public static Job Get(int id)
         {
             if (id < 0)
             {
@@ -92,7 +91,7 @@ namespace HavekrigerenApp.Models.Classes
             }
 
             Job? foundJob = null;
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(App.ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand("sp_SelectJob", connection))
@@ -120,7 +119,10 @@ namespace HavekrigerenApp.Models.Classes
                         string notes = reader["Notes"] != DBNull.Value ? (string)reader["Notes"] : string.Empty;
                         DateTime dateCreated = (DateTime)reader["DateCreated"];
 
-                        Job job = new Job(contactName, address, phoneNumber, category, hasDate, startDate, endDate, notes, dateCreated);
+                        Job job = new Job(contactName, address, phoneNumber, category, hasDate, startDate, endDate, notes, dateCreated)
+                        {
+                            Id = jobId
+                        };
 
                         foundJob = job;
                     }
@@ -134,19 +136,52 @@ namespace HavekrigerenApp.Models.Classes
             return foundJob;
         }
 
-        public void Update(Job job)
+        public static void Update(Job updatedJob)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(App.ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("sp_UpdateJob", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@Id", updatedJob.Id);
+                    command.Parameters.AddWithValue("@ContactName", updatedJob.ContactName);
+                    command.Parameters.AddWithValue("@Address", updatedJob.Address);
+                    command.Parameters.AddWithValue("@PhoneNumber", updatedJob.PhoneNumber);
+                    command.Parameters.AddWithValue("@HasDate", updatedJob.HasDate);
+                    command.Parameters.AddWithValue("@StartDate", updatedJob.StartDate.HasValue ? updatedJob.StartDate.Value : DBNull.Value);
+                    command.Parameters.AddWithValue("@EndDate", updatedJob.EndDate.HasValue ? updatedJob.EndDate.Value : DBNull.Value);
+                    command.Parameters.AddWithValue("@Notes", (object)updatedJob.Notes ?? string.Empty);
+                    command.Parameters.AddWithValue("@CategoryId", updatedJob.Category.Id);
+
+                    Console.WriteLine("Affected rows:" + command.ExecuteNonQuery());
+                }
+            }
+            foreach (Job job in _jobs)
+            {
+                if (job.Id == updatedJob.Id)
+                {
+                    job.ContactName = updatedJob.ContactName;
+                    job.Address = updatedJob.Address;
+                    job.PhoneNumber = updatedJob.PhoneNumber;
+                    job.HasDate = updatedJob.HasDate;
+                    job.StartDate = updatedJob.StartDate;
+                    job.EndDate = updatedJob.EndDate;
+                    job.Notes = updatedJob.Notes;
+                    job.Category = updatedJob.Category;
+                }
+            }
         }
 
-        public void Delete(int id)
+        public static void Delete(int id)
         {
             if (id < 0)
             {
                 throw new ArgumentOutOfRangeException("The parameter id cannot be less than 0");
             }
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(App.ConnectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand("sp_DeleteJob", connection))
@@ -167,7 +202,7 @@ namespace HavekrigerenApp.Models.Classes
             }
         }
 
-        public List<Job> PerformSearch(string query)
+        public static List<Job> PerformSearch(string query)
         {
             query = query.ToLower();
 

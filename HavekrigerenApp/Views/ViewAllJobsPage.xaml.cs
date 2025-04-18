@@ -1,3 +1,4 @@
+using HavekrigerenApp.Models;
 using HavekrigerenApp.ViewModels;
 
 namespace HavekrigerenApp
@@ -6,11 +7,11 @@ namespace HavekrigerenApp
     {
         ViewAllJobsViewModel vm;
 
-        public ViewAllJobsPage(string categoryName)
+        public ViewAllJobsPage(Category selectedCategory)
         {
             InitializeComponent();
 
-            vm = new ViewAllJobsViewModel(categoryName);
+            vm = new ViewAllJobsViewModel(selectedCategory);
             BindingContext = vm;
         }
 

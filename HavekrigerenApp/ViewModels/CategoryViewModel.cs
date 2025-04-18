@@ -1,4 +1,4 @@
-﻿using HavekrigerenApp.Models.Classes;
+﻿using HavekrigerenApp.Models;
 
 namespace HavekrigerenApp.ViewModels
 {

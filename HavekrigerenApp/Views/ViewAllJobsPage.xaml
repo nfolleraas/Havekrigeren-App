@@ -3,7 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <Shell.TitleView>
-        <Label Style="{StaticResource shellTitleStyle}" Text="{Binding SelectedCategoryName}" />
+        <StackLayout>
+            <Label Style="{StaticResource shellTitleStyle}" Text="{Binding SelectedCategory.Name}" LineBreakMode="TailTruncation" MaximumWidthRequest="150" HorizontalOptions="Start"/>
+            <Button Margin="0,-40,10,0"
+                    BackgroundColor="{StaticResource Delete}"
+                    Command="{Binding DeleteSelectedCategoryCommand}"
+                    CommandParameter="{Binding SelectedCategory}"
+                    CornerRadius="25" HeightRequest="50"
+                    HorizontalOptions="End" ImageSource="trash_white_1x.png"
+                    Text="Slet Kategori" />
+        </StackLayout>
     </Shell.TitleView>
 
     <!--  Main Content  -->
@@ -12,67 +21,60 @@
                  RefreshColor="{StaticResource Primary}"
                  Style="{StaticResource defaultStackLayoutStyle}">
 
-        <StackLayout>
+        <Grid>
+
             <!--  No jobs message  -->
-            <Label Margin="0,50,0,0" FontSize="Medium"
-                   HorizontalTextAlignment="Center"
-                   IsVisible="{Binding JobsVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"
-                   Text="Kunne ikke finde nogen opgaver." />
-            <Label Margin="0,20,0,0" FontSize="Medium"
-                   HorizontalTextAlignment="Center"
-                   IsVisible="{Binding JobsVM.Count, Converter={StaticResource ZeroToBooleanConverter}}"
-                   Text="Tryk på plusset i navigationsbaren for at oprette en ny." />
+            <StackLayout>
+                <Label Margin="0,50,0,0" FontSize="Medium"
+                       HorizontalTextAlignment="Center"
+                       IsVisible="{Binding ShowNoJobsMessage}"
+                       Text="Kunne ikke finde nogen opgaver." />
+                <Label Margin="0,20,0,0" FontSize="Medium"
+                       HorizontalTextAlignment="Center"
+                       IsVisible="{Binding ShowNoJobsMessage}"
+                       Text="Tryk på plusset i navigationsbaren for at oprette en ny." />
+            </StackLayout>
 
             <!--  CollectionView for jobs  -->
-            <CollectionView IsVisible="{Binding JobsVM.Count, Converter={StaticResource GreaterThanZeroConverter}}" ItemsSource="{Binding JobsVM}">
+            <CollectionView ItemsSource="{Binding JobsVM}" VerticalOptions="Fill" Margin="0,5,0,10">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <SwipeView>
-                            <SwipeView.RightItems>
-                                <SwipeItems>
-                                    <SwipeItem BackgroundColor="Red"
-                                               Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteJobCommand}"
-                                               CommandParameter="{Binding Job}"
-                                               IconImageSource="trash_1x.png" />
-                                </SwipeItems>
-                            </SwipeView.RightItems>
 
-                            <Border Margin="0,10,0,0" Padding="10">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                        <Border Margin="0,10,0,0" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                                    <!--  Job Info  -->
-                                    <StackLayout Orientation="Vertical">
-                                        <Label Grid.Column="0" FontAttributes="Bold"
-                                               FontSize="Large" LineBreakMode="TailTruncation"
-                                               MaximumWidthRequest="300"
-                                               Text="{Binding ContactName}"
-                                               VerticalTextAlignment="Center" />
+                                <!--  Job Info  -->
+                                <StackLayout Orientation="Vertical">
+                                    <Label Grid.Column="0" FontAttributes="Bold"
+                                           FontSize="Large" LineBreakMode="TailTruncation"
+                                           MaximumWidthRequest="300"
+                                           Text="{Binding ContactName}"
+                                           VerticalTextAlignment="Center" />
 
-                                        <Label Grid.Column="0" FontAttributes="Italic"
-                                               FontSize="Medium" LineBreakMode="TailTruncation"
-                                               MaximumWidthRequest="300"
-                                               Text="{Binding Address}"
-                                               VerticalTextAlignment="Center" />
-                                    </StackLayout>
+                                    <Label Grid.Column="0" FontAttributes="Italic"
+                                           FontSize="Medium" LineBreakMode="TailTruncation"
+                                           MaximumWidthRequest="300"
+                                           Text="{Binding Address}"
+                                           VerticalTextAlignment="Center" />
+                                </StackLayout>
 
-                                    <!--  See More  -->
-                                    <Label Grid.Column="1" FontSize="Small"
-                                           Text="Se mere ▶" VerticalTextAlignment="Center" />
-                                </Grid>
+                                <!--  See More  -->
+                                <Label Grid.Column="1" FontSize="Small"
+                                       Text="Se mere ▶" VerticalTextAlignment="Center" />
+                            </Grid>
 
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.JobClickedCommand}" CommandParameter="{Binding Job}" />
-                                </Border.GestureRecognizers>
-                            </Border>
-                        </SwipeView>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.JobClickedCommand}" CommandParameter="{Binding Job}" />
+                            </Border.GestureRecognizers>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </StackLayout>
+        </Grid>
     </RefreshView>
 
 </ContentPage>

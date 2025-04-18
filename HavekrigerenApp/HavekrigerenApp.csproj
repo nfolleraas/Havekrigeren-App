@@ -83,7 +83,14 @@
 	<ItemGroup>
 	  <None Remove="Resources\Icons\arrow_left_1x.png" />
 	  <None Remove="Resources\Icons\arrow_right_1x.png" />
+	  <None Remove="Resources\Icons\edit_white_1x.png" />
+	  <None Remove="Resources\Icons\edit_white_ix.png" />
 	  <None Remove="Resources\Icons\phone_1x.png" />
+	  <None Remove="Resources\Icons\plus_white_1x.png" />
+	  <None Remove="Resources\Icons\save_1x.png" />
+	  <None Remove="Resources\Icons\save_white_1x.png" />
+	  <None Remove="Resources\Icons\trash_white_1x.png" />
+	  <None Remove="Resources\Icons\trash_white_ix.png" />
 	</ItemGroup>
 
     <ItemGroup>
@@ -116,8 +123,8 @@
 	  <Compile Update="Views\HomePage.xaml.cs">
 	    <DependentUpon>HomePage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\LoginPage.xaml.cs">
-	    <DependentUpon>LoginPage.xaml</DependentUpon>
+	  <Compile Update="Views\UpdateJobPage.xaml.cs">
+	    <DependentUpon>UpdateJobPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\ViewAllJobsPage.xaml.cs">
 	    <DependentUpon>ViewAllJobsPage.xaml</DependentUpon>
@@ -143,7 +150,7 @@
 	  <MauiXaml Update="Views\HomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\IncomingJobsView.xaml">
+	  <MauiXaml Update="Views\UpdateJobPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\UserPage.xaml">
@@ -164,17 +171,22 @@
 	  <MauiImage Include="Resources\Icons\arrow_left_1x.png" />
 	  <MauiImage Include="Resources\Icons\arrow_right_1x.png" />
 	  <MauiImage Include="Resources\Icons\calendar_1x.png" />
+	  <MauiImage Include="Resources\Icons\edit_white_1x.png" />
 	  <MauiImage Include="Resources\Icons\home_1x.png" />
 	  <MauiImage Include="Resources\Icons\list_1x.png" />
 	  <MauiImage Include="Resources\Icons\phone_1x.png" />
 	  <MauiImage Include="Resources\Icons\plus_1x.png" />
+	  <MauiImage Include="Resources\Icons\plus_white_1x.png" />
+	  <MauiImage Include="Resources\Icons\save_1x.png" />
+	  <MauiImage Include="Resources\Icons\save_white_1x.png" />
 	  <MauiImage Include="Resources\Icons\trash_1x.png" />
+	  <MauiImage Include="Resources\Icons\trash_white_1x.png" />
 	</ItemGroup>
 
     <ItemGroup>
-        <Content Update="config.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        <MauiAsset Update="config.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </MauiAsset>
     </ItemGroup>
 
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="HavekrigerenApp.CreateJobPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage x:Class="HavekrigerenApp.Views.UpdateJobPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <Shell.TitleView>
-        <Label Style="{StaticResource shellTitleStyle}" Text="Opret Opgave" />
+        <Label Style="{StaticResource shellTitleStyle}" Text="Opdater Opgave" />
     </Shell.TitleView>
 
     <ScrollView>
@@ -126,23 +126,21 @@
                     IsSpellCheckEnabled="True" Placeholder="Indtast..."
                     Text="{Binding Notes, Mode=TwoWay}" />
 
-            <!--  Create Job Button  -->
-            <Button x:Name="CreateButton" Margin="10"
+            <!--  Update Job Button  -->
+            <Button x:Name="SaveButton" Margin="10"
                     Padding="25,10,25,10"
-                    Command="{Binding CreateJobCommand}"
-                    CommandParameter="{Binding}"
+                    Command="{Binding UpdateJobCommand}"
+                    CommandParameter="{Binding SelectedJobVM}"
                     CornerRadius="25" FontSize="16"
                     HeightRequest="50" HorizontalOptions="Center"
-                    ImageSource="plus_white_1x.png" Text="Opret">
+                    ImageSource="save_white_1x.png" Text="Gem Ændringer">
                 <Button.Triggers>
-                    <DataTrigger Binding="{Binding Source={x:Reference CreateButton}, Path=IsEnabled}"
+                    <DataTrigger Binding="{Binding Source={x:Reference SaveButton}, Path=IsEnabled}"
                                  TargetType="Button" Value="False">
-                        <Setter Property="ImageSource" Value="plus_1x.png" />
+                        <Setter Property="ImageSource" Value="save_1x.png" />
                     </DataTrigger>
                 </Button.Triggers>
-
             </Button>
-
         </StackLayout>
     </ScrollView>
 </ContentPage>

@@ -1,4 +1,6 @@
-﻿using HavekrigerenApp.Models.Classes;
+﻿using HavekrigerenApp.Exceptions;
+using HavekrigerenApp.Models;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text.Json;
@@ -20,6 +22,7 @@ namespace HavekrigerenApp
 
         private async void LoadConfig()
         {
+            // Retrieve connectionstring
             using var stream = await FileSystem.OpenAppPackageFileAsync("config.json");
             using var reader = new StreamReader(stream);
             string json = await reader.ReadToEndAsync();
@@ -30,6 +33,26 @@ namespace HavekrigerenApp
                 .GetProperty("ConnectionStrings")
                 .GetProperty("DBConnection")
                 .GetString();
+
+            // Try connecting to the database
+            int retryCounter = 0;
+            while (string.IsNullOrEmpty(ConnectionString))
+            {
+                try
+                {
+                    using var conn = new SqlConnection(ConnectionString);
+                    await conn.OpenAsync();
+                    break;
+                }
+                catch (SqlException ex)
+                {
+                    retryCounter++;
+                    if (retryCounter == 5)
+                        throw new TooManyAttemptsException("Could not connect to DB after 5 tries.", ex);
+
+                    await Task.Delay(2000);
+                }
+            }
         }
 
 

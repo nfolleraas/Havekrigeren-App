@@ -1,6 +1,6 @@
 ﻿using Google.Cloud.Firestore;
 
-namespace HavekrigerenApp.Models.Classes
+namespace HavekrigerenApp.Models
 {
     [FirestoreData]
     public class Category

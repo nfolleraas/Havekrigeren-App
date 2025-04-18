@@ -10,7 +10,8 @@
                  IsRefreshing="{Binding IsRefreshing}"
                  RefreshColor="{StaticResource Primary}"
                  Style="{StaticResource defaultStackLayoutStyle}">
-        <Grid RowDefinitions="Auto, *, Auto">
+
+        <Grid RowDefinitions="Auto, Auto, *, Auto">
             <!--  Search Bar  -->
             <StackLayout Grid.Row="0">
                 <Border Padding="0" BackgroundColor="Transparent">
@@ -22,7 +23,7 @@
                        Text="Søgeresultater" />
 
                 <Label Margin="0,10,0,5" FontSize="Medium"
-                       IsVisible="{Binding ShowAllJobs}"
+                       IsVisible="{Binding ShowAllJobsLabel}"
                        Text="Alle Opgaver" />
 
                 <Label Margin="0,10,0,5" FontSize="Medium"
@@ -30,13 +31,34 @@
                        Text="Kommende Opgaver" />
             </StackLayout>
 
-            <!--  Show All Jobs  -->
-            <CollectionView Grid.Row="1"
+            <!--  No jobs message  -->
+            <StackLayout Grid.Row="1">
+                <Label Margin="0,50,0,0" FontSize="Medium"
+                       HorizontalTextAlignment="Center"
+                       IsVisible="{Binding ShowNoJobsMessage}"
+                       Text="Kunne ikke finde nogen opgaver." />
+                <Label Margin="0,20,0,0" FontSize="Medium"
+                       HorizontalTextAlignment="Center"
+                       IsVisible="{Binding ShowNoJobsMessage}"
+                       Text="Tryk på plusset i navigationsbaren for at tilføje en ny." />
+                <Label Margin="0,50,0,0" FontAttributes="Italic"
+                       FontSize="Medium" HorizontalTextAlignment="Center"
+                       IsVisible="{Binding ShowNoJobsMessage}"
+                       Text="OBS!" />
+                <Label Margin="0,0,0,0" FontSize="Medium"
+                       HorizontalTextAlignment="Center"
+                       IsVisible="{Binding ShowNoJobsMessage}"
+                       Text="Kan du ikke se dine oprettede opgaver? Prøv at luk appen helt og start den op igen, så burde de gerne komme frem." />
+            </StackLayout>
+
+            <!--
+                Show All Jobs
+            -->
+            <CollectionView Grid.Row="2"
                             Background="{StaticResource Background}"
-                            HeightRequest="475"
                             IsVisible="{Binding ShowAllJobs}"
                             ItemsSource="{Binding JobsVM}"
-                            VerticalOptions="Start">
+                            VerticalOptions="Fill">
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -48,8 +70,9 @@
                                     <Label Grid.Column="0" FontAttributes="Bold"
                                            FontSize="Medium" LineBreakMode="TailTruncation"
                                            MaximumWidthRequest="300"
-                                           Text="{Binding Category}"
+                                           Text="{Binding Category.Name}"
                                            VerticalTextAlignment="Center" />
+
                                     <Label Grid.Column="0" FontAttributes="None"
                                            FontSize="Medium" LineBreakMode="TailTruncation"
                                            MaximumWidthRequest="300"
@@ -63,7 +86,7 @@
                                             <FormattedString>
                                                 <Span FontAttributes="Italic" Text="{Binding Address}" />
                                                 <Span FontAttributes="Italic" Text=" , " />
-                                                <Span FontAttributes="Italic" Text="{Binding FormattedPhoneNumber}" />
+                                                <Span FontAttributes="Italic" Text="{Binding PhoneNumber}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
@@ -73,18 +96,23 @@
                                 <Label Grid.Column="1" FontSize="Header"
                                        Text="Se mere ▶" VerticalTextAlignment="Center" />
                             </Grid>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.JobClickedCommand}" CommandParameter="{Binding Job}" />
+                            </Border.GestureRecognizers>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!--  Show Incoming Jobs  -->
-            <CollectionView Grid.Row="1"
-                Background="{StaticResource Background}"
-                HeightRequest="475"
-                IsVisible="{Binding ShowIncomingJobs}"
-                ItemsSource="{Binding JobsVMSortedByDate}"
-                VerticalOptions="Start">
+            <!--
+                Show Incoming Jobs
+            -->
+            <CollectionView Grid.Row="2"
+                            Background="{StaticResource Background}"
+                            IsVisible="{Binding ShowIncomingJobs}"
+                            ItemsSource="{Binding JobsVMSortedByDate}"
+                            VerticalOptions="Fill">
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -93,39 +121,45 @@
 
                                 <!--  Job Info  -->
                                 <StackLayout>
-                                    <Label FontSize="Medium"
-                                               VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
-                                               MaximumWidthRequest="300" 
-                                               Grid.Column="0">
+                                    <Label Grid.Column="0" FontSize="Medium"
+                                           LineBreakMode="TailTruncation" MaximumWidthRequest="300"
+                                           VerticalTextAlignment="Center">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="{Binding StartDate, StringFormat='{}{0:dd/MM-yyyy}'}" FontAttributes="Italic"/>
-                                                <Span Text=" til " FontAttributes="Italic"/>
-                                                <Span Text="{Binding EndDate, StringFormat='{}{0:dd/MM-yyyy}'}" FontAttributes="Italic"/>
+                                                <Span FontAttributes="Italic" Text="{Binding StartDate, StringFormat='{}{0:dd/MM-yyyy}'}" />
+                                                <Span FontAttributes="Italic" Text=" til " />
+                                                <Span FontAttributes="Italic" Text="{Binding EndDate, StringFormat='{}{0:dd/MM-yyyy}'}" />
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
 
-                                    <Label Text="{Binding ContactName}" FontSize="Small" FontAttributes="None" 
-                                        VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
-                                        MaximumWidthRequest="300" 
-                                        Grid.Column="0"/>
-                                    <Label Text="{Binding Address}" FontSize="Small" FontAttributes="Italic" 
-                                        VerticalTextAlignment="Center" LineBreakMode="TailTruncation" 
-                                        MaximumWidthRequest="300" 
-                                        Grid.Column="0"/>
+                                    <Label Grid.Column="0" FontAttributes="None"
+                                           FontSize="Small" LineBreakMode="TailTruncation"
+                                           MaximumWidthRequest="300"
+                                           Text="{Binding ContactName}"
+                                           VerticalTextAlignment="Center" />
+                                    <Label Grid.Column="0" FontAttributes="Italic"
+                                           FontSize="Small" LineBreakMode="TailTruncation"
+                                           MaximumWidthRequest="300"
+                                           Text="{Binding Address}"
+                                           VerticalTextAlignment="Center" />
                                 </StackLayout>
 
                                 <!--  See More  -->
                                 <Label Grid.Column="1" FontSize="Header"
-                           Text="Se mere ▶" VerticalTextAlignment="Center" />
+                                       Text="Se mere ▶" VerticalTextAlignment="Center" />
                             </Grid>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.JobClickedCommand}" CommandParameter="{Binding Job}" />
+                            </Border.GestureRecognizers>
+
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Grid Grid.Row="2" Margin="10"
+            <Grid Grid.Row="3" Margin="10"
                   ColumnDefinitions="Auto, 10, Auto" HorizontalOptions="Center">
 
                 <Button Grid.Column="0" Padding="5"

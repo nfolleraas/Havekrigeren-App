@@ -1,49 +1,54 @@
 ﻿using HavekrigerenApp.Models;
 using HavekrigerenApp.Persistance;
 using HavekrigerenApp.Services;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace HavekrigerenApp.ViewModels
 {
-    public class CreateJobViewModel : BaseViewModel
+    public class UpdateJobViewModel : BaseViewModel
     {
-        private DateTime dateCreated;
+        public JobViewModel SelectedJobVM { get; set; }
+
         public ObservableCollection<Category> Categories { get; set; }
 
-        private string _contactName = string.Empty;
+        private string _contactName;
         public string ContactName
         {
             get => _contactName;
             set
             {
                 _contactName = value;
-                EnableCreateButton();
+                EnableSaveButton();
                 OnPropertyChanged();
             }
         }
 
-        private string _address = string.Empty;
+        private string _address;
         public string Address
         {
             get => _address;
             set
             {
                 _address = value;
-                EnableCreateButton();
+                EnableSaveButton();
                 OnPropertyChanged();
             }
         }
 
-        private string _phoneNumber = string.Empty;
+        private string _phoneNumber;
         public string PhoneNumber
         {
             get => _phoneNumber;
             set
             {
                 _phoneNumber = value;
-                EnableCreateButton();
+                EnableSaveButton();
                 OnPropertyChanged();
             }
         }
@@ -55,7 +60,7 @@ namespace HavekrigerenApp.ViewModels
             set
             {
                 _category = value;
-                EnableCreateButton();
+                EnableSaveButton();
                 OnPropertyChanged();
             }
         }
@@ -93,23 +98,23 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private bool _isCreateButtonEnabled = false;
-        public bool IsCreateButtonEnabled
+        private bool _isSaveButtonEnabled;
+        public bool IsSaveButtonEnabled
         {
-            get => _isCreateButtonEnabled;
+            get => _isSaveButtonEnabled;
             set
             {
-                _isCreateButtonEnabled = value;
+                _isSaveButtonEnabled = value;
                 OnPropertyChanged();
 
-                if (CreateJobCommand is Command command)
+                if (UpdateJobCommand is Command command)
                 {
                     command.ChangeCanExecute();
                 }
             }
         }
 
-        private bool _isDateCheckBoxChecked = false;
+        private bool _isDateCheckBoxChecked;
         public bool IsDateCheckBoxChecked
         {
             get => _isDateCheckBoxChecked;
@@ -121,18 +126,25 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        // Commands
-        public ICommand CreateJobCommand { get; }
+        public ICommand UpdateJobCommand { get; }
         public ICommand StartDateSelectedCommand { get; }
         public ICommand EndDateSelectedCommand { get; }
 
-        public CreateJobViewModel()
+        public UpdateJobViewModel(JobViewModel jobVM)
         {
             Categories = new ObservableCollection<Category>();
-            IsCreateButtonEnabled = false;
 
-            // Command registration
-            CreateJobCommand = new Command(CreateJob, () => IsCreateButtonEnabled);
+            SelectedJobVM = jobVM;
+            ContactName = jobVM.ContactName;
+            Address = jobVM.Address;
+            PhoneNumber = jobVM.PhoneNumber.Replace(" ", "");
+            Category = jobVM.Category;
+            IsDateCheckBoxChecked = jobVM.HasDate;
+            StartDate = jobVM.StartDate;
+            EndDate = jobVM.EndDate;
+            Notes = jobVM.Notes;
+
+            UpdateJobCommand = new Command<JobViewModel>(UpdateJob, job => IsSaveButtonEnabled);
             StartDateSelectedCommand = new Command<DateTime>(StartDateSelected);
             EndDateSelectedCommand = new Command<DateTime>(EndDateSelected);
         }
@@ -144,6 +156,11 @@ namespace HavekrigerenApp.ViewModels
             foreach (Category category in CategoryRepository.GetAll())
             {
                 Categories.Add(category);
+            }
+
+            if (SelectedJobVM?.Category is not null)
+            {
+                Category = Categories.FirstOrDefault(category => category.Id == SelectedJobVM.Category.Id);
             }
         }
 
@@ -161,35 +178,32 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private void EnableCreateButton()
+        private void EnableSaveButton()
         {
-            IsCreateButtonEnabled = !string.IsNullOrWhiteSpace(ContactName)
+            IsSaveButtonEnabled = !string.IsNullOrWhiteSpace(ContactName)
                 && !string.IsNullOrWhiteSpace(Address)
                 && PhoneNumber?.Length == 8
                 && Category != null;
         }
 
-        private void ResetInputs()
-        {
-            ContactName = string.Empty;
-            PhoneNumber = string.Empty;
-            Address = string.Empty;
-            Category = null;
-            IsDateCheckBoxChecked = false;
-            StartDate = null;
-            EndDate = null;
-            Notes = string.Empty;
-        }
-
-        private async void CreateJob()
+        private async void UpdateJob(JobViewModel jobVM)
         {
             try
             {
-                await AlertService.DisplayAlertAsync("Opret Opgave", $"Oprettede opgaven \"{_contactName}, {_address}\"");
+                jobVM.Id = SelectedJobVM.Id;
+                jobVM.ContactName = ContactName;
+                jobVM.Address = Address;
+                jobVM.PhoneNumber = PhoneNumber;
+                jobVM.Category = Category;
+                jobVM.HasDate = IsDateCheckBoxChecked;
+                jobVM.Job.StartDate = StartDate;
+                jobVM.Job.EndDate = EndDate;
+                jobVM.Job.Notes = Notes;
 
-                Job newJob = new Job(ContactName, Address, PhoneNumber, Category, IsDateCheckBoxChecked, StartDate, EndDate, Notes, DateTime.Now);
-                JobRepository.Add(newJob);
-                ResetInputs();
+                JobRepository.Update(jobVM.Job);
+
+                await AlertService.DisplayAlertAsync("Opdater Opgave", $"Opdaterede opgaven \"{ContactName}, {Address}\"");
+                await NavigationService.PopAsync();
             }
             catch (InvalidOperationException ex)
             {

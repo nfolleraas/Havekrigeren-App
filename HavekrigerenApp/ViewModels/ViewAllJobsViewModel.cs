@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using HavekrigerenApp.Models.Classes;
-using HavekrigerenApp.Models.Services;
+using HavekrigerenApp.Models;
+using HavekrigerenApp.Persistance;
+using HavekrigerenApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,48 +21,58 @@ namespace HavekrigerenApp.ViewModels
         public bool IsRefreshing
         {
             get => _isRefreshing;
-            set 
-            { 
+            set
+            {
                 _isRefreshing = value;
                 OnPropertyChanged();
             }
         }
 
-        public string SelectedCategoryName { get; set; }
+        private bool _showNoJobsMessage;
+        public bool ShowNoJobsMessage
+        {
+            get { return _showNoJobsMessage; }
+            set
+            {
+                _showNoJobsMessage = value;
+                OnPropertyChanged();
+            }
+        }
+        public Category SelectedCategory { get; set; }
 
         // Commands
         public ICommand JobClickedCommand { get; }
         public ICommand RefreshCommand { get; }
-        public ICommand DeleteJobCommand { get; }
+        public ICommand DeleteSelectedCategoryCommand { get; }
 
-
-        public ViewAllJobsViewModel(string selectedCategoryName)
+        public ViewAllJobsViewModel(Category selectedCategory)
         {
             JobsVM = new ObservableCollection<JobViewModel>();
 
-            SelectedCategoryName = selectedCategoryName;
+            SelectedCategory = selectedCategory;
 
             // Command registration
             JobClickedCommand = new Command<Job>(JobClicked);
-            RefreshCommand = new Command(async () => await RefreshPage());
-            DeleteJobCommand = new Command<Job>(DeleteJob);
+            RefreshCommand = new Command(RefreshPage);
+            DeleteSelectedCategoryCommand = new Command<Category>(DeleteSelectedCategory);
         }
 
         public void LoadJobs()
         {
             JobsVM.Clear();
             // Instatiate new JobViewModel for each job if the job is in the category
-            foreach (Job job in _jobRepo.GetAll())
+            foreach (Job job in JobRepository.GetAll())
             {
-                if (job.Category.ToString() == SelectedCategoryName)
-                { 
+                if (job.Category.Name == SelectedCategory.Name)
+                {
                     JobViewModel jobVM = new JobViewModel(job);
                     JobsVM.Add(jobVM);
                 }
             }
+            ShowNoJobsMessage = JobsVM.Count <= 0 ? true : false;
         }
 
-        public async Task RefreshPage()
+        public void RefreshPage()
         {
             try
             {
@@ -78,36 +89,43 @@ namespace HavekrigerenApp.ViewModels
         {
             try
             {
-                await _navigationService.PushAsync(new ViewJobPage(job));
+                await NavigationService.PushAsync(new ViewJobPage(job));
             }
             catch (InvalidOperationException ex)
             {
-                await _alertService.DisplayAlertAsync("Fejl!", ex.Message);
+                await AlertService.DisplayAlertAsync("Fejl!", ex.Message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                await _alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
+                await AlertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
 
-        private async void DeleteJob(Job job)
+        private async void DeleteSelectedCategory(Category category)
         {
             try
             {
-                bool answer = await _alertService.DisplayAlertAsync("Slet Opgave", $"Er du sikker på, du vil slette opgaven \"{job.ContactName}, {job.Address}\"?\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
+                bool answer = await AlertService.DisplayAlertAsync("Slet Kategori", $"Er du sikker på, du vil slette kategorien \"{category.Name}\"?\nDette vil også slette alle opgaver i kategorien.\nDenne handling kan ikke fortrydes.", "Ja", "Nej");
 
                 if (answer)
                 {
-                    // Delete the job
-                    _jobRepo.Delete(job.Id);
-                    await _alertService.DisplayAlertAsync("Slet Opgave", $"Opgaven \"{job.ContactName}, {job.Address}\" blev slettet.");
-                    await RefreshPage();
+                    // Delete every job in the category
+                    foreach (JobViewModel job in JobsVM)
+                    {
+                        if (category.Name == job.Category.Name)
+                        {
+                            JobRepository.Delete(job.Job.Id);
+                        }
+                    }
+                    // Then delete the category
+                    CategoryRepository.Delete(category.Id);
+                    await AlertService.DisplayAlertAsync("Slet Kategori", $"Kategorien \"{category.Name}\" blev slettet.");
+                    await NavigationService.PopAsync();
                 }
             }
             catch (ArgumentException ex)
             {
-                await _alertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
+                await AlertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
             }
         }
     }

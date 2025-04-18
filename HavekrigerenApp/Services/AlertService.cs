@@ -1,12 +1,11 @@
-﻿using HavekrigerenApp.Models.Interfaces;
-
-namespace HavekrigerenApp.Models.Services
+﻿
+namespace HavekrigerenApp.Services
 {
-    public class AlertService : IAlertService
+    public static class AlertService
     {
         // Service for alerts and prompts
 
-        public async Task DisplayAlertAsync(string title, string message, string cancel = "OK")
+        public static async Task DisplayAlertAsync(string title, string message, string cancel = "OK")
         {
             Page currentPage = Shell.Current.CurrentPage;
 
@@ -20,7 +19,7 @@ namespace HavekrigerenApp.Models.Services
             }
         }
 
-        public async Task<bool> DisplayAlertAsync(string title, string message, string accept, string cancel)
+        public static async Task<bool> DisplayAlertAsync(string title, string message, string accept, string cancel)
         {
             Page currentPage = Shell.Current.CurrentPage;
 
@@ -34,7 +33,7 @@ namespace HavekrigerenApp.Models.Services
             }
         }
 
-        public async Task<string> DisplayPromptAsync(string title, string message, string accept = "OK", string cancel = "Annuller", string? placeholder = null, int maxLength = -1, Keyboard? keyboard = null, string initialValue = "")
+        public static async Task<string> DisplayPromptAsync(string title, string message, string accept = "OK", string cancel = "Annuller", string? placeholder = null, int maxLength = -1, Keyboard? keyboard = null, string initialValue = "")
         {
             Page currentPage = Shell.Current.CurrentPage;
 
@@ -48,7 +47,7 @@ namespace HavekrigerenApp.Models.Services
             }
         }
 
-        public async Task<string> DisplayActionSheetAsync(string title, string cancel, string destruction, string[] buttons)
+        public static async Task<string> DisplayActionSheetAsync(string title, string cancel, string destruction, string[] buttons)
         {
             Page currentPage = Shell.Current.CurrentPage;
 

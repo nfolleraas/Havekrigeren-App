@@ -1,5 +1,5 @@
 using HavekrigerenApp.ViewModels;
-using HavekrigerenApp.Models.Classes;
+using HavekrigerenApp.Models;
 
 namespace HavekrigerenApp
 {
@@ -12,12 +12,6 @@ namespace HavekrigerenApp
 
             vm = new ViewJobViewModel(job);
             BindingContext = vm;
-        }
-
-        protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
-        {
-            base.OnNavigatedFrom(args);
-            Navigation.PopAsync();
         }
     }
 }

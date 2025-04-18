@@ -1,11 +1,8 @@
-﻿using HavekrigerenApp.Models.Classes;
-using HavekrigerenApp.Models.Misc;
+﻿using HavekrigerenApp.Models;
+using HavekrigerenApp.Persistance;
+using HavekrigerenApp.Services;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
 using System.Windows.Input;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace HavekrigerenApp.ViewModels
 {
@@ -25,7 +22,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private bool _showSearchResults = false;
+        private bool _showSearchResults;
         public bool ShowSearchResults
         {
             get { return _showSearchResults; }
@@ -47,7 +44,18 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private bool _showIncomingJobs = false;
+        private bool _showAllJobsLabel = true;
+        public bool ShowAllJobsLabel
+        {
+            get { return _showAllJobsLabel; }
+            set
+            {
+                _showAllJobsLabel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _showIncomingJobs;
         public bool ShowIncomingJobs
         {
             get { return _showIncomingJobs; }
@@ -58,8 +66,8 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private string _searchBoxInput;
-        public string SearchBoxInput
+        private string? _searchBoxInput;
+        public string? SearchBoxInput
         {
             get { return _searchBoxInput; }
             set
@@ -72,10 +80,23 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
+        private bool _showNoJobsMessage;
+        public bool ShowNoJobsMessage
+        {
+            get { return _showNoJobsMessage; }
+            set
+            {
+                _showNoJobsMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         // Commands
         public ICommand RefreshCommand { get; }
         public ICommand ToggleAllJobsCommand { get; }
         public ICommand ToggleIncomingJobsCommand { get; }
+        public ICommand JobClickedCommand { get; }
 
         public HomeViewModel()
         {
@@ -86,39 +107,34 @@ namespace HavekrigerenApp.ViewModels
             RefreshCommand = new Command(RefreshPage);
             ToggleAllJobsCommand = new Command(ToggleAllJobs);
             ToggleIncomingJobsCommand = new Command(ToggleIncomingJobs);
+            JobClickedCommand = new Command<Job>(JobClicked);
+
         }
 
         public void LoadJobs()
         {
             JobsVM.Clear();
-            
+
             // Instatiate new JobViewModel for each job
-            foreach (Job job in _jobRepo.GetAll())
+            foreach (Job job in JobRepository.GetAll())
             {
                 JobViewModel jobVM = new JobViewModel(job);
                 JobsVM.Add(jobVM);
             }
 
-            SortByDate();
+            ShowNoJobsMessage = JobsVM.Count <= 0;
 
-            JobsVM.ToList().ForEach(n => Console.WriteLine("JobsVM " + n.ToString()));
-            JobsVMSortedByDate.ToList().ForEach(n => Console.WriteLine("JobsVMSortedByDate " + n.ToString()));
-        }
-
-        private void SortByDate()
-        {
             JobsVMSortedByDate.Clear();
-            JobsVM
-                .Where(jobVM => jobVM.StartDate != null)
-                .OrderBy(jobVM => jobVM.StartDate)
-                .ToList()
-                .ForEach(jobVM => JobsVMSortedByDate.Add(jobVM)
-            );
+            //JobsVMSortedByDate = SortByDate(JobsVM);
+            foreach (JobViewModel jobVM in SortByDate(JobsVM))
+            {
+                JobsVMSortedByDate.Add(jobVM);
+            }
         }
 
         public void SearchJob(string input)
         {
-            ObservableCollection<Job> foundJobs = new ObservableCollection<Job>(_jobRepo.PerformSearch(input));
+            ObservableCollection<Job> foundJobs = new ObservableCollection<Job>(JobRepository.PerformSearch(input));
 
             JobsVM.Clear();
             foreach (Job job in foundJobs)
@@ -128,6 +144,15 @@ namespace HavekrigerenApp.ViewModels
             }
 
             ShowSearchResults = string.IsNullOrEmpty(input) ? false : true;
+            ShowAllJobsLabel = string.IsNullOrEmpty(input) ? true : false;
+        }
+
+        private List<JobViewModel> SortByDate(ObservableCollection<JobViewModel> jobsVM)
+        {
+            return jobsVM
+                .Where(jobVM => jobVM.StartDate != null)
+                .OrderBy(jobVM => jobVM.StartDate)
+                .ToList();
         }
 
         // Commands
@@ -146,13 +171,31 @@ namespace HavekrigerenApp.ViewModels
         private void ToggleAllJobs()
         {
             ShowAllJobs = true;
+            ShowAllJobsLabel = true;
             ShowIncomingJobs = false;
         }
 
         private void ToggleIncomingJobs()
         {
             ShowAllJobs = false;
+            ShowAllJobsLabel = false;
             ShowIncomingJobs = true;
+        }
+
+        private async void JobClicked(Job job)
+        {
+            try
+            {
+                await NavigationService.PushAsync(new ViewJobPage(job));
+            }
+            catch (InvalidOperationException ex)
+            {
+                await AlertService.DisplayAlertAsync("Fejl!", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                await AlertService.DisplayAlertAsync("Fejl!", $"Fejlbesked:\n{ex.Message}");
+            }
         }
 
     }
