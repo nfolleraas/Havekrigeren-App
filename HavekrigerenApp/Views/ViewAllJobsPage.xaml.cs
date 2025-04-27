@@ -1,7 +1,7 @@
 using HavekrigerenApp.Models;
 using HavekrigerenApp.ViewModels;
 
-namespace HavekrigerenApp
+namespace HavekrigerenApp.Views
 {
     public partial class ViewAllJobsPage : ContentPage
     {
@@ -15,7 +15,7 @@ namespace HavekrigerenApp
             BindingContext = vm;
         }
 
-        protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+        protected override void OnNavigatedTo(NavigatedToEventArgs args)
         {
             base.OnNavigatedTo(args);
             vm.LoadJobs();

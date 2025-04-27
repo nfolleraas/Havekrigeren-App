@@ -1,7 +1,7 @@
 using HavekrigerenApp.ViewModels;
 using HavekrigerenApp.Models;
 
-namespace HavekrigerenApp
+namespace HavekrigerenApp.Views
 {
     public partial class ViewJobPage : ContentPage
     {

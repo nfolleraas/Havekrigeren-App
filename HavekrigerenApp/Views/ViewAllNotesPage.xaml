@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="HavekrigerenApp.Views.ViewAllNotesPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Shell.TitleView>
+        <StackLayout>
+            <Label Style="{StaticResource shellTitleStyle}" Text="Alle Noter" />
+
+            <Border Margin="0,-40,10,0" Padding="10,0,10,0"
+                    Background="{StaticResource Primary}"
+                    HeightRequest="50" HorizontalOptions="End"
+                    StrokeShape="RoundRectangle 25,25,25,25" WidthRequest="200">
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Sorter efter: " TextColor="White"
+                           VerticalOptions="Center" />
+
+                    <Picker Title="Sorter efter:"
+                            ItemsSource="{Binding SortingChoices}"
+                            SelectedItem="{Binding SelectedSortingChoice}"
+                            TextColor="White" VerticalOptions="Center" />
+                </StackLayout>
+
+            </Border>
+        </StackLayout>
+
+
+    </Shell.TitleView>
+
+    <RefreshView Command="{Binding RefreshCommand}"
+                 IsRefreshing="{Binding IsRefreshing}"
+                 RefreshColor="{StaticResource Primary}"
+                 Style="{StaticResource defaultStackLayoutStyle}">
+
+        <Grid RowDefinitions="*">
+
+            <!--
+                Show All Notes
+            -->
+            <CollectionView Grid.Row="0"
+                            Background="{StaticResource Background}"
+                            ItemsSource="{Binding NotesVM}"
+                            VerticalOptions="Fill">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,10,0,0" Padding="5">
+                            <Grid ColumnDefinitions="*, Auto">
+
+                                <!--  Note Info  -->
+                                <StackLayout>
+                                    <Label Grid.Column="0" FontAttributes="Bold"
+                                           FontSize="Large" LineBreakMode="TailTruncation"
+                                           MaximumWidthRequest="300"
+                                           Text="{Binding Title}"
+                                           VerticalTextAlignment="Center" />
+
+                                    <Label Grid.Column="0" FontAttributes="None"
+                                           FontSize="Small" HorizontalOptions="Start"
+                                           LineBreakMode="TailTruncation" MaximumWidthRequest="100"
+                                           Text="{Binding Content}"
+                                           VerticalTextAlignment="Center" />
+                                </StackLayout>
+
+                                <!--  See More  -->
+                                <Label Grid.Column="1" FontSize="Header"
+                                       Text="Se mere ▶" VerticalTextAlignment="Center" />
+                            </Grid>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.NoteClickedCommand}" CommandParameter="{Binding}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </RefreshView>
+</ContentPage>

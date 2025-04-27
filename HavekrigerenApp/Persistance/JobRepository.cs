@@ -91,43 +91,15 @@ namespace HavekrigerenApp.Persistance
             }
 
             Job? foundJob = null;
-            using (SqlConnection connection = new SqlConnection(App.ConnectionString))
+
+            foreach (Job job in _jobs)
             {
-                connection.Open();
-                using (SqlCommand command = new SqlCommand("sp_SelectJob", connection))
+                if (job.Id == id)
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    command.Parameters.AddWithValue("@Id", id);
-
-                    using SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        int jobId = (int)reader["JobId"];
-                        string contactName = (string)reader["ContactName"];
-                        string address = (string)reader["Address"];
-                        string phoneNumber = (string)reader["PhoneNumber"];
-
-                        int categoryId = (int)reader["CategoryId"];
-                        string categoryName = (string)reader["CategoryName"];
-                        Category category = new Category(categoryName) { Id = categoryId };
-
-                        bool hasDate = (bool)reader["HasDate"];
-                        DateTime? startDate = reader["StartDate"] != DBNull.Value ? (DateTime)reader["StartDate"] : null;
-                        DateTime? endDate = reader["EndDate"] != DBNull.Value ? (DateTime)reader["EndDate"] : null;
-                        string notes = reader["Notes"] != DBNull.Value ? (string)reader["Notes"] : string.Empty;
-                        DateTime dateCreated = (DateTime)reader["DateCreated"];
-
-                        Job job = new Job(contactName, address, phoneNumber, category, hasDate, startDate, endDate, notes, dateCreated)
-                        {
-                            Id = jobId
-                        };
-
-                        foundJob = job;
-                    }
+                    foundJob = job;
                 }
             }
+
             if (foundJob == null)
             {
                 throw new NotFoundException($"Category with the id '{id}' was not found in the database.");

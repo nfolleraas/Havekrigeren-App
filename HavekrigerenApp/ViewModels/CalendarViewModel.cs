@@ -5,6 +5,7 @@ using System.Windows.Input;
 using HavekrigerenApp.Models;
 using HavekrigerenApp.Persistance;
 using HavekrigerenApp.Services;
+using HavekrigerenApp.Views;
 using Plugin.Maui.Calendar.Models;
 
 namespace HavekrigerenApp.ViewModels

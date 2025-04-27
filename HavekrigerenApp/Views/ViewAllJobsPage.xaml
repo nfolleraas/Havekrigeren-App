@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="HavekrigerenApp.ViewAllJobsPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage x:Class="HavekrigerenApp.Views.ViewAllJobsPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <Shell.TitleView>
         <StackLayout>
-            <Label Style="{StaticResource shellTitleStyle}" Text="{Binding SelectedCategory.Name}" LineBreakMode="TailTruncation" MaximumWidthRequest="150" HorizontalOptions="Start"/>
+            <Label HorizontalOptions="Start" LineBreakMode="TailTruncation"
+                   MaximumWidthRequest="150"
+                   Style="{StaticResource shellTitleStyle}"
+                   Text="{Binding SelectedCategory.Name}" />
+            
             <Button Margin="0,-40,10,0"
                     BackgroundColor="{StaticResource Delete}"
                     Command="{Binding DeleteSelectedCategoryCommand}"
@@ -36,7 +40,9 @@
             </StackLayout>
 
             <!--  CollectionView for jobs  -->
-            <CollectionView ItemsSource="{Binding JobsVM}" VerticalOptions="Fill" Margin="0,5,0,10">
+            <CollectionView Margin="0,5,0,10"
+                            ItemsSource="{Binding JobsVM}"
+                            VerticalOptions="Fill">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="HavekrigerenApp.Views.CreateChoicePage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+
+        <Label Margin="0,0,0,20" FontSize="Large"
+               HorizontalTextAlignment="Center" Text="Vælg" />
+
+        <Button Padding="20"
+                Command="{Binding NavigateToCreateJobCommand}"
+                FontSize="Large" ImageSource="task_white_1x.png"
+                Text="Opret Ny Opgave" />
+
+        <Label Margin="0,20,0,20" FontSize="Body"
+               HorizontalTextAlignment="Center" Text="eller" />
+
+        <Button Padding="20"
+                Command="{Binding NavigateToCreateNoteCommand}"
+                FontSize="Large" ImageSource="note_white_1x.png"
+                Text="Opret Ny Note" />
+
+    </StackLayout>
+
+</ContentPage>

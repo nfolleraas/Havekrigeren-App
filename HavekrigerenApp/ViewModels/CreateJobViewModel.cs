@@ -93,7 +93,7 @@ namespace HavekrigerenApp.ViewModels
             }
         }
 
-        private bool _isCreateButtonEnabled = false;
+        private bool _isCreateButtonEnabled;
         public bool IsCreateButtonEnabled
         {
             get => _isCreateButtonEnabled;
@@ -101,15 +101,10 @@ namespace HavekrigerenApp.ViewModels
             {
                 _isCreateButtonEnabled = value;
                 OnPropertyChanged();
-
-                if (CreateJobCommand is Command command)
-                {
-                    command.ChangeCanExecute();
-                }
             }
         }
 
-        private bool _isDateCheckBoxChecked = false;
+        private bool _isDateCheckBoxChecked;
         public bool IsDateCheckBoxChecked
         {
             get => _isDateCheckBoxChecked;

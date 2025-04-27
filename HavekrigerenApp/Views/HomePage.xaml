@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="HavekrigerenApp.HomePage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage x:Class="HavekrigerenApp.Views.HomePage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <Shell.TitleView>
@@ -159,7 +159,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Grid Grid.Row="3" Margin="10"
+            <Grid Grid.Row="3" Margin="20"
                   ColumnDefinitions="Auto, 10, Auto" HorizontalOptions="Center">
 
                 <Button Grid.Column="0" Padding="5"

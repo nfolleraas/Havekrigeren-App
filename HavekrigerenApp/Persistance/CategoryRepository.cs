@@ -65,24 +65,12 @@ namespace HavekrigerenApp.Persistance
             }
 
             Category? foundCategory = null;
-            using (SqlConnection connection = new SqlConnection(App.ConnectionString))
+
+            foreach (Category category in _categories)
             {
-                connection.Open();
-                using (SqlCommand command = new SqlCommand("sp_SelectCategory", connection))
+                if (category.Id == id)
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    command.Parameters.AddWithValue("@Id", id);
-
-                    using SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        int categoryId = (int)reader["Id"];
-                        string? categoryName = (string)reader["Name"];
-
-                        foundCategory = new Category(categoryName) { Id = categoryId };
-                    }
+                    foundCategory = category;
                 }
             }
 

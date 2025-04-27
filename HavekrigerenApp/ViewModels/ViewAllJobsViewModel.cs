@@ -2,6 +2,7 @@
 using HavekrigerenApp.Models;
 using HavekrigerenApp.Persistance;
 using HavekrigerenApp.Services;
+using HavekrigerenApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

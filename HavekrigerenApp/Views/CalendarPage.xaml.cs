@@ -1,6 +1,6 @@
 using HavekrigerenApp.ViewModels;
 
-namespace HavekrigerenApp
+namespace HavekrigerenApp.Views
 {
 
 	public partial class CalendarPage : ContentPage

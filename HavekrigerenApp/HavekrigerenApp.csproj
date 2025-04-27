@@ -85,10 +85,13 @@
 	  <None Remove="Resources\Icons\arrow_right_1x.png" />
 	  <None Remove="Resources\Icons\edit_white_1x.png" />
 	  <None Remove="Resources\Icons\edit_white_ix.png" />
+	  <None Remove="Resources\Icons\note_1x.png" />
+	  <None Remove="Resources\Icons\note_white_1x.png" />
 	  <None Remove="Resources\Icons\phone_1x.png" />
 	  <None Remove="Resources\Icons\plus_white_1x.png" />
 	  <None Remove="Resources\Icons\save_1x.png" />
 	  <None Remove="Resources\Icons\save_white_1x.png" />
+	  <None Remove="Resources\Icons\task_white_1x.png" />
 	  <None Remove="Resources\Icons\trash_white_1x.png" />
 	  <None Remove="Resources\Icons\trash_white_ix.png" />
 	</ItemGroup>
@@ -144,7 +147,13 @@
 	  <MauiXaml Update="Views\CalendarPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\CreateChoicePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CreateJobPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CreateNotePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\HomePage.xaml">
@@ -153,16 +162,19 @@
 	  <MauiXaml Update="Views\UpdateJobPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\UserPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewAllCategoriesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewAllJobsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewAllNotesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewJobPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewNotePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
@@ -174,11 +186,14 @@
 	  <MauiImage Include="Resources\Icons\edit_white_1x.png" />
 	  <MauiImage Include="Resources\Icons\home_1x.png" />
 	  <MauiImage Include="Resources\Icons\list_1x.png" />
+	  <MauiImage Include="Resources\Icons\note_1x.png" />
+	  <MauiImage Include="Resources\Icons\note_white_1x.png" />
 	  <MauiImage Include="Resources\Icons\phone_1x.png" />
 	  <MauiImage Include="Resources\Icons\plus_1x.png" />
 	  <MauiImage Include="Resources\Icons\plus_white_1x.png" />
 	  <MauiImage Include="Resources\Icons\save_1x.png" />
 	  <MauiImage Include="Resources\Icons\save_white_1x.png" />
+	  <MauiImage Include="Resources\Icons\task_white_1x.png" />
 	  <MauiImage Include="Resources\Icons\trash_1x.png" />
 	  <MauiImage Include="Resources\Icons\trash_white_1x.png" />
 	</ItemGroup>

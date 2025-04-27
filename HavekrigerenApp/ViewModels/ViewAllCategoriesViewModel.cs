@@ -1,6 +1,7 @@
 ﻿using HavekrigerenApp.Models;
 using HavekrigerenApp.Persistance;
 using HavekrigerenApp.Services;
+using HavekrigerenApp.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;

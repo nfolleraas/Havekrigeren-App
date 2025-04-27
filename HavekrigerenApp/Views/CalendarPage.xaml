@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="HavekrigerenApp.CalendarPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage x:Class="HavekrigerenApp.Views.CalendarPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:calendar="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
              xmlns:controls="clr-namespace:HavekrigerenApp.Controls;assembly=HavekrigerenApp">
 

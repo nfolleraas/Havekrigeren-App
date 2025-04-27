@@ -1,28 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell x:Class="HavekrigerenApp.AppShell" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:HavekrigerenApp"
+       xmlns:views="clr-namespace:HavekrigerenApp.Views"
        Title="HavekrigerenApp" Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
-        <ShellContent ContentTemplate="{DataTemplate local:HomePage}"
+        <ShellContent ContentTemplate="{DataTemplate views:HomePage}"
                       Icon="home_1x.png" Route="HomePage" />
 
-        <ShellContent ContentTemplate="{DataTemplate local:ViewAllCategoriesPage}"
+        <ShellContent ContentTemplate="{DataTemplate views:ViewAllCategoriesPage}"
                       Icon="list_1x.png" Route="ViewAllCategoriesPage" />
 
-        <ShellContent ContentTemplate="{DataTemplate local:CreateJobPage}"
-                      Icon="plus_1x.png" Route="CreateJobPage" />
+        <ShellContent ContentTemplate="{DataTemplate views:CreateChoicePage}"
+                      Icon="plus_1x.png" Route="CreateChoicePage" />
 
-        <ShellContent ContentTemplate="{DataTemplate local:CalendarPage}"
+        <ShellContent ContentTemplate="{DataTemplate views:ViewAllNotesPage}"
+                      Icon="note_1x.png" Route="ViewAllNotesPage" />
+
+        <ShellContent ContentTemplate="{DataTemplate views:CalendarPage}"
                       Icon="calendar_1x.png" Route="CalendarPage" />
     </TabBar>
 
+    <ShellContent ContentTemplate="{DataTemplate views:CreateJobPage}"
+                  Title="CreateJobPage" Route="CreateJobPage" />
+
     <ShellContent Title="ViewAllJobsPage"
-                  ContentTemplate="{DataTemplate local:ViewAllJobsPage}"
+                  ContentTemplate="{DataTemplate views:ViewAllJobsPage}"
                   Route="ViewAllJobsPage" />
 
     <ShellContent Title="ViewJobPage"
-                  ContentTemplate="{DataTemplate local:ViewJobPage}"
+                  ContentTemplate="{DataTemplate views:ViewJobPage}"
                   Route="ViewJobPage" />
+
+    <ShellContent Title="ViewNotePage"
+                  ContentTemplate="{DataTemplate views:ViewNotePage}"
+                  Route="ViewNotePage" />
 
 </Shell>
