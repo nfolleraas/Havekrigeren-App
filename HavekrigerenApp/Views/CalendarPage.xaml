@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="HavekrigerenApp.Views.CalendarPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:calendar="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
+             xmlns:controls="clr-namespace:HavekrigerenApp.Controls;assembly=HavekrigerenApp">
+
+    <Shell.TitleView>
+        <Label Style="{StaticResource shellTitleStyle}" Text="Kalender" />
+    </Shell.TitleView>
+
+    <ScrollView>
+        <StackLayout Style="{StaticResource defaultStackLayoutStyle}">
+            <calendar:Calendar Culture="{Binding Culture}"
+                               DayViewCornerRadius="16" DayViewSize="40"
+                               DaysTitleColor="{StaticResource PrimaryText}"
+                               DeselectedDayTextColor="{StaticResource PrimaryText}"
+                               EventIndicatorSelectedTextColor="{StaticResource Gray400}"
+                               EventIndicatorTextColor="{StaticResource Primary}"
+                               EventIndicatorType="BottomDot"
+                               Events="{Binding Events}"
+                               EventsScrollViewVisible="True" HorizontalOptions="Fill"
+                               OtherMonthDayIsVisible="True"
+                               SelectedDateColor="{StaticResource PrimaryText}"
+                               SelectedDateTextFormat="dddd, dd MMM yyyy"
+                               SelectedDayTextColor="{StaticResource Gray500}"
+                               SelectedTodayTextColor="{StaticResource Gray500}"
+                               TodayOutlineColor="{StaticResource SecondaryDark}"
+                               TodayTextColor="{StaticResource PrimaryText}"
+                               FooterArrowVisible="False">
+
+                <calendar:Calendar.EventTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,10,0,0" Padding="5">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <!--  Job Info  -->
+                                <StackLayout>
+                                    <Label Grid.Column="0" FontSize="Medium"
+                                           LineBreakMode="TailTruncation" MaximumWidthRequest="300"
+                                           VerticalTextAlignment="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span FontAttributes="Italic" Text="{Binding StartDate, StringFormat='{}{0:dd/MM-yyyy}'}" />
+                                                <Span FontAttributes="Italic" Text=" til " />
+                                                <Span FontAttributes="Italic" Text="{Binding EndDate, StringFormat='{}{0:dd/MM-yyyy}'}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Label Grid.Column="0" FontAttributes="None"
+                                           FontSize="Small" LineBreakMode="TailTruncation"
+                                           MaximumWidthRequest="300"
+                                           Text="{Binding ContactName}"
+                                           VerticalTextAlignment="Center" />
+                                    <Label Grid.Column="0" FontAttributes="Italic"
+                                           FontSize="Small" LineBreakMode="TailTruncation"
+                                           MaximumWidthRequest="300"
+                                           Text="{Binding Address}"
+                                           VerticalTextAlignment="Center" />
+                                </StackLayout>
+
+                                <!--  See More  -->
+                                <Label Grid.Column="1" FontSize="Header"
+                                       Text="Se mere ▶" VerticalTextAlignment="Center" />
+                            </Grid>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.JobClickedCommand}" CommandParameter="{Binding Job}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </DataTemplate>
+                </calendar:Calendar.EventTemplate>
+
+                <calendar:Calendar.HeaderSectionTemplate>
+                    <controls:CalendarHeader />
+                </calendar:Calendar.HeaderSectionTemplate>
+            </calendar:Calendar>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

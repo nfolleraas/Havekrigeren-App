@@ -3,7 +3,18 @@
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar" >
+    xmlns:calendar="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar" >
+
+    <Style x:Key="defaultStackLayoutStyle" TargetType="StackLayout">
+        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="Margin" Value="10,0,10,0"/>
+    </Style>
+
+    <Style x:Key="shellTitleStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="Title"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Padding" Value="0,10,0,0"/>
+    </Style>
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{StaticResource Primary}" />
@@ -15,34 +26,14 @@
     </Style>
 
     <Style TargetType="Border">
-        <Setter Property="Stroke" Value="{StaticResource Gray200}" />
-        <Setter Property="StrokeShape" Value="Rectangle"/>
+        <Setter Property="Background" Value="{StaticResource Secondary}" />
+        <Setter Property="Stroke" Value="{StaticResource PrimaryDark}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
         <Setter Property="StrokeThickness" Value="1"/>
     </Style>
 
     <Style TargetType="BoxView">
         <Setter Property="BackgroundColor" Value="{StaticResource Gray950}" />
-    </Style>
-
-    <Style TargetType="controls:Calendar">
-        <Setter Property="DaysTitleColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="MonthLabelColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="YearLabelColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="WeekendDayColor" Value="{StaticResource WeekendColor}" />
-        <Setter Property="DaysTitleWeekendColor" Value="{StaticResource WeekendColor}" />
-        <Setter Property="SelectedDateColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="SelectedDayBackgroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="TodayOutlineColor" Value="{StaticResource PrimaryDark}" />
-        <Setter Property="ArrowsBackgroundColor" Value="Transparent" />
-        <Setter Property="ArrowsBorderColor" Value="Transparent" />
-        <Setter Property="ArrowsSymbolNext" Value="▶" />
-        <Setter Property="ArrowsSymbolPrev" Value="◀" />
-        <Setter Property="FooterArrowVisible" Value="True" />
-        <Setter Property="CalendarLayout" Value="Month" />
-        <Setter Property="FirstDayOfWeek" Value="Monday" />
-        <Setter Property="DaysTitleLabelFirstUpperRestLower" Value="True" />
-        <Setter Property="ArrowsFontSize" Value="20"/>
-        
     </Style>
 
     <Style TargetType="Button">
@@ -61,7 +52,7 @@
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{StaticResource Gray950}" />
+                            <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
                             <Setter Property="BackgroundColor" Value="{StaticResource Gray200}" />
                         </VisualState.Setters>
                     </VisualState>
@@ -90,7 +81,7 @@
     </Style>
 
     <Style TargetType="DatePicker">
-        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
@@ -111,11 +102,11 @@
     </Style>
 
     <Style TargetType="Editor">
-        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="PlaceholderColor" Value="{StaticResource Gray200}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource Placeholder}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -137,7 +128,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="PlaceholderColor" Value="{StaticResource Gray200}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource Placeholder}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -184,7 +175,7 @@
     </Style>
 
     <Style TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
@@ -203,7 +194,7 @@
     </Style>
 
     <Style TargetType="Span">
-        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
     </Style>
 
     <Style TargetType="Label" x:Key="Headline">
@@ -226,8 +217,8 @@
     </Style>
 
     <Style TargetType="Picker">
-        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
-        <Setter Property="TitleColor" Value="{StaticResource Gray900}" />
+        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
+        <Setter Property="TitleColor" Value="{StaticResource Placeholder}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
@@ -266,7 +257,7 @@
 
     <Style TargetType="RadioButton">
         <Setter Property="BackgroundColor" Value="Transparent"/>
-        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
@@ -286,14 +277,14 @@
     </Style>
 
     <Style TargetType="RefreshView">
-        <Setter Property="RefreshColor" Value="{StaticResource Gray900}" />
+        <Setter Property="RefreshColor" Value="{StaticResource PrimaryDark}" />
     </Style>
 
     <Style TargetType="SearchBar">
-        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
-        <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
+        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource Placeholder}" />
         <Setter Property="CancelButtonColor" Value="{StaticResource Gray500}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
@@ -305,7 +296,7 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{StaticResource Gray300}" />
-                            <Setter Property="PlaceholderColor" Value="{StaticResource Gray300}" />
+                            <Setter Property="PlaceholderColor" Value="{StaticResource Placeholder}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -314,8 +305,8 @@
     </Style>
 
     <Style TargetType="SearchHandler">
-        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
-        <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
+        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource Placeholder}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
@@ -326,7 +317,7 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{StaticResource Gray300}" />
-                            <Setter Property="PlaceholderColor" Value="{StaticResource Gray300}" />
+                            <Setter Property="PlaceholderColor" Value="{StaticResource Placeholder}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -395,7 +386,7 @@
     </Style>
 
     <Style TargetType="TimePicker">
-        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>

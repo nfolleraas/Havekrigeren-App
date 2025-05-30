@@ -1,40 +1,84 @@
-﻿using HavekrigerenApp.Classes;
+﻿using HavekrigerenApp.Exceptions;
+using HavekrigerenApp.Models;
+using Microsoft.Data.SqlClient;
+using System.Diagnostics;
 using System.Globalization;
+using System.Text.Json;
 
 namespace HavekrigerenApp
 {
     public partial class App : Application
     {
-        public static CultureInfo Culture { get; set; } = new CultureInfo("da-DK");
+        public static string? ConnectionString { get; private set; }
 
         public App()
         {
             InitializeComponent();
-
-            Database.InitializeFirebase();
+            LoadConfig();
 
             MainPage = new AppShell();
+
         }
+
+        private async void LoadConfig()
+        {
+            // Retrieve connectionstring
+            using var stream = await FileSystem.OpenAppPackageFileAsync("config.json");
+            using var reader = new StreamReader(stream);
+            string json = await reader.ReadToEndAsync();
+
+            var jsonDoc = JsonDocument.Parse(json);
+            ConnectionString = jsonDoc
+                .RootElement
+                .GetProperty("ConnectionStrings")
+                .GetProperty("DBConnection")
+                .GetString();
+
+            // Try connecting to the database
+            int retryCounter = 0;
+            while (string.IsNullOrEmpty(ConnectionString))
+            {
+                try
+                {
+                    using var conn = new SqlConnection(ConnectionString);
+                    await conn.OpenAsync();
+                    break;
+                }
+                catch (SqlException ex)
+                {
+                    retryCounter++;
+                    if (retryCounter == 5)
+                        throw new TooManyAttemptsException("Could not connect to DB after 5 tries.", ex);
+
+                    await Task.Delay(2000);
+                }
+            }
+        }
+
 
         public bool IsUserLoggedIn()
         {
             return Preferences.Default.Get("IsLoggedIn", false);
         }
 
-        protected override void OnStart()
+        protected async override void OnStart()
         {
             base.OnStart();
 
             Console.WriteLine("App is starting up");
 
+            await Shell.Current.GoToAsync("///HomePage");
+
+            /*
             if (IsUserLoggedIn())
             {
-                Shell.Current.GoToAsync("///HomePage");
+                await Shell.Current.GoToAsync("///HomePage");
             }
             else
             {
-                Shell.Current.GoToAsync("///LoginPage");
+                await Shell.Current.GoToAsync("///LoginPage");
             }
+            */
         }
 
         protected override void OnSleep()
@@ -50,6 +94,5 @@ namespace HavekrigerenApp
 
             Console.WriteLine("App is resuming");
         }
-
     }
 }

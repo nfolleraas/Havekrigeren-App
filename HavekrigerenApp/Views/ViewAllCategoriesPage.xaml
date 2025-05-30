@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="HavekrigerenApp.Views.ViewAllCategoriesPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
+    <Shell.TitleView>
+        <StackLayout>
+            <Label Style="{StaticResource shellTitleStyle}" Text="Alle Kategorier" />
+            <Button Margin="0,-40,10,0"
+                    Command="{Binding CreateCategoryCommand}"
+                    CornerRadius="25" HeightRequest="50"
+                    HorizontalOptions="End" ImageSource="plus_white_1x.png"
+                    Text="Ny Kategori" />
+        </StackLayout>
+    </Shell.TitleView>
+
+    <RefreshView Command="{Binding RefreshCommand}"
+                 IsRefreshing="{Binding IsRefreshing}"
+                 Style="{StaticResource defaultStackLayoutStyle}">
+        <Grid>
+            <StackLayout>
+                <!--  No categories message  -->
+                <Label Margin="0,50,0,0" FontSize="Medium"
+                       HorizontalTextAlignment="Center"
+                       IsVisible="{Binding ShowNoCategoriesMessage}"
+                       Text="Kunne ikke finde nogen kategorier." />
+                <Label Margin="0,20,0,0" FontSize="Medium"
+                       HorizontalTextAlignment="Center"
+                       IsVisible="{Binding ShowNoCategoriesMessage}"
+                       Text="Tryk på knappen til højre for at tilføje en ny." />
+                <Label Margin="0,50,0,0" FontAttributes="Italic"
+                       FontSize="Medium" HorizontalTextAlignment="Center"
+                       IsVisible="{Binding ShowNoCategoriesMessage}"
+                       Text="OBS!" />
+                <Label Margin="0,0,0,0" FontSize="Medium"
+                       HorizontalTextAlignment="Center"
+                       IsVisible="{Binding ShowNoCategoriesMessage}"
+                       Text="Kan du ikke se dine oprettede kategorier? Prøv at luk appen helt og start den op igen, så burde de gerne komme frem." />
+            </StackLayout>
+
+            <!--
+                Show All Categories
+            -->
+            <CollectionView ItemsSource="{Binding CategoriesVM}" VerticalOptions="Fill" Margin="0,5,0,10">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,10,0,0" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" FontSize="Large"
+                                       LineBreakMode="TailTruncation" MaximumWidthRequest="300"
+                                       Text="{Binding Name}"
+                                       VerticalTextAlignment="Center" />
+                                <Label Grid.Column="1" FontSize="Small"
+                                       Text="Se mere ▶" VerticalTextAlignment="Center" />
+                            </Grid>
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CategoryClickedCommand}" CommandParameter="{Binding Category}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </RefreshView>
+
+</ContentPage>

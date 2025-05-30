@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 
@@ -30,7 +30,7 @@
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.3</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">12.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
@@ -55,7 +55,15 @@
 	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
 	</PropertyGroup>
 
-	<ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	</PropertyGroup>
+
+    <ItemGroup>
+        <MauiAsset Include="config.json" />
+    </ItemGroup>
+
+    <ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
@@ -73,108 +81,131 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiAsset Remove="Resources\Raw\AboutAssets.txt" />
+	  <None Remove="Resources\Icons\arrow_left_1x.png" />
+	  <None Remove="Resources\Icons\arrow_right_1x.png" />
+	  <None Remove="Resources\Icons\edit_white_1x.png" />
+	  <None Remove="Resources\Icons\edit_white_ix.png" />
+	  <None Remove="Resources\Icons\note_1x.png" />
+	  <None Remove="Resources\Icons\note_white_1x.png" />
+	  <None Remove="Resources\Icons\phone_1x.png" />
+	  <None Remove="Resources\Icons\plus_white_1x.png" />
+	  <None Remove="Resources\Icons\save_1x.png" />
+	  <None Remove="Resources\Icons\save_white_1x.png" />
+	  <None Remove="Resources\Icons\task_white_1x.png" />
+	  <None Remove="Resources\Icons\trash_white_1x.png" />
+	  <None Remove="Resources\Icons\trash_white_ix.png" />
+	</ItemGroup>
+
+    <ItemGroup>
+	  <EmbeddedResource Include="Resources\Raw\AboutAssets.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="config.json" />
-	  <None Remove="Resources\Icons\calendar.png" />
-	  <None Remove="Resources\Icons\create.png" />
-	  <None Remove="Resources\Icons\delete.png" />
-	  <None Remove="Resources\Icons\home.png" />
-	  <None Remove="Resources\Icons\list.png" />
-	  <None Remove="Resources\Icons\phone.png" />
-	  <None Remove="Resources\Icons\reload.png" />
-	  <None Remove="Resources\Icons\user.png" />
-	  <None Remove="resources\images\home.svg" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Include="Resources\Raw\AboutAssets.txt" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
-		<PackageReference Include="FirebaseAdmin" Version="3.0.1" />
-		<PackageReference Include="Google.Apis.Auth" Version="1.68.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="11.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="FirebaseAdmin" Version="3.1.0" />
+		<PackageReference Include="Google.Apis.Auth" Version="1.69.0" />
 		<PackageReference Include="Google.Cloud.Firestore" Version="3.9.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.91" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.91" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-		<PackageReference Include="Plugin.Maui.Calendar" Version="1.2.2" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.30" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.30" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.1" />
+		<PackageReference Include="Plugin.Maui.Calendar" Version="1.2.6" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Pages\CreateJobPage.xaml.cs">
+	  <Compile Update="Controls\CalendarHeader.xaml.cs">
+	    <DependentUpon>CalendarHeader.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\CreateJobPage.xaml.cs">
 	    <DependentUpon>CreateJobPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\HomePage.xaml.cs">
+	  <Compile Update="Views\HomePage.xaml.cs">
 	    <DependentUpon>HomePage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\LoginPage.xaml.cs">
-	    <DependentUpon>LoginPage.xaml</DependentUpon>
+	  <Compile Update="Views\UpdateJobPage.xaml.cs">
+	    <DependentUpon>UpdateJobPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ViewAllJobsPage.xaml.cs">
+	  <Compile Update="Views\ViewAllJobsPage.xaml.cs">
 	    <DependentUpon>ViewAllJobsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ViewJobPage.xaml.cs">
+	  <Compile Update="Views\ViewJobPage.xaml.cs">
 	    <DependentUpon>ViewJobPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Pages\AdminPage.xaml">
+	  <MauiXaml Update="Controls\CalendarFooter.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\CalendarPage.xaml">
+	  <MauiXaml Update="Controls\CalendarHeader.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\CreateCategoryPage.xaml">
+	  <MauiXaml Update="Views\CalendarPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\CreateJobPage.xaml">
+	  <MauiXaml Update="Views\CreateChoicePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\HomePage.xaml">
+	  <MauiXaml Update="Views\CreateJobPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\UserPage.xaml">
+	  <MauiXaml Update="Views\CreateNotePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ViewAllCategoriesPage.xaml">
+	  <MauiXaml Update="Views\HomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ViewAllJobsPage.xaml">
+	  <MauiXaml Update="Views\UpdateJobPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ViewJobPage.xaml">
+	  <MauiXaml Update="Views\ViewAllCategoriesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewAllJobsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewAllNotesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewJobPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewNotePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Include="Resources\Icons\calendar.png" />
-	  <MauiImage Include="Resources\Icons\create.png" />
-	  <MauiImage Include="Resources\Icons\delete.png" />
-	  <MauiImage Include="Resources\Icons\home.png" />
-	  <MauiImage Include="Resources\Icons\list.png" />
-	  <MauiImage Include="Resources\Icons\phone.png" />
-	  <MauiImage Include="Resources\Icons\reload.png" />
-	  <MauiImage Include="Resources\Icons\user.png" />
+	  <MauiImage Include="Resources\Icons\arrow_left_1x.png" />
+	  <MauiImage Include="Resources\Icons\arrow_right_1x.png" />
+	  <MauiImage Include="Resources\Icons\calendar_1x.png" />
+	  <MauiImage Include="Resources\Icons\edit_white_1x.png" />
+	  <MauiImage Include="Resources\Icons\home_1x.png" />
+	  <MauiImage Include="Resources\Icons\list_1x.png" />
+	  <MauiImage Include="Resources\Icons\note_1x.png" />
+	  <MauiImage Include="Resources\Icons\note_white_1x.png" />
+	  <MauiImage Include="Resources\Icons\phone_1x.png" />
+	  <MauiImage Include="Resources\Icons\plus_1x.png" />
+	  <MauiImage Include="Resources\Icons\plus_white_1x.png" />
+	  <MauiImage Include="Resources\Icons\save_1x.png" />
+	  <MauiImage Include="Resources\Icons\save_white_1x.png" />
+	  <MauiImage Include="Resources\Icons\task_white_1x.png" />
+	  <MauiImage Include="Resources\Icons\trash_1x.png" />
+	  <MauiImage Include="Resources\Icons\trash_white_1x.png" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\HavekrigerenLibrary\HavekrigerenLibrary.csproj" />
-	  <ProjectReference Include="..\Plugin.Maui.Calendar\Plugin.Maui.Calendar.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <MauiAsset Update="config.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </MauiAsset>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <MauiAsset Update="Resources\Raw\config.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </MauiAsset>
-	</ItemGroup>
 
-	<ItemGroup>
+    <ItemGroup>
 	  <MauiImage Update="Resources\Images\havekrigeren_logo.png">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </MauiImage>

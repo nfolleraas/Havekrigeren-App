@@ -1,66 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="HavekrigerenApp.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:HavekrigerenApp"
-    Shell.FlyoutBehavior="Disabled"
-    Title="HavekrigerenApp">
-
-    <ShellContent
-        Title="LoginPage"
-        ContentTemplate="{DataTemplate local:Pages.LoginPage}"
-        Route="LoginPage" />
-
-    <ShellContent
-        Title="ViewAllJobsPage"
-        ContentTemplate="{DataTemplate local:Pages.ViewAllJobsPage}"
-        Route="ViewAllJobsPage" />
-
-    <ShellContent
-        Title="ViewJobPage"
-        ContentTemplate="{DataTemplate local:Pages.ViewJobPage}"
-        Route="ViewJobPage" />
-
-    <ShellContent
-        Title="CreateCategoryPage"
-        ContentTemplate="{DataTemplate local:Pages.CreateCategoryPage}"
-        Route="CreateCategoryPage" />
+<Shell x:Class="HavekrigerenApp.AppShell" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:HavekrigerenApp"
+       xmlns:views="clr-namespace:HavekrigerenApp.Views"
+       Title="HavekrigerenApp" Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
-        <ShellContent
-            Icon="home.png"
-            ContentTemplate="{DataTemplate local:Pages.HomePage}"
-            Route="HomePage" />
+        <ShellContent ContentTemplate="{DataTemplate views:HomePage}"
+                      Icon="home_1x.png" Route="HomePage" />
 
-        <ShellContent
-            Icon="list.png"
-            ContentTemplate="{DataTemplate local:Pages.ViewAllCategoriesPage}"
-            Route="ViewAllCategoriesPage" />
+        <ShellContent ContentTemplate="{DataTemplate views:ViewAllCategoriesPage}"
+                      Icon="list_1x.png" Route="ViewAllCategoriesPage" />
 
-        <ShellContent
-            Icon="create.png"
-            ContentTemplate="{DataTemplate local:Pages.CreateJobPage}"
-            Route="CreateJobPage" />
+        <ShellContent ContentTemplate="{DataTemplate views:CreateChoicePage}"
+                      Icon="plus_1x.png" Route="CreateChoicePage" />
 
-        <ShellContent
-            Icon="calendar.png"
-            ContentTemplate="{DataTemplate local:Pages.CalendarPage}"
-            Route="CalendarPage" />
+        <ShellContent ContentTemplate="{DataTemplate views:ViewAllNotesPage}"
+                      Icon="note_1x.png" Route="ViewAllNotesPage" />
 
-        <ShellContent
-            Icon="user.png"
-            ContentTemplate="{DataTemplate local:Pages.UserPage}"
-            Route="UserPage" />
-
-        <!--
-        <ShellContent
-            x:Name="adminShellContent"
-            Title="Admin"
-            ContentTemplate="{DataTemplate local:Pages.AdminPage}"
-            Route="AdminPage" />
-        -->
-        
+        <ShellContent ContentTemplate="{DataTemplate views:CalendarPage}"
+                      Icon="calendar_1x.png" Route="CalendarPage" />
     </TabBar>
+
+    <ShellContent ContentTemplate="{DataTemplate views:CreateJobPage}"
+                  Title="CreateJobPage" Route="CreateJobPage" />
+
+    <ShellContent Title="ViewAllJobsPage"
+                  ContentTemplate="{DataTemplate views:ViewAllJobsPage}"
+                  Route="ViewAllJobsPage" />
+
+    <ShellContent Title="ViewJobPage"
+                  ContentTemplate="{DataTemplate views:ViewJobPage}"
+                  Route="ViewJobPage" />
+
+    <ShellContent Title="ViewNotePage"
+                  ContentTemplate="{DataTemplate views:ViewNotePage}"
+                  Route="ViewNotePage" />
 
 </Shell>

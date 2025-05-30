@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="HavekrigerenApp.Views.ViewJobPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Shell.TitleView>
+        <Label Style="{StaticResource shellTitleStyle}" Text="Informationer om Opgave" />
+    </Shell.TitleView>
+    
+    <ScrollView>
+        <Grid RowDefinitions="*, Auto">
+            <StackLayout Grid.Row="0" Style="{StaticResource defaultStackLayoutStyle}">
+
+                <!--  Contact Person  -->
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold" FontSize="Medium"
+                                  Text="Kontaktperson" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Editor Margin="0,0,0,10" FontSize="Medium"
+                       IsEnabled="False"
+                       Text="{Binding JobVM.ContactName}"
+                       TextColor="{StaticResource PrimaryText}" />
+
+                <!--  Address  -->
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold" FontSize="Medium"
+                                  Text="Adresse" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Editor Margin="0,0,0,10" FontSize="Medium"
+                       IsEnabled="False"
+                       Text="{Binding JobVM.Address}"
+                       TextColor="{StaticResource PrimaryText}" />
+
+                <!--  Phone Number  -->
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold" FontSize="Medium"
+                                  Text="Telefonnummer" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Editor Grid.Column="0" FontSize="Medium"
+                           IsEnabled="False"
+                           Text="{Binding JobVM.PhoneNumber}"
+                           TextColor="{StaticResource PrimaryText}" />
+
+                    <Button Grid.Column="1" BackgroundColor="Transparent"
+                            Command="{Binding PhoneNumberClickedCommand}"
+                            CommandParameter="{Binding JobVM.PhoneNumber}"
+                            HorizontalOptions="Center" ImageSource="phone_1x.png"
+                            VerticalOptions="Center" />
+                </Grid>
+
+                <!--  Category  -->
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold" FontSize="Medium"
+                                  Text="Kategori" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Editor Margin="0,0,0,10" FontSize="Medium"
+                       IsEnabled="False"
+                       Text="{Binding JobVM.Category}"
+                       TextColor="{StaticResource PrimaryText}" />
+
+                <!--  Start Date  -->
+                <Label IsVisible="{Binding JobVM.HasDate}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold" FontSize="Medium"
+                                  Text="Start Dato" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Editor Margin="0,0,0,10" FontSize="Medium"
+                       IsEnabled="False"
+                       IsVisible="{Binding JobVM.HasDate}"
+                       Text="{Binding JobVM.StartDate, StringFormat='{}{0:dd/MM-yyyy}'}"
+                       TextColor="{StaticResource PrimaryText}" />
+
+                <!--  End Date  -->
+                <Label IsVisible="{Binding JobVM.HasDate}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold" FontSize="Medium"
+                                  Text="Slut Dato" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Editor Margin="0,0,0,10" FontSize="Medium"
+                       IsEnabled="False"
+                       IsVisible="{Binding JobVM.HasDate}"
+                       Text="{Binding JobVM.EndDate, StringFormat='{}{0:dd/MM-yyyy}'}"
+                       TextColor="{StaticResource PrimaryText}" />
+
+                <!--  Notes  -->
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold" FontSize="Medium"
+                                  Text="Noter" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Editor Margin="0,0,0,10" FontSize="Medium"
+                        IsEnabled="False" Placeholder="Ingen noter..."
+                        Text="{Binding JobVM.Notes}"
+                        TextColor="{StaticResource PrimaryText}" />
+            </StackLayout>
+
+            <Grid Grid.Row="1" Margin="20"
+                  ColumnDefinitions="Auto, 10, Auto" HorizontalOptions="Center">
+
+                <Button Grid.Column="0" Padding="5"
+                        ImageSource="edit_white_1x.png" Text="Opdater Opgave"
+                        WidthRequest="180" Command="{Binding NavigateToUpdateJobCommand}" CommandParameter="{Binding JobVM}" />
+                
+                <Button Grid.Column="2" Padding="5"
+                        BackgroundColor="{StaticResource Delete}"
+                        ImageSource="trash_white_1x.png" Text="Slet Opgave"
+                        WidthRequest="180" Command="{Binding DeleteJobCommand}" CommandParameter="{Binding JobVM}" />
+            </Grid>
+        </Grid>
+    </ScrollView>
+</ContentPage>
